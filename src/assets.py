@@ -4,7 +4,7 @@ from .options import *
 
 
 BACKGROUND_IMAGE = pygame.image.load('./assets/stars.jpg').convert()
-ROCKET_IMAGE = pygame.image.load('./assets/rocket.png').convert_alpha()
+ROCKET_IMAGE = pygame.image.load('./assets/among.webp').convert_alpha()
 BOULDER_IMAGE = pygame.image.load('./assets/boulder.png').convert_alpha()
 
 # Font
