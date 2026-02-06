@@ -59,11 +59,14 @@ def run():
                 running = False
 
         # Get key presses
+        v = [0, 0] # Player velocity "vector"
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_a]:
-            p1.x -= p1.speed * dt
-        if keys[pygame.K_d]:
-            p1.x += p1.speed * dt
+        if keys[pygame.K_a]: v[0] -= 1
+        if keys[pygame.K_d]: v[0] += 1
+        if keys[pygame.K_w]: v[1] -= 1
+        if keys[pygame.K_s]: v[1] += 1
+        p1.move(v, dt)
+
         if keys[pygame.K_SPACE]:
             if current_time - p1.last_shot_time >= BULLET_COOLDOWN_MS:
                 p1.last_shot_time = current_time
