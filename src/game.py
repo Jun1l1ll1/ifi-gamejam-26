@@ -15,7 +15,7 @@ from .Projectile import Projectile
 
 
 def run():
-    pygame.display.set_caption("Boulder Game")
+    pygame.display.set_caption("Virus game(First draft)")
 
     # Clock and timing
     clock = pygame.time.Clock()
@@ -61,10 +61,18 @@ def run():
         # Get key presses
         v = [0, 0] # Player velocity "vector"
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_a]: v[0] -= 1
-        if keys[pygame.K_d]: v[0] += 1
-        if keys[pygame.K_w]: v[1] -= 1
-        if keys[pygame.K_s]: v[1] += 1
+        if keys[pygame.K_a]: 
+            if not p1.x <= 0:
+                v[0] -= 1
+        if keys[pygame.K_d]:
+            if not p1.x >= WIDTH - p1.size[0]:
+                v[0] += 1
+        if keys[pygame.K_w]: 
+            if not p1.y <= 0:
+                v[1] -= 1
+        if keys[pygame.K_s]: 
+            if not p1.y >= HEIGHT - p1.size[1]:
+                v[1] += 1
         p1.move(v, dt)
 
         if keys[pygame.K_SPACE]:
@@ -94,7 +102,7 @@ def run():
             boulder.y += boulder.speed * dt
             if boulder.y >= HEIGHT + boulder.size[1]:
                 boulders.remove(boulder)
-                p1.lives -= 1
+                #p1.lives -= 1
                 if p1.lives <= 0:
                     # Game over sequence
                     boulders.clear()
