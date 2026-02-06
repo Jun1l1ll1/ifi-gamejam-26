@@ -11,7 +11,7 @@ class Player:
         self.y = 640
         self.size = (40, 50)
         self.color = BLUE
-        self.image = pygame.transform.scale(ROCKET_IMAGE, self.size)
+        self.image = pygame.transform.scale(AMONGUS_IMAGE, self.size)
         self.speed = PLAYER_SPEED
         self.last_shot_time = 0
 
