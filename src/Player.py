@@ -3,6 +3,7 @@ import pygame
 from .options import *
 from .Projectile import Projectile
 from .assets import *
+import math as m
 
 class Player:
     def __init__(self):
@@ -22,3 +23,10 @@ class Player:
 
     def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))
+    
+    def move(self, v: list[int], dt):
+        length = m.sqrt(v[0]**2 + v[1]**2)
+        if length <= 0: return
+
+        self.x += self.speed * (v[0]/length) * dt
+        self.y += self.speed * (v[1]/length) * dt
