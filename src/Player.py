@@ -18,6 +18,7 @@ class Player:
 
         self.virus_growth = 0
 
+
     def shoot(self):
         projectile = Projectile(self.x + self.size[0] // 2, self.y)
         return projectile

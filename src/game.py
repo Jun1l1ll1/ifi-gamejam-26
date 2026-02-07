@@ -19,6 +19,7 @@ from .rooms.BathRoom import BathRoom
 from .rooms.GrowthRoom import GrowthRoom
 from .rooms.AirlockRoom import AirlockRoom
 from .rooms.LaboratoryRoom import LaboratoryRoom
+from .PressurePlate import PressurePlate
 
 
 def run():
@@ -34,6 +35,8 @@ def run():
     p1 = Player()
     projectiles = []
     boulders = []
+    plate = PressurePlate(500, 500)
+    
 
     ROOMS = {
         CONTROL_ROOM_NAME: ControlRoom(),
@@ -56,6 +59,7 @@ def run():
             projectile.draw(screen)
         for boulder in boulders:
             boulder.draw(screen)
+        plate.draw(screen)
             
         # Draw score and lives
         score_text = FONT_TYPE.render(f'Score: {score}', False, FONT_COLOR)
@@ -105,6 +109,12 @@ def run():
             enter_cords = current_room.get_enter_coords_from(current_room.name)
             current_room = ROOMS[door]
             p1.go_to(enter_cords)
+        
+        player_rect = pygame.Rect(p1.x, p1.y, p1.size[0], p1.size[1])
+
+        if player_rect.colliderect(plate.rect):
+            print("Activated")
+        
 
         # Shooting
         if keys[pygame.K_SPACE]:
