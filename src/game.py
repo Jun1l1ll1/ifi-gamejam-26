@@ -41,8 +41,10 @@ def run():
     virus_growth_overlay = VirusGrowthOverlay()
     projectiles = []
     boulders = []
+
     door_requires_plate = True
     
+
 
     ROOMS = {
         CONTROL_ROOM_NAME: ControlRoom(),
@@ -60,7 +62,9 @@ def run():
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
 
+
         # Draws all room content
+
         current_room.draw_content(screen)
 
         # Player
@@ -159,15 +163,13 @@ def run():
                 print("Requirements not fulfilled")
         
 
-        #Pressure plate interaction
-        player_rect = pygame.Rect(p1.x, p1.y, p1.size[0], p1.size[1])
 
-        if player_rect.colliderect(plate.rect):
-            if not plate.activated:
-                plate.activated = True
+        # Pressure plates
+        player_rect = pygame.Rect(p1.x, p1.y, p1.size[0], p1.size[1])
+        for plate in PressurePlate.all_pressure_plates:
+            if plate[1] == current_room.name and player_rect.colliderect(plate[0].rect):
                 print("Activated")
         
-
 
             # Open rocket minigame (example: in Control Room)
         if current_room.name == CONTROL_ROOM_NAME and keys[pygame.K_r]:
