@@ -77,6 +77,11 @@ def run():
         # Draws all room content
         current_room.draw_content(screen)
 
+        # Projectiles
+        for projectile in projectiles:
+            projectile.update(dt)
+            projectile.draw(screen)
+
         # Enemy
         enemies.draw(screen)
 

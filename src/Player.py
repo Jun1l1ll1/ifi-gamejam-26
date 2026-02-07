@@ -21,15 +21,19 @@ class Player:
         self.health = self.max_health
         self.last_hit_time = 0
         self.hit_cooldown = 700 #ms
+        self.dir = [1, 0]
     
     def take_damage(self, amount):
         self.health -= amount
         if self.health < 0:
             self.health = 0
 
-
     def shoot(self):
-        projectile = Projectile(self.x + self.size[0] // 2, self.y)
+        projectile = Projectile(
+            self.x + self.size[0] // 2,
+            self.y + self.size[1] // 2,
+            self.dir
+        )
         return projectile
     
     def collect(self, item):
@@ -63,6 +67,8 @@ class Player:
     def move(self, v: list[int], dt):
         length = self._normalize(v)
         if length <= 0: return
+
+        self.dir = [(v[0]/length), (v[1]/length)]
 
         self.image = pygame.transform.rotate(self._base_image, self._move_angle(v))
 
