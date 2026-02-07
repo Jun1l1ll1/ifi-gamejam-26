@@ -149,7 +149,7 @@ def run():
 
 
             # Open rocket minigame (example: in Control Room)
-        if current_room.name == CONTROL_ROOM_NAME and keys[pygame.K_e]:
+        if current_room.name == CONTROL_ROOM_NAME and keys[pygame.K_r]:
             open_rocket_minigame()
 
 
