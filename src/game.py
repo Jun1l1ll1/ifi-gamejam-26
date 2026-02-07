@@ -10,6 +10,7 @@ import sys, random, time, os
 
 from .assets import *
 from .Player import Player
+from .OverlayMessage import OverlayMessage
 from .Boulder import Boulder
 from .Projectile import Projectile
 from .Room import Room
@@ -32,6 +33,7 @@ def run():
 
     # Game objects
     p1 = Player()
+    virus_growing_msg = OverlayMessage("The virus is growing", 250)
     projectiles = []
     boulders = []
 
@@ -50,7 +52,15 @@ def run():
 
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
+        
+        # Player
         p1.draw(screen)
+
+        # Virus is growing message
+        if virus_growing_msg.show:
+            virus_growing_msg.draw(screen)
+
+        '''
         for projectile in projectiles:
             projectile.update(dt)
             projectile.draw(screen)
@@ -62,6 +72,7 @@ def run():
         lives_text = FONT_TYPE.render(f"♥"*p1.virus_growth, True, FONT_COLOR)
         screen.blit(score_text, (10, 10))
         screen.blit(lives_text, (WIDTH - 120, 10))
+        '''
 
         pygame.display.flip()
 
@@ -71,9 +82,13 @@ def run():
         clock.tick(FRAMERATE)  # Limit frame rate
         current_time = pygame.time.get_ticks()
 
+        # Virus growth
         if current_time - last_virus_growth >= VIRUS_GROWTH_COOLDOWN_MS:
             last_virus_growth = current_time
-            print("The virus is growing")
+            p1.virus_growth += 1
+            virus_growing_msg.show = True
+        elif virus_growing_msg.show and current_time - last_virus_growth >= VIRUS_GROWTH_DISPLAY_MSG_TIME_MS:
+            virus_growing_msg.show = False
 
         # Handle events
         for event in pygame.event.get():
