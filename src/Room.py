@@ -4,11 +4,12 @@ from .options import *
 from .assets import *
 
 class Room:
-    def __init__(self, name, doors, room_img, entrance_cords_from_dict = {}):
+    def __init__(self, name, doors, room_img, entrance_cords_from_dict = {}, content = []):
         self.name = name
         self.doors = doors
         self.background = pygame.transform.scale(room_img, (WIDTH, HEIGHT))
         self.entrance_cords_from = entrance_cords_from_dict
+        self.contents = content
 
     def open_door(self, px, py, p_size) -> str:
         for room in self.doors:
@@ -24,3 +25,7 @@ class Room:
     def get_enter_coords_from(self, last_room):
         return (0, 0)
     
+    def draw_content(self, screen):
+        for content in self.contents:
+            content.draw(screen)
+

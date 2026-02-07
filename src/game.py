@@ -42,7 +42,12 @@ def run():
     projectiles = []
     boulders = []
 
-    # Rooms
+    door_requires_plate = True
+    all_required_plates_active = False
+    plates_pressed_correctly = []
+    
+
+
     ROOMS = {
         CONTROL_ROOM_NAME: ControlRoom(),
         MAIN_ROOM_NAME: MainRoom(),
@@ -62,8 +67,12 @@ def run():
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
 
-        # Draw objects
-        plate.draw(screen)
+
+        # Draws all room content
+
+        current_room.draw_content(screen)
+
+        # Player
         p1.draw(screen)
         virus_growth_overlay.draw(screen)
         if virus_growing_msg.show:
@@ -120,17 +129,38 @@ def run():
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
         if door != "" and keys[pygame.K_e]:
-            enter_coords = current_room.get_enter_coords_from(current_room.name)
+            # if all_required_plates_active:
+            enter_cords = current_room.get_enter_coords_from(current_room.name)
             current_room = ROOMS[door]
-            p1.go_to(enter_coords)
+            p1.go_to(enter_cords)
+            # else: 
+            #     print("Requirements not fulfilled")
+        
 
-        # Pressure plate
+        # Pressure plates
         player_rect = pygame.Rect(p1.x, p1.y, p1.size[0], p1.size[1])
-        if player_rect.colliderect(plate.rect):
-            print("Activated")
+        for plate in PressurePlate.all_pressure_plates:
+            if plate[1] == current_room.name and player_rect.colliderect(plate[0].rect):
+                plate[0].activated = True
 
-        # Open minigames
-        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:
+                if plate[0].text in PLATE_UNLOCK_COMBINATION and not plate[0] in plates_pressed_correctly: plates_pressed_correctly.append(plate[0])
+                
+                if len(plates_pressed_correctly) >= 5:
+                    is_correct = True
+                    for i in range(len(plates_pressed_correctly)):
+                        if plates_pressed_correctly[i].text != PLATE_UNLOCK_COMBINATION[i]:
+                            is_correct = False
+                            break
+                    if not is_correct:
+                        for p in plates_pressed_correctly:
+                            p.activated = False
+                        plates_pressed_correctly = []
+        
+
+        
+
+            # Open rocket minigame (example: in Control Room)
+        if current_room.name == CONTROL_ROOM_NAME and keys[pygame.K_r]:
             open_rocket_minigame()
         if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_r]:
             open_typing_minigame()

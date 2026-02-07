@@ -1,6 +1,7 @@
 # from .options import *
 # from .assets import *
 from ..Room import *
+from ..PressurePlate import *
 
 class MainRoom(Room):
     def __init__(self):
@@ -12,6 +13,8 @@ class MainRoom(Room):
                 GROWTH_ROOM_NAME: ((980, 220), (1080, 500)),
                 AIRLOCK_ROOM_NAME: ((400, 690), (800, 720))
             },
-            ROOM_MAIN_IMAGE
+            ROOM_MAIN_IMAGE,
+            {},
+            [PressurePlate(500, 500, MAIN_ROOM_NAME)]
         )
         
