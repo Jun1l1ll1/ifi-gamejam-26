@@ -26,7 +26,8 @@ from .rooms.LaboratoryRoom import LaboratoryRoom
 from .PressurePlate import PressurePlate
 from .entities.CagedAlien import CagedAlien
 from .GingerPlant import GingerPlant
-from .InvadingAlien import InvadingAlien
+from .Safe import Safe
+from .entities.InvadingAlien import InvadingAlien
 
 
 def run():
@@ -46,14 +47,15 @@ def run():
 
     enemies = pygame.sprite.Group()
 
-    for i in range(5):
-        enemies.add(InvadingAlien())
+    # for i in range(5):
+    #     enemies.add(InvadingAlien())
 
     door_requires_plate = True
     all_required_plates_active = False
     plates_pressed_correctly = []
     
     typing_task_completed = False
+    pressure_plate_puzzle_complete = False
 
 
     ROOMS = {
@@ -166,6 +168,8 @@ def run():
                         for p in plates_pressed_correctly:
                             p.activated = False
                         plates_pressed_correctly = []
+                    else:
+                        pressure_plate_puzzle_complete = True
         
         # Ginger plant
         for plant_tuple in GingerPlant.all:
@@ -174,9 +178,20 @@ def run():
             plant = plant_tuple[0]
             if typing_task_completed and not plant.grown:
                 plant.grow()
-            if plant.can_take(p1.x, p1.y, p1.size) and keys[pygame.K_e]:
+            if keys[pygame.K_e] and plant.can_take(p1.x, p1.y, p1.size):
                 p1.collect(plant.take()) # Add ginger to player inventory
         
+        # Tooth-paste safe
+        for safe_tuple in Safe.all:
+            if safe_tuple[1] != current_room.name: continue # Skip safes that are not in this room
+
+            safe: Safe = safe_tuple[0]
+            if pressure_plate_puzzle_complete and safe.locked:
+                safe.open()
+            if keys[pygame.K_e] and safe.can_take(p1.x, p1.y, p1.size):
+                p1.collect(safe.take_content()) # Add tooth paste to player inventory
+        
+        # Enemy aliens
         enemies.update(player_rect, dt)
 
         for enemy in enemies:
@@ -188,8 +203,6 @@ def run():
         if p1.health <= 0:
             print("Player died")
             running = False
-
-
 
         # Open minigames
         if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:
