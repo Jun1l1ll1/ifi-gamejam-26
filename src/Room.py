@@ -4,8 +4,9 @@ from .options import *
 from .assets import *
 
 class Room:
-    def __init__(self):
-        self.doors = {}
+    def __init__(self, doors, room_img):
+        self.doors = doors
+        self.background = pygame.transform.scale(room_img, (WIDTH, HEIGHT))
 
     def open_door(self, px, py, p_size) -> str:
         for room in self.doors:

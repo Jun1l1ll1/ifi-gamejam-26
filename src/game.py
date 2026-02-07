@@ -13,12 +13,12 @@ from .Player import Player
 from .Boulder import Boulder
 from .Projectile import Projectile
 from .Room import Room
-from .MainRoom import MainRoom
-from .ControlRoom import ControlRoom
-from .BathRoom import BathRoom
-from .GrowthRoom import GrowthRoom
-from .AirlockRoom import AirlockRoom
-from .LaboratoryRoom import LaboratoryRoom
+from .rooms.MainRoom import MainRoom
+from .rooms.ControlRoom import ControlRoom
+from .rooms.BathRoom import BathRoom
+from .rooms.GrowthRoom import GrowthRoom
+from .rooms.AirlockRoom import AirlockRoom
+from .rooms.LaboratoryRoom import LaboratoryRoom
 
 
 def run():
@@ -49,7 +49,7 @@ def run():
     score = 0
 
     def draw_frame():
-        screen.blit(pygame.transform.scale(ROOM_MAIN_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+        screen.blit(current_room.background, (0, 0))
         p1.draw(screen)
         for projectile in projectiles:
             projectile.update(dt)
