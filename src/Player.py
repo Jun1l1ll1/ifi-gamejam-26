@@ -9,7 +9,7 @@ class Player:
     def __init__(self):
         self.x = 540
         self.y = 640
-        self.size = (40, 50)
+        self.size = (70, 70)
         self.color = BLUE
         self.image = pygame.transform.scale(PLAYER2_IMAGE, self.size)
         self.speed = PLAYER_SPEED
