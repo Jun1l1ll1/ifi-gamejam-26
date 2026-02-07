@@ -13,6 +13,10 @@ class BathRoom(Room):
             ROOM_BATH_IMAGE,
             {},
             [ # Contents of the room:
-                PressurePlate(100, 100, BATH_ROOM_NAME)
+                PressurePlate(100, 200, BATH_ROOM_NAME, "1"),
+                PressurePlate(500, 100, BATH_ROOM_NAME),
+                PressurePlate(900, 300, BATH_ROOM_NAME),
+                PressurePlate(650, 500, BATH_ROOM_NAME),
+                PressurePlate(800, 400, BATH_ROOM_NAME)
             ]
         )

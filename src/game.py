@@ -156,12 +156,12 @@ def run():
         # Handle doors and change location
         door = current_room.open_door(p1.x, p1.y, p1.size)
         if door != "" and keys[pygame.K_e]:
-            if all_required_plates_active:
-                enter_cords = current_room.get_enter_coords_from(current_room.name)
-                current_room = ROOMS[door]
-                p1.go_to(enter_cords)
-            else: 
-                print("Requirements not fulfilled")
+            # if all_required_plates_active:
+            enter_cords = current_room.get_enter_coords_from(current_room.name)
+            current_room = ROOMS[door]
+            p1.go_to(enter_cords)
+            # else: 
+            #     print("Requirements not fulfilled")
         
 
 
