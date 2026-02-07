@@ -24,6 +24,7 @@ from .rooms.GrowthRoom import GrowthRoom
 from .rooms.AirlockRoom import AirlockRoom
 from .rooms.LaboratoryRoom import LaboratoryRoom
 from .PressurePlate import PressurePlate
+from .entities.CagedAlien import CagedAlien
 
 
 def run():
@@ -127,6 +128,8 @@ def run():
             p1.virus_growth += 1
             virus_growth_overlay.increse_alpha(p1.virus_growth)
             virus_growing_msg.show = True
+
+            CagedAlien.instance.grow(p1.virus_growth)
         elif virus_growing_msg.show and current_time - last_virus_growth >= VIRUS_GROWTH_DISPLAY_MSG_TIME_MS:
             virus_growing_msg.show = False
 

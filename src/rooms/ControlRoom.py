@@ -1,6 +1,7 @@
 # from .options import *
 # from .assets import *
 from ..Room import *
+from ..entities.CagedAlien import *
 
 class ControlRoom(Room):
     def __init__(self):
@@ -9,5 +10,9 @@ class ControlRoom(Room):
             {
                 MAIN_ROOM_NAME: ((980, 220), (1080, 500))
             },
-            ROOM_CONTROL_IMAGE
+            ROOM_CONTROL_IMAGE,
+            {},
+            [
+                CagedAlien(700, 50)
+            ]
         )
