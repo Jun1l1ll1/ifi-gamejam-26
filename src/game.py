@@ -47,8 +47,8 @@ def run():
 
     enemies = pygame.sprite.Group()
 
-    # for i in range(5):
-    #     enemies.add(InvadingAlien())
+    for i in range(5):
+        enemies.add(InvadingAlien())
 
     door_requires_plate = True
     all_required_plates_active = False
@@ -80,12 +80,12 @@ def run():
         # Draws all room content
         current_room.draw_content(screen)
 
+        # Enemy
+        enemies.draw(screen)
+
         # Player og healthbar
         p1.draw(screen)
         p1.draw_healthbar(screen)
-
-        # Enemy
-        enemies.draw(screen)
 
         # Purple Virus growth overlay
         virus_growth_overlay.draw(screen)
