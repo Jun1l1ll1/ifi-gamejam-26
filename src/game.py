@@ -41,7 +41,7 @@ def run():
     virus_growth_overlay = VirusGrowthOverlay()
     projectiles = []
     boulders = []
-    plate = PressurePlate(500, 500)
+    door_requires_plate = True
     
 
     ROOMS = {
@@ -59,12 +59,10 @@ def run():
 
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
-        
-        # Pressure plate
-        plate.draw(screen)
 
+        # Draws all room content
         current_room.draw_content(screen)
-        
+
         # Player
         p1.draw(screen)
 
@@ -153,14 +151,21 @@ def run():
         # Handle doors and change location
         door = current_room.open_door(p1.x, p1.y, p1.size)
         if door != "" and keys[pygame.K_e]:
-            enter_cords = current_room.get_enter_coords_from(current_room.name)
-            current_room = ROOMS[door]
-            p1.go_to(enter_cords)
+            if plate.activated:
+                enter_cords = current_room.get_enter_coords_from(current_room.name)
+                current_room = ROOMS[door]
+                p1.go_to(enter_cords)
+            else: 
+                print("Requirements not fulfilled")
         
+
+        #Pressure plate interaction
         player_rect = pygame.Rect(p1.x, p1.y, p1.size[0], p1.size[1])
 
         if player_rect.colliderect(plate.rect):
-            print("Activated")
+            if not plate.activated:
+                plate.activated = True
+                print("Activated")
         
 
 

@@ -10,10 +10,16 @@ class PressurePlate:
         self.color = RED
         self.image = pygame.transform.scale(BOULDER_IMAGE, self.size)
         self.rect = pygame.Rect(x, y, self.size[0], self.size[1])
+        self.activated = False
         
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
+        if self.activated:
+            pygame.draw.rect(screen, GREEN, self.rect)
+        else: 
+            pygame.draw.rect(screen, RED, self.rect)
 
     
         
