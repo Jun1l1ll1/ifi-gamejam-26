@@ -18,7 +18,7 @@ ALIEN5_IMAGE = pygame.image.load('./assets/alien/Alien5.png').convert_alpha()
 
 ROOM_CONTROL_IMAGE = pygame.image.load('./assets/rooms/ControlRoom.png').convert_alpha()
 ROOM_BATH_IMAGE = pygame.image.load('./assets/rooms/BathRoom.png').convert_alpha()
-ROOM_ENTRYEXIT_IMAGE = pygame.image.load('./assets/rooms/EntryExitRoom.png').convert_alpha()
+ROOM_AIRLOCK_IMAGE = pygame.image.load('./assets/rooms/AirlockRoom.png').convert_alpha()
 ROOM_LABORATORY_IMAGE = pygame.image.load('./assets/rooms/LaboratoryRoom.png').convert_alpha()
 ROOM_GARDEN_IMAGE = pygame.image.load('./assets/rooms/GardenRoom.png').convert_alpha()
 ROOM_MAIN_IMAGE = pygame.image.load('./assets/rooms/MainRoom.png').convert_alpha()

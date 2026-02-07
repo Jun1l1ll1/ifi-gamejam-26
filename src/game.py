@@ -15,6 +15,10 @@ from .Projectile import Projectile
 from .Room import Room
 from .MainRoom import MainRoom
 from .ControlRoom import ControlRoom
+from .BathRoom import BathRoom
+from .GrowthRoom import GrowthRoom
+from .AirlockRoom import AirlockRoom
+from .LaboratoryRoom import LaboratoryRoom
 
 
 def run():
@@ -32,7 +36,11 @@ def run():
 
     ROOMS = {
         "control_room": ControlRoom(),
-        "main_room": MainRoom()
+        "main_room": MainRoom(),
+        "bath_room": BathRoom(),
+        "growth_room": GrowthRoom(),
+        "airlock_room": AirlockRoom(),
+        "laboratory_room": LaboratoryRoom()
     }
 
 
