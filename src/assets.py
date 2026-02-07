@@ -3,7 +3,7 @@ import pygame
 from .options import *
 
 
-BACKGROUND_IMAGE = pygame.image.load('./assets/stars.jpg').convert()
+BACKGROUND_IMAGE = pygame.image.load('./assets/stars.jpg').convert_alpha()
 BOULDER_IMAGE = pygame.image.load('./assets/boulder.png').convert_alpha()
 ROCKET_IMAGE = pygame.image.load('./assets/rocket.png').convert_alpha()
 
