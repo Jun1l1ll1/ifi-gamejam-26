@@ -29,7 +29,7 @@ ROOM_MAIN_IMAGE = pygame.image.load('./assets/rooms/MainRoom.png').convert_alpha
 GINGER_PLANT_EMPTY_IMAGE = pygame.image.load('./assets/ginger/GingerPlantEmpty.png').convert_alpha()
 GINGER_PLANT_SMAL_IMAGE = pygame.image.load('./assets/ginger/GingerPlantSmal.png').convert_alpha()
 GINGER_PLANT_BIG_IMAGE = pygame.image.load('./assets/ginger/GingerPlantBig.png').convert_alpha()
-GINGER_IMAGE = pygame.image.load('./assets/ginger/Ginger.png').convert_alpha()
+GINGER_IMAGE = pygame.image.load('./assets/items/Ginger.png').convert_alpha()
 
 # Font
 FONT_TYPE = pygame.font.Font('./assets/dpcomic.ttf', FONT_SIZE)
