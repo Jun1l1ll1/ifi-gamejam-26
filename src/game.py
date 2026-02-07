@@ -60,6 +60,9 @@ def run():
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
         
+        #Pressure plate
+        plate.draw(screen)
+        
         # Player
         p1.draw(screen)
 
@@ -70,13 +73,14 @@ def run():
         if virus_growing_msg.show:
             virus_growing_msg.draw(screen)
         
+        
         '''
         for projectile in projectiles:
             projectile.update(dt)
             projectile.draw(screen)
         for boulder in boulders:
             boulder.draw(screen)
-        plate.draw(screen)
+        
             
         # Draw score and lives
         score_text = FONT_TYPE.render(f'Score: {score}', False, FONT_COLOR)
