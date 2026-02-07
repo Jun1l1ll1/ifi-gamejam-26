@@ -60,8 +60,10 @@ def run():
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
         
-        #Pressure plate
+        # Pressure plate
         plate.draw(screen)
+
+        current_room.draw_content(screen)
         
         # Player
         p1.draw(screen)
