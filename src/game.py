@@ -1,6 +1,6 @@
 
 import pygame
-from minigames.rocket_game import run as run_rocket_game
+from .minigames.rocket_game import run as run_rocket_game
 
 from .options import *
 
@@ -76,6 +76,10 @@ def run():
         screen.blit(lives_text, (WIDTH - 120, 10))
         '''
 
+        
+        pygame.display.flip()
+
+
     def open_rocket_minigame():
 
         pygame.display.set_caption("Rocket Minigame")
@@ -83,6 +87,7 @@ def run():
         run_rocket_game()
         
         pygame.display.set_caption("Virus game (First draft)")
+
 
 
      
