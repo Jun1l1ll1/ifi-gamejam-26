@@ -1,5 +1,7 @@
-""" Hovedprogrammet som skal kjøres """
+
 import pygame
+from minigames.rocket_game import run as run_rocket_game
+
 from .options import *
 
 # Init
@@ -74,7 +76,16 @@ def run():
         screen.blit(lives_text, (WIDTH - 120, 10))
         '''
 
-        pygame.display.flip()
+    def open_rocket_minigame():
+
+        pygame.display.set_caption("Rocket Minigame")
+        
+        run_rocket_game()
+        
+        pygame.display.set_caption("Virus game (First draft)")
+
+
+     
 
     # Game loop
     running = True
@@ -120,6 +131,12 @@ def run():
             enter_cords = current_room.get_enter_coords_from(current_room.name)
             current_room = ROOMS[door]
             p1.go_to(enter_cords)
+
+
+            # Open rocket minigame (example: in Control Room)
+        if current_room.name == CONTROL_ROOM_NAME and keys[pygame.K_e]:
+            open_rocket_minigame()
+
 
         # Shooting
         if keys[pygame.K_SPACE]:
