@@ -1,7 +1,7 @@
 import pygame
 import random
 import math
-from .assets import *
+from ..assets import *
 
 RED = (255, 0, 0)
 
