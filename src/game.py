@@ -209,6 +209,9 @@ def run():
             open_rocket_minigame()
         if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_r]:
             if open_typing_minigame(): typing_task_completed = True
+        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_k]:
+            for i in range(5):
+                enemies.add(InvadingAlien())
 
         # Shooting (if needed)
         if keys[pygame.K_SPACE]:
