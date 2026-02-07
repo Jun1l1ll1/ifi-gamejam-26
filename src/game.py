@@ -30,8 +30,7 @@ def run():
     score = 0
 
     def draw_frame():
-        screen.blit(BACKGROUND_IMAGE, (0, 0))
-        pygame.draw.rect(screen, BLACK, (0, 690, WIDTH, 30))  # Ground
+        screen.blit(pygame.transform.scale(ROOM_MAIN_IMAGE, (WIDTH, HEIGHT)), (0, 0))
         p1.draw(screen)
         for projectile in projectiles:
             projectile.update(dt)

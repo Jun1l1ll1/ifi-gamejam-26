@@ -4,7 +4,6 @@ from .options import *
 
 
 BACKGROUND_IMAGE = pygame.image.load('./assets/stars.jpg').convert()
-AMONGUS_IMAGE = pygame.image.load('./assets/among.webp').convert_alpha()
 BOULDER_IMAGE = pygame.image.load('./assets/boulder.png').convert_alpha()
 
 PLAYER1_IMAGE = pygame.image.load('./assets/player/Player1.png').convert_alpha()
