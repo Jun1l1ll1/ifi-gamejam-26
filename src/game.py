@@ -28,6 +28,7 @@ def run():
     clock = pygame.time.Clock()
     dt = 0
     last_boulder_spawn_time = 0
+    last_virus_growth = 0
 
     # Game objects
     p1 = Player()
@@ -58,7 +59,7 @@ def run():
             
         # Draw score and lives
         score_text = FONT_TYPE.render(f'Score: {score}', False, FONT_COLOR)
-        lives_text = FONT_TYPE.render(f"♥"*p1.lives, True, FONT_COLOR)
+        lives_text = FONT_TYPE.render(f"♥"*p1.virus_growth, True, FONT_COLOR)
         screen.blit(score_text, (10, 10))
         screen.blit(lives_text, (WIDTH - 120, 10))
 
@@ -69,6 +70,10 @@ def run():
     while running:
         clock.tick(FRAMERATE)  # Limit frame rate
         current_time = pygame.time.get_ticks()
+
+        if current_time - last_virus_growth >= VIRUS_GROWTH_COOLDOWN_MS:
+            last_virus_growth = current_time
+            print("The virus is growing")
 
         # Handle events
         for event in pygame.event.get():
@@ -108,6 +113,7 @@ def run():
                 projectile = p1.shoot()
                 projectiles.append(projectile)
 
+        '''
         # Boulder spawning
         if current_time - last_boulder_spawn_time >= BOULDER_SPAWN_INTERVAL_MS:
             boulder = Boulder()
@@ -132,7 +138,7 @@ def run():
             boulder.y += boulder.speed * dt
             if boulder.y >= HEIGHT + boulder.size[1]:
                 boulders.remove(boulder)
-                #p1.lives -= 1
+                p1.lives -= 1
                 if p1.lives <= 0:
                     # Game over sequence
                     boulders.clear()
@@ -143,6 +149,7 @@ def run():
                     pygame.display.flip()
                     time.sleep(2)
                     running = False
+        '''
 
         # Update display
         draw_frame()

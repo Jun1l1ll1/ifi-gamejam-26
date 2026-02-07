@@ -16,7 +16,7 @@ class Player:
         self.speed = PLAYER_SPEED
         self.last_shot_time = 0
 
-        self.lives = LIVES
+        self.virus_growth = 0
 
     def shoot(self):
         projectile = Projectile(self.x + self.size[0] // 2, self.y)
