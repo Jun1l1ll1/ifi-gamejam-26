@@ -12,6 +12,9 @@ from .assets import *
 from .Player import Player
 from .Boulder import Boulder
 from .Projectile import Projectile
+from .Room import Room
+from .MainRoom import MainRoom
+from .ControlRoom import ControlRoom
 
 
 def run():
@@ -26,6 +29,14 @@ def run():
     p1 = Player()
     projectiles = []
     boulders = []
+
+    ROOMS = {
+        "control_room": ControlRoom(),
+        "main_room": MainRoom()
+    }
+
+
+    current_room: Room = ROOMS["main_room"]
 
     score = 0
 
@@ -73,6 +84,11 @@ def run():
             if not p1.y >= HEIGHT - p1.size[1]:
                 v[1] += 1
         p1.move(v, dt)
+
+        door = current_room.open_door(p1.x, p1.y, p1.size)
+        if door != "" and keys[pygame.K_e]:
+            ROOMS[door].enter()
+
 
         if keys[pygame.K_SPACE]:
             if current_time - p1.last_shot_time >= BULLET_COOLDOWN_MS:
