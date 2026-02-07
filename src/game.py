@@ -1,5 +1,7 @@
-""" Hovedprogrammet som skal kjøres """
+
 import pygame
+from .minigames.rocket_game import run as run_rocket_game
+
 from .options import *
 
 # Init
@@ -10,6 +12,8 @@ import sys, random, time, os
 
 from .assets import *
 from .Player import Player
+from .overlays.OverlayMessage import OverlayMessage
+from .overlays.VirusGrowthOverlay import VirusGrowthOverlay
 from .Boulder import Boulder
 from .Projectile import Projectile
 from .Room import Room
@@ -33,6 +37,8 @@ def run():
 
     # Game objects
     p1 = Player()
+    virus_growing_msg = OverlayMessage("The virus is growing", 250)
+    virus_growth_overlay = VirusGrowthOverlay()
     projectiles = []
     boulders = []
     plate = PressurePlate(500, 500)
@@ -53,7 +59,18 @@ def run():
 
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
+        
+        # Player
         p1.draw(screen)
+
+        # Purple Virus growth overlay
+        virus_growth_overlay.draw(screen)
+
+        # Virus is growing message
+        if virus_growing_msg.show:
+            virus_growing_msg.draw(screen)
+        
+        '''
         for projectile in projectiles:
             projectile.update(dt)
             projectile.draw(screen)
@@ -66,8 +83,23 @@ def run():
         lives_text = FONT_TYPE.render(f"♥"*p1.virus_growth, True, FONT_COLOR)
         screen.blit(score_text, (10, 10))
         screen.blit(lives_text, (WIDTH - 120, 10))
+        '''
 
+        
         pygame.display.flip()
+
+
+    def open_rocket_minigame():
+
+        pygame.display.set_caption("Rocket Minigame")
+        
+        run_rocket_game()
+        
+        pygame.display.set_caption("Virus game (First draft)")
+
+
+
+     
 
     # Game loop
     running = True
@@ -75,9 +107,18 @@ def run():
         clock.tick(FRAMERATE)  # Limit frame rate
         current_time = pygame.time.get_ticks()
 
+        # Game ends
+        if p1.virus_growth >= VIRUS_GROWTH_KILL:
+            running = False #TODO Change to game end screen?
+
+        # Virus growth
         if current_time - last_virus_growth >= VIRUS_GROWTH_COOLDOWN_MS:
             last_virus_growth = current_time
-            print("The virus is growing")
+            p1.virus_growth += 1
+            virus_growth_overlay.increse_alpha(p1.virus_growth)
+            virus_growing_msg.show = True
+        elif virus_growing_msg.show and current_time - last_virus_growth >= VIRUS_GROWTH_DISPLAY_MSG_TIME_MS:
+            virus_growing_msg.show = False
 
         # Handle events
         for event in pygame.event.get():
@@ -115,6 +156,12 @@ def run():
         if player_rect.colliderect(plate.rect):
             print("Activated")
         
+
+
+            # Open rocket minigame (example: in Control Room)
+        if current_room.name == CONTROL_ROOM_NAME and keys[pygame.K_e]:
+            open_rocket_minigame()
+
 
         # Shooting
         if keys[pygame.K_SPACE]:
