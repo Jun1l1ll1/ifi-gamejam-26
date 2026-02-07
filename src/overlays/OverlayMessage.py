@@ -1,7 +1,7 @@
 import pygame
 
-from .options import *
-from .assets import *
+from ..options import *
+from ..assets import *
 
 class OverlayMessage:
     def __init__(self, text, w):
