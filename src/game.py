@@ -25,6 +25,7 @@ from .rooms.AirlockRoom import AirlockRoom
 from .rooms.LaboratoryRoom import LaboratoryRoom
 from .PressurePlate import PressurePlate
 from .entities.CagedAlien import CagedAlien
+from .GingerPlant import GingerPlant
 
 
 def run():
@@ -42,10 +43,12 @@ def run():
     projectiles = []
     boulders = []
 
+
     door_requires_plate = True
     all_required_plates_active = False
     plates_pressed_correctly = []
     
+    typing_task_completed = False
 
 
     ROOMS = {
@@ -86,8 +89,9 @@ def run():
 
     def open_typing_minigame():
         pygame.display.set_caption("Typing Minigame")
-        run_typing_game()
+        completed = run_typing_game()
         pygame.display.set_caption("Virus game (First draft)")
+        return completed
 
 
     running = True
@@ -152,14 +156,22 @@ def run():
                             p.activated = False
                         plates_pressed_correctly = []
         
+        # Ginger plant
+        for plant_tuple in GingerPlant.all:
+            if plant_tuple[1] != current_room.name: continue # Skip plants that are not in this room
 
+            plant = plant_tuple[0]
+            if typing_task_completed and not plant.grown:
+                plant.grow()
+            if plant.can_take(p1.x, p1.y, p1.size) and keys[pygame.K_e]:
+                p1.collect(plant.take()) # Add ginger to player inventory
         
 
         # Open minigames
         if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:
             open_rocket_minigame()
         if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_r]:
-            open_typing_minigame()
+            if open_typing_minigame(): typing_task_completed = True
 
         # Shooting (if needed)
         if keys[pygame.K_SPACE]:
