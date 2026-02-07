@@ -39,7 +39,6 @@ def run():
     p1 = Player()
     virus_growing_msg = OverlayMessage("The virus is growing", 250)
     virus_growth_overlay = VirusGrowthOverlay()
-    plate = PressurePlate(500, 500)
     projectiles = []
     boulders = []
 
@@ -68,9 +67,7 @@ def run():
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
 
-
         # Draws all room content
-
         current_room.draw_content(screen)
 
         # Player
@@ -132,13 +129,9 @@ def run():
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
         if door != "" and keys[pygame.K_e]:
-            # if all_required_plates_active:
             enter_cords = current_room.get_enter_coords_from(current_room.name)
             current_room = ROOMS[door]
             p1.go_to(enter_cords)
-            # else: 
-            #     print("Requirements not fulfilled")
-        
 
         # Pressure plates
         player_rect = pygame.Rect(p1.x, p1.y, p1.size[0], p1.size[1])
@@ -162,7 +155,7 @@ def run():
 
         
 
-            # Open rocket minigame (example: in Control Room)
+        # Open rocket minigame (example: in Control Room)
         if current_room.name == CONTROL_ROOM_NAME and keys[pygame.K_r]:
             open_rocket_minigame()
         if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_r]:
