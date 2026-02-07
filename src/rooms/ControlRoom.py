@@ -5,8 +5,9 @@ from ..Room import *
 class ControlRoom(Room):
     def __init__(self):
         super().__init__(
+            CONTROL_ROOM_NAME,
             {
-                "main_room": ((0, 220), (100, 500))
+                MAIN_ROOM_NAME: ((980, 220), (1080, 500))
             },
             ROOM_CONTROL_IMAGE
         )
