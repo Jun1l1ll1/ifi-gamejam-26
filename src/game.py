@@ -24,6 +24,7 @@ from .rooms.GrowthRoom import GrowthRoom
 from .rooms.AirlockRoom import AirlockRoom
 from .rooms.LaboratoryRoom import LaboratoryRoom
 from .PressurePlate import PressurePlate
+from .InvadingAlien import InvadingAlien
 
 
 def run():
@@ -41,6 +42,10 @@ def run():
     virus_growth_overlay = VirusGrowthOverlay()
     projectiles = []
     boulders = []
+    enemies = pygame.sprite.Group()
+
+    for i in range(5):
+        enemies.add(InvadingAlien())
 
     door_requires_plate = True
     all_required_plates_active = False
@@ -69,8 +74,12 @@ def run():
 
         current_room.draw_content(screen)
 
-        # Player
+        # Player og healthbar
         p1.draw(screen)
+        p1.draw_healthbar(screen)
+
+        # Enemy
+        enemies.draw(screen)
 
         # Purple Virus growth overlay
         virus_growth_overlay.draw(screen)
@@ -183,9 +192,19 @@ def run():
                         for p in plates_pressed_correctly:
                             p.activated = False
                         plates_pressed_correctly = []
-        
+        enemies.update(player_rect, dt)
 
-        
+
+        for enemy in enemies:
+            if enemy.rect.colliderect(player_rect):
+                if current_time - p1.last_hit_time >= p1.hit_cooldown:
+                    p1.take_damage(10)
+                    p1.last_hit_time = current_time
+
+        if p1.health <= 0:
+            print("Player died")
+            running = False
+
 
             # Open rocket minigame (example: in Control Room)
         if current_room.name == CONTROL_ROOM_NAME and keys[pygame.K_r]:

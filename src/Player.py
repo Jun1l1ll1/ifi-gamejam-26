@@ -15,8 +15,16 @@ class Player:
         self.image = self._base_image
         self.speed = PLAYER_SPEED
         self.last_shot_time = 0
-
         self.virus_growth = 0
+        self.max_health = 100
+        self.health = self.max_health
+        self.last_hit_time = 0
+        self.hit_cooldown = 700 #ms
+    
+    def take_damage(self, amount):
+        self.health -= amount
+        if self.health < 0:
+            self.health = 0
 
 
     def shoot(self):
@@ -25,6 +33,21 @@ class Player:
 
     def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))
+
+    def draw_healthbar(self, screen):
+        bar_width = 60
+        bar_height = 8
+
+        health_ratio = self.health / self.max_health
+        fill_width = int(bar_width * health_ratio)
+
+        x = self.x + (self.size[0] - bar_width) // 2
+        y = self.y - 12
+
+        #background
+        pygame.draw.rect(screen, (60, 60, 60), (x, y, bar_width, bar_height))
+        #health
+        pygame.draw.rect(screen, (0, 200, 0), (x, y, fill_width, bar_height))
 
     def go_to(self, cords: tuple):
         self.x = cords[0]
