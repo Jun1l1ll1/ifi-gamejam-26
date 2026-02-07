@@ -1,12 +1,12 @@
-
 import pygame
 from .minigames.rocket_game import run as run_rocket_game
+from .minigames.typing_game import run as run_typing_game
 
 from .options import *
 
 # Init
 pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT)) # needed here by assets.py
+screen = pygame.display.set_mode((WIDTH, HEIGHT))  # Needed here by assets.py
 
 import sys, random, time, os
 
@@ -28,18 +28,18 @@ from .entities.CagedAlien import CagedAlien
 
 
 def run():
-    pygame.display.set_caption("Virus game(First draft)")
+    pygame.display.set_caption("Virus game (First draft)")
 
     # Clock and timing
     clock = pygame.time.Clock()
     dt = 0
-    last_boulder_spawn_time = 0
     last_virus_growth = 0
 
     # Game objects
     p1 = Player()
     virus_growing_msg = OverlayMessage("The virus is growing", 250)
     virus_growth_overlay = VirusGrowthOverlay()
+    plate = PressurePlate(500, 500)
     projectiles = []
     boulders = []
 
@@ -57,11 +57,14 @@ def run():
         AIRLOCK_ROOM_NAME: AirlockRoom(),
         LABORATORY_ROOM_NAME: LaboratoryRoom()
     }
-
     current_room: Room = ROOMS[MAIN_ROOM_NAME]
 
-    score = 0
+    # Game states
+    GAME_MAIN = "main"
+    GAME_TYPING = "typing_minigame"
+    game_state = GAME_MAIN
 
+ 
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
 
@@ -72,55 +75,28 @@ def run():
 
         # Player
         p1.draw(screen)
-
-        # Purple Virus growth overlay
         virus_growth_overlay.draw(screen)
-
-        # Virus is growing message
         if virus_growing_msg.show:
             virus_growing_msg.draw(screen)
-        
-        
-        '''
-        for projectile in projectiles:
-            projectile.update(dt)
-            projectile.draw(screen)
-        for boulder in boulders:
-            boulder.draw(screen)
-        
-            
-        # Draw score and lives
-        score_text = FONT_TYPE.render(f'Score: {score}', False, FONT_COLOR)
-        lives_text = FONT_TYPE.render(f"♥"*p1.virus_growth, True, FONT_COLOR)
-        screen.blit(score_text, (10, 10))
-        screen.blit(lives_text, (WIDTH - 120, 10))
-        '''
 
-        
         pygame.display.flip()
 
 
     def open_rocket_minigame():
-
         pygame.display.set_caption("Rocket Minigame")
-        
         run_rocket_game()
-        
+        pygame.display.set_caption("Virus game (First draft)")
+
+    def open_typing_minigame():
+        pygame.display.set_caption("Typing Minigame")
+        run_typing_game()
         pygame.display.set_caption("Virus game (First draft)")
 
 
-
-     
-
-    # Game loop
     running = True
     while running:
-        clock.tick(FRAMERATE)  # Limit frame rate
+        dt = clock.tick(FRAMERATE) / 1000
         current_time = pygame.time.get_ticks()
-
-        # Game ends
-        if p1.virus_growth >= VIRUS_GROWTH_KILL:
-            running = False #TODO Change to game end screen?
 
         # Virus growth
         if current_time - last_virus_growth >= VIRUS_GROWTH_COOLDOWN_MS:
@@ -133,6 +109,10 @@ def run():
         elif virus_growing_msg.show and current_time - last_virus_growth >= VIRUS_GROWTH_DISPLAY_MSG_TIME_MS:
             virus_growing_msg.show = False
 
+        # Game end condition
+        if p1.virus_growth >= VIRUS_GROWTH_KILL:
+            running = False  # TODO: Replace with game end screen
+
         # Handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -142,22 +122,14 @@ def run():
         keys = pygame.key.get_pressed()
 
         # Move player
-        v = [0, 0] # Player velocity "vector"
-        if keys[pygame.K_a]: 
-            if not p1.x <= 0:
-                v[0] -= 1
-        if keys[pygame.K_d]:
-            if not p1.x >= WIDTH - p1.size[0]:
-                v[0] += 1
-        if keys[pygame.K_w]: 
-            if not p1.y <= 0:
-                v[1] -= 1
-        if keys[pygame.K_s]: 
-            if not p1.y >= HEIGHT - p1.size[1]:
-                v[1] += 1
+        v = [0, 0]
+        if keys[pygame.K_a] and p1.x > 0: v[0] -= 1
+        if keys[pygame.K_d] and p1.x < WIDTH - p1.size[0]: v[0] += 1
+        if keys[pygame.K_w] and p1.y > 0: v[1] -= 1
+        if keys[pygame.K_s] and p1.y < HEIGHT - p1.size[1]: v[1] += 1
         p1.move(v, dt)
 
-        # Handle doors and change location
+        # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
         if door != "" and keys[pygame.K_e]:
             # if all_required_plates_active:
@@ -193,57 +165,18 @@ def run():
             # Open rocket minigame (example: in Control Room)
         if current_room.name == CONTROL_ROOM_NAME and keys[pygame.K_r]:
             open_rocket_minigame()
+        if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_r]:
+            open_typing_minigame()
 
-
-        # Shooting
+        # Shooting (if needed)
         if keys[pygame.K_SPACE]:
             if current_time - p1.last_shot_time >= BULLET_COOLDOWN_MS:
                 p1.last_shot_time = current_time
                 projectile = p1.shoot()
                 projectiles.append(projectile)
 
-        '''
-        # Boulder spawning
-        if current_time - last_boulder_spawn_time >= BOULDER_SPAWN_INTERVAL_MS:
-            boulder = Boulder()
-            boulders.append(boulder)
-            last_boulder_spawn_time = current_time
-
-        # Progectile movement
-        for projectile in projectiles:
-            if projectile.y <= 0:
-                projectiles.remove(projectile)
-            projectile.update(dt)
-            # collision w boulder
-            for boulder in boulders:
-                if projectile.collides_with(boulder.get_rect()):
-                    projectiles.remove(projectile)
-                    boulders.remove(boulder)
-                    score += 100
-                    break
-
-        # Boulder movement
-        for boulder in boulders:
-            boulder.y += boulder.speed * dt
-            if boulder.y >= HEIGHT + boulder.size[1]:
-                boulders.remove(boulder)
-                p1.lives -= 1
-                if p1.lives <= 0:
-                    # Game over sequence
-                    boulders.clear()
-                    projectiles.clear()
-                    draw_frame()
-                    game_over_text = FONT_TYPE.render("GAME OVER", True, RED)
-                    screen.blit(game_over_text, (WIDTH // 2 - game_over_text.get_width() // 2, HEIGHT // 2 - game_over_text.get_height() // 2))
-                    pygame.display.flip()
-                    time.sleep(2)
-                    running = False
-        '''
-
-        # Update display
+        # Draw main game frame
         draw_frame()
-
-        dt = clock.tick(60) / 1000
 
     # Clean up
     pygame.quit()
