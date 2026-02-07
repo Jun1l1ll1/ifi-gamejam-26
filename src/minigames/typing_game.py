@@ -17,7 +17,6 @@ def run():
 
     # Init
     clock = pygame.time.Clock()
-    dt = 0
     running = True
 
     # Pick a random sentence
@@ -54,9 +53,6 @@ def run():
 
    
     while running:
-        dt = clock.tick(60) / 1000
-        current_time = pygame.time.get_ticks()
-
         # Handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -72,6 +68,7 @@ def run():
                         draw_frame()  # Show feedback
                         pygame.time.delay(1000)  # Pause so player can see it
                         running = False
+                        return True # Game compleated!
                     else:
                         feedback = "ERROR. Try again."
                         typed_text = ""
@@ -80,8 +77,7 @@ def run():
 
         draw_frame()
 
-    # Returns back to main game
-    return
+    return False
 
 
 if __name__ == "__main__":

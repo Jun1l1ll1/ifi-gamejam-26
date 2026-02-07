@@ -1,7 +1,6 @@
 import pygame
 
 from ..options import *
-from ..Projectile import Projectile
 from ..assets import *
 import math as m
 
