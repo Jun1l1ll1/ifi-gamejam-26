@@ -33,8 +33,10 @@ class Player:
         return projectile
     
     def collect(self, item):
+        if item == "": return # Don't add nothing
         if item not in self.inventory:
             self.inventory.append(item)
+            print(f"Added: {item} to inventory")
 
     def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))

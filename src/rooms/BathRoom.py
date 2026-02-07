@@ -2,6 +2,7 @@
 # from .assets import *
 from ..Room import *
 from ..PressurePlate import *
+from ..Safe import *
 
 class BathRoom(Room):
     def __init__(self):
@@ -17,6 +18,7 @@ class BathRoom(Room):
                 PressurePlate(500, 100, BATH_ROOM_NAME, "2"),
                 PressurePlate(900, 300, BATH_ROOM_NAME, "3"),
                 PressurePlate(650, 500, BATH_ROOM_NAME, "4"),
-                PressurePlate(800, 400, BATH_ROOM_NAME, "5")
+                PressurePlate(800, 400, BATH_ROOM_NAME, "5"),
+                Safe(50, 250)
             ]
         )
