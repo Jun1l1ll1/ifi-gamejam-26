@@ -47,9 +47,6 @@ def run():
 
     enemies = pygame.sprite.Group()
 
-    for i in range(5):
-        enemies.add(InvadingAlien())
-
     door_requires_plate = True
     all_required_plates_active = False
     plates_pressed_correctly = []
