@@ -44,6 +44,7 @@ def run():
 
     door_requires_plate = True
     all_required_plates_active = False
+    plates_pressed_correctly = []
     
 
 
@@ -164,14 +165,26 @@ def run():
             #     print("Requirements not fulfilled")
         
 
-
         # Pressure plates
         player_rect = pygame.Rect(p1.x, p1.y, p1.size[0], p1.size[1])
         for plate in PressurePlate.all_pressure_plates:
-            if plate[1] == current_room.name:
-                if player_rect.colliderect(plate[0].rect):
-                    print("Activated")
-                    plate[0].activated = True
+            if plate[1] == current_room.name and player_rect.colliderect(plate[0].rect):
+                plate[0].activated = True
+
+                if plate[0].text in PLATE_UNLOCK_COMBINATION and not plate[0] in plates_pressed_correctly: plates_pressed_correctly.append(plate[0])
+                
+                if len(plates_pressed_correctly) >= 5:
+                    is_correct = True
+                    for i in range(len(plates_pressed_correctly)):
+                        if plates_pressed_correctly[i].text != PLATE_UNLOCK_COMBINATION[i]:
+                            is_correct = False
+                            break
+                    if not is_correct:
+                        for p in plates_pressed_correctly:
+                            p.activated = False
+                        plates_pressed_correctly = []
+        
+
         
 
             # Open rocket minigame (example: in Control Room)

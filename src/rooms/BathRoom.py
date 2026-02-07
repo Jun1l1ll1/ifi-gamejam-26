@@ -14,9 +14,9 @@ class BathRoom(Room):
             {},
             [ # Contents of the room:
                 PressurePlate(100, 200, BATH_ROOM_NAME, "1"),
-                PressurePlate(500, 100, BATH_ROOM_NAME),
-                PressurePlate(900, 300, BATH_ROOM_NAME),
-                PressurePlate(650, 500, BATH_ROOM_NAME),
-                PressurePlate(800, 400, BATH_ROOM_NAME)
+                PressurePlate(500, 100, BATH_ROOM_NAME, "2"),
+                PressurePlate(900, 300, BATH_ROOM_NAME, "3"),
+                PressurePlate(650, 500, BATH_ROOM_NAME, "4"),
+                PressurePlate(800, 400, BATH_ROOM_NAME, "5")
             ]
         )
