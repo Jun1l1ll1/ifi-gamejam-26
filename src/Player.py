@@ -16,7 +16,7 @@ class Player:
         self.speed = PLAYER_SPEED
         self.last_shot_time = 0
         self.virus_growth = 0
-        self.max_health = 100
+        self.inventory = []        self.max_health = 100
         self.health = self.max_health
         self.last_hit_time = 0
         self.hit_cooldown = 700 #ms
@@ -30,6 +30,10 @@ class Player:
     def shoot(self):
         projectile = Projectile(self.x + self.size[0] // 2, self.y)
         return projectile
+    
+    def collect(self, item):
+        if item not in self.inventory:
+            self.inventory.append(item)
 
     def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))
