@@ -155,8 +155,8 @@ def run():
 
         
 
-        # Open rocket minigame (example: in Control Room)
-        if current_room.name == CONTROL_ROOM_NAME and keys[pygame.K_r]:
+        # Open minigames
+        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:
             open_rocket_minigame()
         if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_r]:
             open_typing_minigame()
