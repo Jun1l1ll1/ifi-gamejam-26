@@ -43,6 +43,7 @@ def run():
     boulders = []
 
     door_requires_plate = True
+    all_required_plates_active = False
     
 
 
@@ -155,7 +156,7 @@ def run():
         # Handle doors and change location
         door = current_room.open_door(p1.x, p1.y, p1.size)
         if door != "" and keys[pygame.K_e]:
-            if plate.activated:
+            if all_required_plates_active:
                 enter_cords = current_room.get_enter_coords_from(current_room.name)
                 current_room = ROOMS[door]
                 p1.go_to(enter_cords)
@@ -167,8 +168,10 @@ def run():
         # Pressure plates
         player_rect = pygame.Rect(p1.x, p1.y, p1.size[0], p1.size[1])
         for plate in PressurePlate.all_pressure_plates:
-            if plate[1] == current_room.name and player_rect.colliderect(plate[0].rect):
-                print("Activated")
+            if plate[1] == current_room.name:
+                if player_rect.colliderect(plate[0].rect):
+                    print("Activated")
+                    plate[0].activated = True
         
 
             # Open rocket minigame (example: in Control Room)

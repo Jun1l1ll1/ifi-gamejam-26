@@ -15,6 +15,6 @@ class MainRoom(Room):
             },
             ROOM_MAIN_IMAGE,
             {},
-            [PressurePlate(500, 500)]
+            [PressurePlate(500, 500, MAIN_ROOM_NAME)]
         )
         
