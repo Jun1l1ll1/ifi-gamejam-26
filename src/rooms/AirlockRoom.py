@@ -5,8 +5,9 @@ from ..Room import *
 class AirlockRoom(Room):
     def __init__(self):
         super().__init__(
+            AIRLOCK_ROOM_NAME,
             {
-                "main_room": ((400, 0), (800, 200))
+                MAIN_ROOM_NAME: ((400, 0), (800, 200))
             },
             ROOM_AIRLOCK_IMAGE
         )

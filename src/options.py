@@ -24,3 +24,14 @@ BULLET_SPEED = 700
 BOULDER_SPAWN_INTERVAL_MS = 1500
 BULLET_COOLDOWN_MS = 300
 LIVES = 3
+
+
+# ------ ROOM NAMES ------
+
+CONTROL_ROOM_NAME = "control_room"
+MAIN_ROOM_NAME = "main_room"
+BATH_ROOM_NAME = "bath_room"
+LABORATORY_ROOM_NAME = "laboratory_room"
+GROWTH_ROOM_NAME = "growth_room"
+AIRLOCK_ROOM_NAME = "airlock_room"
+

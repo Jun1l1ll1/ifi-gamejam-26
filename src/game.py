@@ -35,16 +35,15 @@ def run():
     boulders = []
 
     ROOMS = {
-        "control_room": ControlRoom(),
-        "main_room": MainRoom(),
-        "bath_room": BathRoom(),
-        "growth_room": GrowthRoom(),
-        "airlock_room": AirlockRoom(),
-        "laboratory_room": LaboratoryRoom()
+        CONTROL_ROOM_NAME: ControlRoom(),
+        MAIN_ROOM_NAME: MainRoom(),
+        BATH_ROOM_NAME: BathRoom(),
+        GROWTH_ROOM_NAME: GrowthRoom(),
+        AIRLOCK_ROOM_NAME: AirlockRoom(),
+        LABORATORY_ROOM_NAME: LaboratoryRoom()
     }
 
-
-    current_room: Room = ROOMS["main_room"]
+    current_room: Room = ROOMS[MAIN_ROOM_NAME]
 
     score = 0
 
@@ -77,8 +76,10 @@ def run():
                 running = False
 
         # Get key presses
-        v = [0, 0] # Player velocity "vector"
         keys = pygame.key.get_pressed()
+
+        # Move player
+        v = [0, 0] # Player velocity "vector"
         if keys[pygame.K_a]: 
             if not p1.x <= 0:
                 v[0] -= 1
@@ -93,22 +94,27 @@ def run():
                 v[1] += 1
         p1.move(v, dt)
 
+        # Handle doors and change location
         door = current_room.open_door(p1.x, p1.y, p1.size)
         if door != "" and keys[pygame.K_e]:
-            ROOMS[door].enter()
+            enter_cords = current_room.get_enter_coords_from(current_room.name)
+            current_room = ROOMS[door]
+            p1.go_to(enter_cords)
 
-
+        # Shooting
         if keys[pygame.K_SPACE]:
             if current_time - p1.last_shot_time >= BULLET_COOLDOWN_MS:
                 p1.last_shot_time = current_time
                 projectile = p1.shoot()
                 projectiles.append(projectile)
 
+        # Boulder spawning
         if current_time - last_boulder_spawn_time >= BOULDER_SPAWN_INTERVAL_MS:
             boulder = Boulder()
             boulders.append(boulder)
             last_boulder_spawn_time = current_time
 
+        # Progectile movement
         for projectile in projectiles:
             if projectile.y <= 0:
                 projectiles.remove(projectile)
@@ -121,6 +127,7 @@ def run():
                     score += 100
                     break
 
+        # Boulder movement
         for boulder in boulders:
             boulder.y += boulder.speed * dt
             if boulder.y >= HEIGHT + boulder.size[1]:

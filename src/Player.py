@@ -24,6 +24,10 @@ class Player:
 
     def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))
+
+    def go_to(self, cords: tuple):
+        self.x = cords[0]
+        self.y = cords[1]
     
     def move(self, v: list[int], dt):
         length = self._normalize(v)

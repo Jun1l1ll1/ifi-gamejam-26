@@ -5,8 +5,9 @@ from ..Room import *
 class LaboratoryRoom(Room):
     def __init__(self):
         super().__init__(
+            LABORATORY_ROOM_NAME,
             {
-                "growth_room": ((400, 0), (800, 200))
+                GROWTH_ROOM_NAME: ((400, 0), (800, 200))
             },
             ROOM_LABORATORY_IMAGE
         )
