@@ -92,7 +92,7 @@ def run():
 
     running = True
     while running:
-        dt = clock.tick(FRAMERATE) / 1000
+        clock.tick(FRAMERATE) # Limit framerate
         current_time = pygame.time.get_ticks()
 
         # Virus growth
@@ -170,6 +170,8 @@ def run():
 
         # Draw main game frame
         draw_frame()
+
+        dt = clock.tick(FRAMERATE) / 1000
 
     # Clean up
     pygame.quit()
