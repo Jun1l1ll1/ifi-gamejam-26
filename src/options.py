@@ -44,3 +44,8 @@ LABORATORY_ROOM_NAME = "laboratory_room"
 GROWTH_ROOM_NAME = "growth_room"
 AIRLOCK_ROOM_NAME = "airlock_room"
 
+# ------ ITEM NAMES ------
+
+GINGER = "ginger"
+STAR_DUST = "star_dust"
+TOOTH_PASTE = "tooth_paste"
