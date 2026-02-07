@@ -17,6 +17,8 @@ ALIEN3_IMAGE = pygame.image.load('./assets/alien/Alien3.png').convert_alpha()
 ALIEN4_IMAGE = pygame.image.load('./assets/alien/Alien4.png').convert_alpha()
 ALIEN5_IMAGE = pygame.image.load('./assets/alien/Alien5.png').convert_alpha()
 
+INVADING_ALIEN_IMAGE = pygame.image.load('./assets/alien/InvadingAlien.png').convert_alpha()
+
 ROOM_CONTROL_IMAGE = pygame.image.load('./assets/rooms/ControlRoom.png').convert_alpha()
 ROOM_BATH_IMAGE = pygame.image.load('./assets/rooms/BathRoom.png').convert_alpha()
 ROOM_AIRLOCK_IMAGE = pygame.image.load('./assets/rooms/AirlockRoom.png').convert_alpha()
