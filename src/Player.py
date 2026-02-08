@@ -16,7 +16,7 @@ class Player:
         self.speed = PLAYER_SPEED
         self.last_shot_time = 0
         self.virus_growth = 0
-        self.inventory = []        
+        self.inventory = [GINGER, TOOTH_PASTE, STAR_DUST]        
         self.max_health = 100
         self.health = self.max_health
         self.last_hit_time = 0
