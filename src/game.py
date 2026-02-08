@@ -27,6 +27,7 @@ from .objects.PressurePlate import PressurePlate
 from .entities.CagedAlien import CagedAlien
 from .objects.GingerPlant import GingerPlant
 from .objects.Safe import Safe
+from .objects.LabTable import LabTable
 from .entities.InvadingAlien import InvadingAlien
 
 
@@ -101,8 +102,9 @@ def run():
 
     def open_rocket_minigame():
         pygame.display.set_caption("Rocket Minigame")
-        run_rocket_game()
+        completed = run_rocket_game()
         pygame.display.set_caption("Virus game (First draft)")
+        return completed
 
     def open_typing_minigame():
         pygame.display.set_caption("Typing Minigame")
@@ -193,6 +195,15 @@ def run():
                 p1.last_interaction = current_time
                 p1.collect(safe.take_content()) # Add tooth paste to player inventory
         
+        # Lab table
+        for lab_table_tuple in LabTable.all:
+            if lab_table_tuple[1] != current_room.name: continue # Skip safes that are not in this room
+
+            lab_table: LabTable = lab_table_tuple[0]
+            if keys[pygame.K_e] and lab_table.can_interact(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
+                p1.last_interaction = current_time
+                lab_table.make_cure(p1) # Make cure if you can
+
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
         if door != "" and keys[pygame.K_e] and p1.can_interact(current_time):
@@ -230,7 +241,7 @@ def run():
 
         # Open minigames
         if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:
-            open_rocket_minigame()
+            if open_rocket_minigame(): p1.collect(STAR_DUST)
         if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_r]:
             if open_typing_minigame(): typing_task_completed = True
         if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_k]:

@@ -2,6 +2,7 @@
 # from .assets import *
 from ..Room import *
 from ..entities.CagedAlien import *
+from ..objects.LabTable import *
 
 class LaboratoryRoom(Room):
     def __init__(self):
@@ -15,6 +16,7 @@ class LaboratoryRoom(Room):
                 GROWTH_ROOM_NAME: (WIDTH//2-35, 20)
             },
             [
-                CagedAlien(700, 50)
+                CagedAlien(700, 50),
+                LabTable(50, HEIGHT-200)
             ]
         )
