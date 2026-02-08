@@ -19,7 +19,7 @@ class MainRoom(Room):
                 BATH_ROOM_NAME: (WIDTH//2-35, 20),
                 GROWTH_ROOM_NAME: (WIDTH-70 - 20, HEIGHT//2-35),
                 AIRLOCK_ROOM_NAME: (WIDTH//2-35, HEIGHT-70 - 20)
-            },
-            [PressurePlate(500, 500, MAIN_ROOM_NAME)]
+            }
+         
         )
         
