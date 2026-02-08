@@ -214,7 +214,7 @@ def run():
 
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
-        if door != "" and keys[pygame.K_e] and p1.can_interact(current_time):
+        if len(enemies) <= 0 and door != "" and keys[pygame.K_e] and p1.can_interact(current_time):
             p1.last_interaction = current_time # Update last interaction so player does not enter doors right after exiting
             last_room = current_room.name
             current_room = ROOMS[door]
@@ -260,7 +260,7 @@ def run():
             current_room.invade() # Change background
             alien_invasion_happened = True
             for i in range(5):
-                enemies.add(InvadingAlien())
+                enemies.add(InvadingAlien(WIDTH-250, HEIGHT-200, 300))
                 
 
         # Shooting (if needed)
