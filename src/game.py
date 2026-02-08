@@ -83,7 +83,9 @@ def run():
             projectile.draw(screen)
 
         # Enemy
-        enemies.draw(screen)
+        for alien in enemies:
+            alien.draw(screen)
+            alien.draw_healthbar(screen)
 
         # Player og healthbar
         p1.draw(screen)
@@ -234,6 +236,7 @@ def run():
         if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_k]:
             for i in range(5):
                 enemies.add(InvadingAlien())
+                
 
         # Shooting (if needed)
         if keys[pygame.K_SPACE]:
