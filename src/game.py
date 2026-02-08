@@ -27,6 +27,7 @@ from .rooms.AirlockRoom import AirlockRoom
 from .rooms.LaboratoryRoom import LaboratoryRoom
 from .objects.PressurePlate import PressurePlate
 from .entities.CagedAlien import CagedAlien
+from .entities.Robot import Robot
 from .objects.GingerPlant import GingerPlant
 from .objects.Safe import Safe
 from .objects.LabTable import LabTable
@@ -302,6 +303,8 @@ def run():
         pygame.display.set_caption("Virus game (First draft)")
         return completed
 
+    # Add text to allow player to know the first step
+    p1.add_timed_text_tip("I should talk to R6D7 in the control room", pygame.time.get_ticks())
 
     running = True
     while running:
@@ -312,6 +315,13 @@ def run():
         # Remove player tips
         if p1.tip_text is not None and current_time - p1.tip_displayed_time >= PLAYER_TIP_SHOW_TIME_MS:
             p1.remove_text_tip()
+        
+        # Remove robot (R6D7) dialog
+        for robot_tuple in Robot.all:
+            if robot_tuple[1] == current_room.name:
+                robot: Robot = robot_tuple[0]
+                if robot.dialog is not None and current_time - robot.dialog_time >= ROBOT_DIALOG_SHOW_TIME:
+                    robot.remove_dialog()
 
         # Virus growth
         if current_time - last_virus_growth >= VIRUS_GROWTH_COOLDOWN_MS:
@@ -406,6 +416,16 @@ def run():
                     cure_created = lab_table.make_cure(p1) # Make cure if you can
                     if not cure_created:
                         p1.add_timed_text_tip("Im missing some ingredients", current_time)
+
+        # Robot (R6D7)
+        for robot_tuple in Robot.all:
+            if robot_tuple[1] != current_room.name: continue # Skip if not in this room
+
+            robot: Robot = robot_tuple[0]
+            if robot.can_interact(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
+                player_can_press = "E"
+                if keys[pygame.K_e]:
+                    robot.talk(current_time)
 
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
