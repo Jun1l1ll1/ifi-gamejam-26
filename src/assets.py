@@ -56,3 +56,4 @@ START_FONT = pygame.font.Font('./assets/dpcomic.ttf', 36)
 
 # Sound
 TITLE_SOUND = pygame.mixer.music.load("./assets/sounds/Intro_music.mp3")
+INGAME_SOUND = pygame.mixer.music.load("./assets/sounds/Ingame_music.mp3")

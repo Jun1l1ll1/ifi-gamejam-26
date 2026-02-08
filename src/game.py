@@ -40,7 +40,7 @@ GAME_MAIN = "main"
 game_state = GAME_INTRO
 
 def intro_screen(clock):
-    TITLE_SOUND
+    pygame.mixer.music.load("./assets/sounds/Intro_music.mp3")
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1) #loop
 
@@ -84,10 +84,20 @@ def run():
     # Clock and timing
     clock = pygame.time.Clock()
 
-    intro_screen(clock)
-
     dt = 0
     last_virus_growth = 0
+
+    intro_screen(clock)
+
+    INGAME_SOUND
+    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.play(-1)
+
+    #Sound effects
+    shot_sound = pygame.mixer.Sound("./assets/sounds/Raygun_sound.mp3")
+    shot_sound.set_volume(0.5)
+
+    
 
     # Game objects
     p1 = Player()
@@ -316,6 +326,7 @@ def run():
                 p1.last_shot_time = current_time
                 projectile = p1.shoot()
                 projectiles.append(projectile)
+                shot_sound.play()
 
         # Draw main game frame
         draw_frame()
