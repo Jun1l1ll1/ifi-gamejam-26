@@ -54,6 +54,10 @@ STORY1_FRAME1_IMAGE = pygame.image.load('./assets/story/Story1Frame1.png').conve
 STORY1_FRAME2_IMAGE = pygame.image.load('./assets/story/Story1Frame2.png').convert_alpha()
 STORY1_FRAME3_IMAGE = pygame.image.load('./assets/story/Story1Frame3.png').convert_alpha()
 STORY1_FRAME4_IMAGE = pygame.image.load('./assets/story/Story1Frame4.png').convert_alpha()
+STORY2_FRAME1_IMAGE = pygame.image.load('./assets/story/Story2Frame1.png').convert_alpha()
+STORY2_FRAME2_IMAGE = pygame.image.load('./assets/story/Story2Frame2.png').convert_alpha()
+STORY2_FRAME3_IMAGE = pygame.image.load('./assets/story/Story2Frame3.png').convert_alpha()
+STORY2_FRAME4_IMAGE = pygame.image.load('./assets/story/Story2Frame4.png').convert_alpha()
 
 # Helping images
 KEY_E_IMAGE = pygame.image.load('./assets/helper_icons/KeyE.png').convert_alpha()
