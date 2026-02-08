@@ -22,6 +22,10 @@ class Player:
         self.last_hit_time = 0
         self.hit_cooldown = 700 #ms
         self.dir = [1, 0]
+        self.last_interaction = 0
+    
+    def can_interact(self, current_time):
+        return current_time - self.last_interaction >= PLAYER_INTERACTION_COOLDOWN_MS
     
     def take_damage(self, amount):
         self.health -= amount

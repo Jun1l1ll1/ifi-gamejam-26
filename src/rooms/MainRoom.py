@@ -14,7 +14,12 @@ class MainRoom(Room):
                 AIRLOCK_ROOM_NAME: ((400, 690), (800, 720))
             },
             ROOM_MAIN_IMAGE,
-            {},
+            {
+                CONTROL_ROOM_NAME: (50, 360),
+                BATH_ROOM_NAME: (600, 100),
+                GROWTH_ROOM_NAME: (1030, 360),
+                AIRLOCK_ROOM_NAME: (600, 705)
+            },
             [PressurePlate(500, 500, MAIN_ROOM_NAME)]
         )
         

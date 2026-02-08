@@ -20,7 +20,6 @@ class PressurePlate:
         self.activated = False
         PressurePlate.all_pressure_plates.append((self, room))
 
-        
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
