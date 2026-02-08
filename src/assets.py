@@ -2,6 +2,8 @@ import pygame
 
 from .options import *
 
+pygame.init()
+pygame.display.set_mode((WIDTH, HEIGHT))
 
 BACKGROUND_IMAGE = pygame.image.load('./assets/stars.jpg').convert_alpha()
 BOULDER_IMAGE = pygame.image.load('./assets/boulder.png').convert_alpha()

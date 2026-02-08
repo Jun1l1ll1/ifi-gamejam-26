@@ -2,7 +2,6 @@ import pygame
 from ..options import *
 
 pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 import sys, random, time, os
 
@@ -12,13 +11,25 @@ from .Boulder import Boulder
 from ..Projectile import Projectile
 
 
-def run():
+def run(screen):
+
     pygame.display.set_caption("'Rocket' - minigame")
+
+    # Minigame hover size (shrunken version of main game)
+    HOVER_SCALE = 0.85  # 85% of main game size
+    MINIGAME_WIDTH = int(WIDTH * HOVER_SCALE)
+    MINIGAME_HEIGHT = int(HEIGHT * HOVER_SCALE)
+    hover_x = (WIDTH - MINIGAME_WIDTH) // 2
+    hover_y = (HEIGHT - MINIGAME_HEIGHT) // 2
+
+    # Surface for minigame logic
+    minigame_surface = pygame.Surface((WIDTH, HEIGHT))  # logic uses full size
 
     clock = pygame.time.Clock()
     dt = 0
     last_boulder_spawn_time = 0
 
+    # Game objects
     p1 = Rocket()
     projectiles = []
     boulders = []
@@ -28,16 +39,17 @@ def run():
     task_completed = False
 
     def draw_frame():
-        screen.blit(BACKGROUND_IMAGE, (0, 0))
-        pygame.draw.rect(screen, BLACK, (0, 690, WIDTH, 30))
-        p1.draw(screen)
+        # Draw everything to minigame_surface
+        minigame_surface.blit(BACKGROUND_IMAGE, (0, 0))
+        pygame.draw.rect(minigame_surface, BLACK, (0, 690, WIDTH, 30))
+        p1.draw(minigame_surface)
 
         for projectile in projectiles:
             projectile.update(dt)
-            projectile.draw(screen)
+            projectile.draw(minigame_surface)
 
         for boulder in boulders:
-            boulder.draw(screen)
+            boulder.draw(minigame_surface)
 
         progress_text = FONT_TYPE.render(
             f"Star-stones: {star_stones_collected}/{STAR_STONES_REQUIRED}",
@@ -46,14 +58,16 @@ def run():
         )
         lives_text = FONT_TYPE.render(f"♥" * p1.lives, True, FONT_COLOR)
 
-        screen.blit(progress_text, (10, 10))
-        screen.blit(lives_text, (WIDTH - 120, 10))
+        minigame_surface.blit(progress_text, (10, 10))
+        minigame_surface.blit(lives_text, (WIDTH - 120, 10))
 
-        pygame.display.flip()
+        # Scale minigame for hovering effect
+        scaled_surface = pygame.transform.smoothscale(minigame_surface, (MINIGAME_WIDTH, MINIGAME_HEIGHT))
+        screen.blit(scaled_surface, (hover_x, hover_y))
 
     running = True
     while running:
-        clock.tick(FRAMERATE)
+        dt = clock.tick(FRAMERATE) / 1000
         current_time = pygame.time.get_ticks()
 
         for event in pygame.event.get():
@@ -70,10 +84,12 @@ def run():
                 p1.last_shot_time = current_time
                 projectiles.append(p1.shoot())
 
+        # Spawn boulders
         if current_time - last_boulder_spawn_time >= BOULDER_SPAWN_INTERVAL_MS:
             boulders.append(Boulder())
             last_boulder_spawn_time = current_time
 
+        # Handle projectiles hitting boulders
         for projectile in projectiles[:]:
             if projectile.y <= 0:
                 projectiles.remove(projectile)
@@ -91,6 +107,7 @@ def run():
                         running = False
                     break
 
+        # Update boulders falling
         for boulder in boulders[:]:
             boulder.y += boulder.speed * dt
             if boulder.y >= HEIGHT + boulder.size[1]:
@@ -100,21 +117,20 @@ def run():
                     running = False
 
         draw_frame()
-        dt = clock.tick(60) / 1000
+        pygame.display.update()  # refresh main game screen with minigame on top
 
+    # Optional success message
     if task_completed:
-        screen.blit(BACKGROUND_IMAGE, (0, 0))
+        minigame_surface.blit(BACKGROUND_IMAGE, (0, 0))
         success_text = FONT_TYPE.render("TASK COMPLETED!", True, GREEN)
         sub_text = FONT_TYPE.render("All star-stones collected", True, FONT_COLOR)
 
-        screen.blit(success_text, (WIDTH // 2 - success_text.get_width() // 2, HEIGHT // 2 - 40))
-        screen.blit(sub_text, (WIDTH // 2 - sub_text.get_width() // 2, HEIGHT // 2 + 10))
+        minigame_surface.blit(success_text, (WIDTH // 2 - success_text.get_width() // 2, HEIGHT // 2 - 40))
+        minigame_surface.blit(sub_text, (WIDTH // 2 - sub_text.get_width() // 2, HEIGHT // 2 + 10))
 
-        pygame.display.flip()
+        scaled_surface = pygame.transform.smoothscale(minigame_surface, (MINIGAME_WIDTH, MINIGAME_HEIGHT))
+        screen.blit(scaled_surface, (hover_x, hover_y))
+        pygame.display.update()
         time.sleep(2)
 
     return
-
-
-if __name__ == "__main__":
-    run()

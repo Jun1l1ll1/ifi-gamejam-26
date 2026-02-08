@@ -99,7 +99,7 @@ def run():
 
     def open_rocket_minigame():
         pygame.display.set_caption("Rocket Minigame")
-        run_rocket_game()
+        run_rocket_game(screen)
         pygame.display.set_caption("Virus game (First draft)")
 
     def open_typing_minigame():
