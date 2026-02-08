@@ -228,6 +228,7 @@ def run():
 
     # Game objects
     p1 = Player()
+    room_entered_msg = OverlayMessage("", 250)
     virus_growing_msg = OverlayMessage("The virus is growing", 250)
     virus_growth_overlay = VirusGrowthOverlay()
     inventory_display = InventoryDisplay()
@@ -243,6 +244,8 @@ def run():
     
     typing_task_completed = False
     pressure_plate_puzzle_complete = False
+
+    cure_created = False
 
 
     ROOMS = {
@@ -283,6 +286,10 @@ def run():
 
         # Show inventory
         inventory_display.draw(screen, p1.inventory)
+
+        # Entered room message
+        if room_entered_msg.show:
+            room_entered_msg.draw(screen)
 
         # Purple Virus growth overlay
         virus_growth_overlay.draw(screen)
@@ -334,6 +341,10 @@ def run():
             CagedAlien.instance.grow(p1.virus_growth)
         elif virus_growing_msg.show and current_time - last_virus_growth >= VIRUS_GROWTH_DISPLAY_MSG_TIME_MS:
             virus_growing_msg.show = False
+
+        # Room entered message
+        if room_entered_msg.show and current_time - room_entered_msg.shown_time >= ROOM_ENTERED_DISPLAY_MSG_TIME_MS:
+            room_entered_msg.show = False
 
         # Game end condition
         if p1.virus_growth >= VIRUS_GROWTH_KILL:
@@ -413,10 +424,13 @@ def run():
             if lab_table.can_interact(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
                 player_can_press = "E"
                 if keys[pygame.K_e]:
-                    p1.last_interaction = current_time
-                    cure_created = lab_table.make_cure(p1) # Make cure if you can
                     if not cure_created:
-                        p1.add_timed_text_tip("Im missing some ingredients", current_time)
+                        p1.last_interaction = current_time
+                        cure_created = lab_table.make_cure(p1) # Make cure if you can
+                        if not cure_created:
+                            p1.add_timed_text_tip("Im missing some ingredients", current_time)
+                    else:
+                        p1.add_timed_text_tip("I have the cure :D", current_time)
 
         # Robot (R6D7)
         for robot_tuple in Robot.all:
@@ -439,6 +453,8 @@ def run():
                     current_room = ROOMS[door]
                     enter_cords = current_room.get_enter_coords_from(last_room)
                     p1.go_to(enter_cords)
+                    room_entered_msg.text, room_entered_msg.shown_time = current_room.title, current_time
+                    room_entered_msg.show = True
                 else:
                     p1.add_timed_text_tip("I cannot let the invasion enter the ship", current_time)
 

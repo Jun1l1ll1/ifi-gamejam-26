@@ -24,5 +24,6 @@ class GrowthRoom(Room):
                 GingerPlant(700, 400),
                 WaterTerminal(250, 150),
                 PressurePlate(500, 30, GROWTH_ROOM_NAME, "4")
-            ]
+            ],
+            "Growth Room"
         )
