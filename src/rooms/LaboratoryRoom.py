@@ -11,7 +11,7 @@ class LaboratoryRoom(Room):
         super().__init__(
             LABORATORY_ROOM_NAME,
             {
-                GROWTH_ROOM_NAME: ((400, 0), (800, 200))
+                GROWTH_ROOM_NAME: ((490, 70), (590, 170))
             },
             ROOM_LABORATORY_IMAGE,
             {
