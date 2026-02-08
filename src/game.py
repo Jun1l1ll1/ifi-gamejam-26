@@ -77,6 +77,48 @@ def intro_screen(clock):
         pygame.display.flip()
         clock.tick(60)
 
+def victory_screen(clock):
+    
+    pygame.mixer.music.load("./assets/sounds/Victory_music.mp3")
+    pygame.mixer.music.set_volume(0.8)
+    pygame.mixer.music.play(-1)
+
+    font_big = TITLE_FONT
+    font_small = START_FONT
+
+    bg_image = pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT))
+
+    title = font_big.render("YOU SURVIVED", True, (255, 80, 120))  # pink-red victory vibe
+    subtitle = font_small.render("The virus has been defeated.", True, (255, 255, 255))
+    prompt = font_small.render("Press any key to exit", True, (200, 200, 200))
+
+    alpha = 0
+    title.set_alpha(alpha)
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:
+                return  # exit victory screen
+
+        # Fade-in effect
+        if alpha < 255:
+            alpha += 3
+            title.set_alpha(alpha)
+
+        screen.blit(bg_image, (0, 0))
+
+        screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 80)))
+        screen.blit(subtitle, subtitle.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
+        screen.blit(prompt, prompt.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 80)))
+
+        pygame.display.flip()
+        clock.tick(60)
+
+
 def story(clock):
     screen.blit(pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT)), (0, 0))
     screen.blit(pygame.transform.scale(STORY1_FRAME1_IMAGE, (WIDTH, HEIGHT)), (0, 0))
@@ -567,6 +609,15 @@ def run():
         draw_frame()
 
         dt = clock.tick(FRAMERATE) / 1000
+
+
+    # After main loop ends
+    if p1.virus_growth < VIRUS_GROWTH_KILL:  # Example victory condition
+        # Game completed successfully
+        victory_screen(clock)  # Call the victory screen function
+    else:
+        # Player lost
+        print("Game over!")  # Or show your game over overlay
 
     # Clean up
     pygame.quit()
