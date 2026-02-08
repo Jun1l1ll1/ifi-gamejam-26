@@ -1,7 +1,7 @@
 # from .options import *
 # from .assets import *
 from ..Room import *
-from ..GingerPlant import *
+from ..objects.GingerPlant import *
 
 class GrowthRoom(Room):
     def __init__(self):

@@ -1,8 +1,8 @@
 # from .options import *
 # from .assets import *
 from ..Room import *
-from ..PressurePlate import *
-from ..Safe import *
+from ..objects.PressurePlate import *
+from ..objects.Safe import *
 
 class BathRoom(Room):
     def __init__(self):

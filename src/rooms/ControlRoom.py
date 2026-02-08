@@ -2,7 +2,7 @@
 # from .assets import *
 from ..Room import *
 from ..entities.Robot import *
-from ..GingerPlant import *
+from ..objects.GingerPlant import *
 
 class ControlRoom(Room):
     def __init__(self):
