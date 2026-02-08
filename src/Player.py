@@ -23,6 +23,13 @@ class Player:
         self.hit_cooldown = 700 #ms
         self.dir = [1, 0]
         self.last_interaction = 0
+
+        # Tip display
+        self.tip_displayed_time = 0
+        self.text_tip_offset = (70, 0)
+        self.key_tip_offset = (70, -35)
+        self.tip_text = None
+        self.tip_img = KEY_E_IMAGE
     
     def can_interact(self, current_time):
         return current_time - self.last_interaction >= PLAYER_INTERACTION_COOLDOWN_MS
@@ -46,8 +53,43 @@ class Player:
             self.inventory.append(item)
             print(f"Added: {item} to inventory")
 
+    def add_timed_text_tip(self, text, current_time):
+        self.tip_displayed_time = current_time
+        self.tip_text = text
+    
+    def add_key_tip(self, key: str):
+        if key is None:
+            self.tip_img = None
+            return
+        
+        match key.upper():
+            case "E":
+                self.tip_img = KEY_E_IMAGE
+            case "W":
+                self.tip_img = KEY_W_IMAGE
+            case "A":
+                self.tip_img = KEY_A_IMAGE
+            case "S":
+                self.tip_img = KEY_S_IMAGE
+            case "D":
+                self.tip_img = KEY_D_IMAGE
+
+    def remove_text_tip(self):
+        self.tip_text = None
+
     def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))
+        if self.tip_text is not None:
+            screen.blit(
+                PLAYER_TIPS_FONT_TYPE.render(self.tip_text, False, FONT_COLOR),
+                (self.x + self.text_tip_offset[0], self.y + self.text_tip_offset[1])
+            )
+        if self.tip_img is not None:
+            screen.blit(
+                pygame.transform.scale(self.tip_img, (30, 30)),
+                (self.x + self.key_tip_offset[0], self.y + self.key_tip_offset[1])
+            )
+            
 
     def draw_healthbar(self, screen):
         bar_width = 60

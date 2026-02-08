@@ -12,7 +12,6 @@ SENTENCES = [
 
 def run(screen):
     pygame.display.set_caption("'Typing' - minigame")
-    screen = pygame.display.set_mode((WIDTH, HEIGHT)) 
 
     # Hovering scale
     HOVER_SCALE = 0.85
@@ -29,6 +28,7 @@ def run(screen):
     # Init
     clock = pygame.time.Clock()
     running = True
+    failed = False
 
     # Pick a random sentence
     target_sentence = random.choice(SENTENCES)
@@ -72,25 +72,44 @@ def run(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                failed = True   # mark as failure, do NOT quit Pygame
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+                    failed = True   # mark as failure, do NOT quit Pygame
                 elif event.key == pygame.K_BACKSPACE:
                     typed_text = typed_text[:-1]
                 elif event.key == pygame.K_RETURN:
                     if typed_text.strip() == target_sentence:
                         feedback = "Task Complete."
                         draw_frame()  # Show feedback
-                        pygame.time.delay(1000)  # Pause so player can see it
+                        pygame.time.delay(1000)
                         running = False
-                        return True # Game compleated!
+                        return True  # Task success
                     else:
                         feedback = "ERROR. Try again."
                         typed_text = ""
                 else:
                     typed_text += event.unicode
 
+
         draw_frame()
+
+    if failed:
+        # Show a Game Over message on hover surface
+        minigame_surface.fill((40, 40, 50))
+        game_over_text = font.render("GAME OVER", True, (255, 0, 0))
+        sub_text = font.render("You failed the minigame", True, (255, 255, 255))
+
+        minigame_surface.blit(game_over_text, (WIDTH//2 - game_over_text.get_width()//2, HEIGHT//2 - 20))
+        minigame_surface.blit(sub_text, (WIDTH//2 - sub_text.get_width()//2, HEIGHT//2 + 20))
+
+        # Scale and hover
+        scaled_surface = pygame.transform.smoothscale(minigame_surface, (MINIGAME_WIDTH, MINIGAME_HEIGHT))
+        screen.blit(scaled_surface, (hover_x, hover_y))
+        pygame.display.update()
+        pygame.time.delay(1500)  # show message for 1.5 seconds
+
 
     return False
 

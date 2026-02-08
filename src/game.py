@@ -33,12 +33,54 @@ from .entities.InvadingAlien import InvadingAlien
 from .objects.WaterTerminal import WaterTerminal
 from .objects.LazerControler import LazerControler
 
+GAME_INTRO = "intro"
+GAME_MAIN = "main"
+
+game_state = GAME_INTRO
+
+def intro_screen(clock):
+    font_big = pygame.font.Font("./assets/dpcomic.ttf", 96)
+    font_small = pygame.font.Font("./assets/dpcomic.ttf", 36)
+
+    bg_image = pygame.image.load("./assets/stars.jpg").convert() #Funker ikke... :/
+    bg_image = pygame.transform.scale(bg_image, (WIDTH, HEIGHT))
+
+    title = font_big.render("VIRUS GAME LOL", True, (200, 50, 200))
+    prompt = font_small.render("Press any key to start", True, (255, 255, 255))
+
+    alpha = 0
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            
+            if event.type == pygame.KEYDOWN:
+                return
+            
+        if alpha < 255:
+            alpha += 3
+            title.set_alpha(alpha)
+
+        screen.blit(bg_image, (0, 0))
+        
+        screen.fill((10, 10, 20))
+        screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2-60)))
+        screen.blit(prompt, prompt.get_rect(center =(WIDTH // 2, HEIGHT // 2+40)))
+
+        pygame.display.flip()
+        clock.tick(60)
+                        
 
 def run():
     pygame.display.set_caption("Virus game (First draft)")
 
     # Clock and timing
     clock = pygame.time.Clock()
+
+    intro_screen(clock)
+
     dt = 0
     last_virus_growth = 0
 
@@ -76,7 +118,7 @@ def run():
     GAME_TYPING = "typing_minigame"
     game_state = GAME_MAIN
 
- 
+
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
 
@@ -116,7 +158,7 @@ def run():
 
     def open_typing_minigame():
         pygame.display.set_caption("Typing Minigame")
-        completed = run_typing_game()
+        completed = run_typing_game(screen)
         pygame.display.set_caption("Virus game (First draft)")
         return completed
 
@@ -125,6 +167,11 @@ def run():
     while running:
         clock.tick(FRAMERATE) # Limit framerate
         current_time = pygame.time.get_ticks()
+        player_can_press = None
+
+        # Remove player tips
+        if p1.tip_text is not None and current_time - p1.tip_displayed_time >= PLAYER_TIP_SHOW_TIME_MS:
+            p1.remove_text_tip()
 
         # Virus growth
         if current_time - last_virus_growth >= VIRUS_GROWTH_COOLDOWN_MS:
@@ -188,9 +235,11 @@ def run():
             plant = plant_tuple[0]
             if typing_task_completed and not plant.grown:
                 plant.grow()
-            if keys[pygame.K_e] and plant.can_take(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
-                p1.last_interaction = current_time
-                p1.collect(plant.take()) # Add ginger to player inventory
+            if plant.can_take(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
+                player_can_press = "E"
+                if keys[pygame.K_e]:
+                    p1.last_interaction = current_time
+                    p1.collect(plant.take()) # Add ginger to player inventory
         
         # Tooth-paste safe
         for safe_tuple in Safe.all:
@@ -199,27 +248,38 @@ def run():
             safe: Safe = safe_tuple[0]
             if pressure_plate_puzzle_complete and safe.locked:
                 safe.open()
-            if keys[pygame.K_e] and safe.can_take(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
-                p1.last_interaction = current_time
-                p1.collect(safe.take_content()) # Add tooth paste to player inventory
+            if safe.can_take(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
+                player_can_press = "E"
+                if keys[pygame.K_e]:
+                    p1.last_interaction = current_time
+                    p1.collect(safe.take_content()) # Add tooth paste to player inventory
         
         # Lab table
         for lab_table_tuple in LabTable.all:
             if lab_table_tuple[1] != current_room.name: continue # Skip safes that are not in this room
 
             lab_table: LabTable = lab_table_tuple[0]
-            if keys[pygame.K_e] and lab_table.can_interact(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
-                p1.last_interaction = current_time
-                lab_table.make_cure(p1) # Make cure if you can
+            if lab_table.can_interact(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
+                player_can_press = "E"
+                if keys[pygame.K_e]:
+                    p1.last_interaction = current_time
+                    cure_created = lab_table.make_cure(p1) # Make cure if you can
+                    if not cure_created:
+                        p1.add_timed_text_tip("Im missing some ingredients", current_time)
 
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
-        if len(enemies) <= 0 and door != "" and keys[pygame.K_e] and p1.can_interact(current_time):
-            p1.last_interaction = current_time # Update last interaction so player does not enter doors right after exiting
-            last_room = current_room.name
-            current_room = ROOMS[door]
-            enter_cords = current_room.get_enter_coords_from(last_room)
-            p1.go_to(enter_cords)
+        if door != "" and p1.can_interact(current_time):
+            player_can_press = "E"
+            if keys[pygame.K_e]:
+                if len(enemies) <= 0:
+                    p1.last_interaction = current_time # Update last interaction so player does not enter doors right after exiting
+                    last_room = current_room.name
+                    current_room = ROOMS[door]
+                    enter_cords = current_room.get_enter_coords_from(last_room)
+                    p1.go_to(enter_cords)
+                else:
+                    p1.add_timed_text_tip("I cannot let the invasion enter the ship", current_time)
 
         # Enemy aliens
         enemies.update(player_rect, dt)
@@ -248,17 +308,18 @@ def run():
                     break
 
         # Open minigames
-        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_e] and LazerControler.instance.can_interact(p1.x, p1.y, p1.size):
-            if open_rocket_minigame(): 
-                LazerControler.instance.done = True
-                p1.collect(STAR_DUST)
-        
-        if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_e]:
-            if WaterTerminal.instance.can_interact(p1.x, p1.y, p1.size):
-                if run_typing_game(screen):
+        if current_room.name == AIRLOCK_ROOM_NAME and LazerControler.instance.can_interact(p1.x, p1.y, p1.size):
+            player_can_press = "E"
+            if keys[pygame.K_e]:
+                if open_rocket_minigame(): 
+                    LazerControler.instance.done = True
+                    p1.collect(STAR_DUST)
+        if current_room.name == GROWTH_ROOM_NAME and WaterTerminal.instance.can_interact(p1.x, p1.y, p1.size):
+            player_can_press = "E"
+            if keys[pygame.K_e]:
+                if open_typing_minigame():
+                    WaterTerminal.instance.activate()
                     typing_task_completed = True
-
-        
         if not alien_invasion_happened and current_room.name == AIRLOCK_ROOM_NAME and p1.y >= HEIGHT//3: # Trigger invasion when player 1/3 down
             current_room.invade() # Change background
             alien_invasion_happened = True
@@ -272,6 +333,9 @@ def run():
                 p1.last_shot_time = current_time
                 projectile = p1.shoot()
                 projectiles.append(projectile)
+        
+        # Shaw what player can press
+        p1.add_key_tip(player_can_press)
 
         # Draw main game frame
         draw_frame()

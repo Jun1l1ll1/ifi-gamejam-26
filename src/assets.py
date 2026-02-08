@@ -49,5 +49,13 @@ SAFE_LOCKED_IMAGE = pygame.image.load('./assets/safe/SafeLocked.png').convert_al
 SAFE_OPEN_IMAGE = pygame.image.load('./assets/safe/SafeOpen.png').convert_alpha()
 TOOTH_PASTE_IMAGE = pygame.image.load('./assets/items/ToothPaste.png').convert_alpha()
 
+# Helping images
+KEY_E_IMAGE = pygame.image.load('./assets/helper_icons/KeyE.png').convert_alpha()
+KEY_W_IMAGE = pygame.image.load('./assets/helper_icons/KeyW.png').convert_alpha()
+KEY_A_IMAGE = pygame.image.load('./assets/helper_icons/KeyA.png').convert_alpha()
+KEY_S_IMAGE = pygame.image.load('./assets/helper_icons/KeyS.png').convert_alpha()
+KEY_D_IMAGE = pygame.image.load('./assets/helper_icons/KeyD.png').convert_alpha()
+
 # Font
 FONT_TYPE = pygame.font.Font('./assets/dpcomic.ttf', FONT_SIZE)
+PLAYER_TIPS_FONT_TYPE = pygame.font.Font('./assets/dpcomic.ttf', PLAYER_TIPS_FONT_SIZE)
