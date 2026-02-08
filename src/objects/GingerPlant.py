@@ -26,7 +26,7 @@ class GingerPlant:
 
     def can_take(self, px, py, p_size):
         is_close = (self.x < px+p_size[0] and self.y < py+p_size[1] and self.x+self.size[0] > px and self.y+self.size[1] > py)
-        return is_close and self.grown
+        return is_close and self.grown and not self.empty
     
     def take(self):
         if not self.empty:

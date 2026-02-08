@@ -49,11 +49,22 @@ SAFE_LOCKED_IMAGE = pygame.image.load('./assets/safe/SafeLocked.png').convert_al
 SAFE_OPEN_IMAGE = pygame.image.load('./assets/safe/SafeOpen.png').convert_alpha()
 TOOTH_PASTE_IMAGE = pygame.image.load('./assets/items/ToothPaste.png').convert_alpha()
 
+# Helping images
+KEY_E_IMAGE = pygame.image.load('./assets/helper_icons/KeyE.png').convert_alpha()
+KEY_W_IMAGE = pygame.image.load('./assets/helper_icons/KeyW.png').convert_alpha()
+KEY_A_IMAGE = pygame.image.load('./assets/helper_icons/KeyA.png').convert_alpha()
+KEY_S_IMAGE = pygame.image.load('./assets/helper_icons/KeyS.png').convert_alpha()
+KEY_D_IMAGE = pygame.image.load('./assets/helper_icons/KeyD.png').convert_alpha()
+
 # Font
 FONT_TYPE = pygame.font.Font('./assets/dpcomic.ttf', FONT_SIZE)
+<<<<<<< HEAD
 TITLE_FONT = pygame.font.Font('./assets/dpcomic.ttf', 96)
 START_FONT = pygame.font.Font('./assets/dpcomic.ttf', 36)
 
 # Sound
 TITLE_SOUND = pygame.mixer.music.load("./assets/sounds/Intro_music.mp3")
 INGAME_SOUND = pygame.mixer.music.load("./assets/sounds/Ingame_music.mp3")
+=======
+PLAYER_TIPS_FONT_TYPE = pygame.font.Font('./assets/dpcomic.ttf', PLAYER_TIPS_FONT_SIZE)
+>>>>>>> a770f51b653c29c7a40d4fe11b7f9e82fa020078
