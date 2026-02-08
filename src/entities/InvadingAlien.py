@@ -15,11 +15,26 @@ class InvadingAlien(pygame.sprite.Sprite):
         self.rect.x = random.randint(0, 800)
         self.rect.y = random.randint(0, 800)
         self.speed = random.uniform(60, 120)
-        self.health = 30
+        self.max_health = 30
+        self.health = self.max_health
         
     
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
+    
+    def draw_healthbar(self, screen):
+        bar_width = self.rect.width
+        bar_height = 6
+
+        health_ratio = self.health / self.max_health
+        
+        bg = pygame.Rect(self.rect.x, self.rect.y - bar_height - 4, bar_width, bar_height)
+        fg = pygame.Rect(self.rect.x, self.rect.y - bar_height - 4, bar_width * health_ratio, bar_height)
+
+        #background
+        pygame.draw.rect(screen, (120, 0, 0), bg)
+        #health
+        pygame.draw.rect(screen, (0, 200, 0), fg)
 
     def take_damage(self, amount):
         self.health -= amount
@@ -39,8 +54,8 @@ class InvadingAlien(pygame.sprite.Sprite):
         dy /= distance
 
         #Beveger seg som en "zombie/alien"
-        dx += random.uniform(-0.1, 0.1)
-        dy += random.uniform(-0.1, 0.1)
+        dx += random.uniform(-0.01, 0.01)
+        dy += random.uniform(-0.01, 0.01)
 
         length = math.hypot(dx, dy)
         if length == 0: return
