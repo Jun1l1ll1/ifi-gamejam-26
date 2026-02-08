@@ -79,7 +79,7 @@ def intro_screen(clock):
 
 def victory_screen(clock):
     
-    pygame.mixer.music.load("./assets/sounds/Intro_music.mp3")
+    pygame.mixer.music.load("./assets/sounds/Victory_2.mp3")
     pygame.mixer.music.set_volume(0.8)
     pygame.mixer.music.play(-1)
 
@@ -88,7 +88,7 @@ def victory_screen(clock):
 
     bg_image = pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT))
 
-    title = font_big.render("YOU SURVIVED", True, (255, 80, 120))  # pink-red victory vibe
+    title = font_big.render("YOU ARE CURED", True, (255, 80, 120))  # pink-red victory vibe
     subtitle = font_small.render("The virus has been defeated.", True, (255, 255, 255))
     prompt = font_small.render("Press any key to exit", True, (200, 200, 200))
 
