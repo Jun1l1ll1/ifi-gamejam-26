@@ -28,5 +28,7 @@ class LabTable:
             for item in required_items:
                 player.inventory.remove(item)
             player.collect(CURE)
+            return True
         else:
             print(f"Missing: {required_items.difference(set(player.inventory)) }")
+            return False

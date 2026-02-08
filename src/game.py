@@ -263,18 +263,23 @@ def run():
                 player_can_press = "E"
                 if keys[pygame.K_e]:
                     p1.last_interaction = current_time
-                    lab_table.make_cure(p1) # Make cure if you can
+                    cure_created = lab_table.make_cure(p1) # Make cure if you can
+                    if not cure_created:
+                        p1.add_timed_text_tip("Im missing some ingredients", current_time)
 
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
-        if len(enemies) <= 0 and door != "" and p1.can_interact(current_time):
+        if door != "" and p1.can_interact(current_time):
             player_can_press = "E"
             if keys[pygame.K_e]:
-                p1.last_interaction = current_time # Update last interaction so player does not enter doors right after exiting
-                last_room = current_room.name
-                current_room = ROOMS[door]
-                enter_cords = current_room.get_enter_coords_from(last_room)
-                p1.go_to(enter_cords)
+                if len(enemies) <= 0:
+                    p1.last_interaction = current_time # Update last interaction so player does not enter doors right after exiting
+                    last_room = current_room.name
+                    current_room = ROOMS[door]
+                    enter_cords = current_room.get_enter_coords_from(last_room)
+                    p1.go_to(enter_cords)
+                else:
+                    p1.add_timed_text_tip("I cannot let the invasion enter the ship", current_time)
 
         # Enemy aliens
         enemies.update(player_rect, dt)

@@ -26,7 +26,8 @@ class Player:
 
         # Tip display
         self.tip_displayed_time = 0
-        self.tip_offset = (70, -35)
+        self.text_tip_offset = (70, 0)
+        self.key_tip_offset = (70, -35)
         self.tip_text = None
         self.tip_img = KEY_E_IMAGE
     
@@ -81,12 +82,12 @@ class Player:
         if self.tip_text is not None:
             screen.blit(
                 PLAYER_TIPS_FONT_TYPE.render(self.tip_text, False, FONT_COLOR),
-                (self.x + self.tip_offset[0], self.y + self.tip_offset[1])
+                (self.x + self.text_tip_offset[0], self.y + self.text_tip_offset[1])
             )
         if self.tip_img is not None:
             screen.blit(
                 pygame.transform.scale(self.tip_img, (30, 30)),
-                (self.x + self.tip_offset[0], self.y + self.tip_offset[1])
+                (self.x + self.key_tip_offset[0], self.y + self.key_tip_offset[1])
             )
             
 
