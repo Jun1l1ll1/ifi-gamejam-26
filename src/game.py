@@ -14,6 +14,7 @@ from .assets import *
 from .Player import Player
 from .overlays.OverlayMessage import OverlayMessage
 from .overlays.VirusGrowthOverlay import VirusGrowthOverlay
+from .overlays.InventoryDisplay import InventoryDisplay
 from .minigames.Boulder import Boulder
 from .Projectile import Projectile
 from .Room import Room
@@ -43,6 +44,7 @@ def run():
     p1 = Player()
     virus_growing_msg = OverlayMessage("The virus is growing", 250)
     virus_growth_overlay = VirusGrowthOverlay()
+    inventory_display = InventoryDisplay()
     projectiles = []
     boulders = []
 
@@ -89,6 +91,9 @@ def run():
         # Player og healthbar
         p1.draw(screen)
         p1.draw_healthbar(screen)
+
+        # Show inventory
+        inventory_display.draw(screen, p1.inventory)
 
         # Purple Virus growth overlay
         virus_growth_overlay.draw(screen)

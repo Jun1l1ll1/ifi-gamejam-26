@@ -33,5 +33,10 @@ GINGER_IMAGE = pygame.image.load('./assets/items/Ginger.png').convert_alpha()
 
 LAB_TABLE_IMAGE = pygame.image.load('./assets/lab_equipment/LabDesk.png').convert_alpha()
 
+STAR_COMET_IMAGE = pygame.image.load('./assets/rocket_minigame/StarStoneComet.png').convert_alpha()
+STAR_STONE_IMAGE = pygame.image.load('./assets/items/StarStone.png').convert_alpha()
+
+TOOTH_PASTE_IMAGE = pygame.image.load('./assets/items/ToothPaste.png').convert_alpha()
+
 # Font
 FONT_TYPE = pygame.font.Font('./assets/dpcomic.ttf', FONT_SIZE)
