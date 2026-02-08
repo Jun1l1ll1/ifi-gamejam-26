@@ -150,7 +150,7 @@ def run():
     story(clock) # Run the story
 
     pygame.mixer.music.load("./assets/sounds/Ingame_music.mp3")
-    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.set_volume(0.7)
     pygame.mixer.music.play(-1)
 
     #Sound effects
