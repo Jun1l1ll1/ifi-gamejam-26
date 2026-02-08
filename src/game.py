@@ -261,6 +261,8 @@ def run():
     alarm_sound = pygame.mixer.Sound("./assets/sounds/Alarm.mp3")
     alarm_sound.set_volume(0.6)
     
+    r2d2_sound = pygame.mixer.Sound("./assets/sounds/r2d2.mp3")
+    r2d2_sound.set_volume(0.6)
 
     # Game objects
     p1 = Player()
@@ -477,6 +479,7 @@ def run():
                 player_can_press = "E"
                 if keys[pygame.K_e]:
                     robot.talk(current_time)
+                    r2d2_sound.play()
 
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
