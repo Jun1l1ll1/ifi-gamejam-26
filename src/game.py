@@ -41,7 +41,7 @@ game_state = GAME_INTRO
 
 def intro_screen(clock):
     pygame.mixer.music.load("./assets/sounds/Intro_music.mp3")
-    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.set_volume(0.7)
     pygame.mixer.music.play(-1) #loop
 
 
