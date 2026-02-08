@@ -49,6 +49,12 @@ SAFE_LOCKED_IMAGE = pygame.image.load('./assets/safe/SafeLocked.png').convert_al
 SAFE_OPEN_IMAGE = pygame.image.load('./assets/safe/SafeOpen.png').convert_alpha()
 TOOTH_PASTE_IMAGE = pygame.image.load('./assets/items/ToothPaste.png').convert_alpha()
 
+# Story frames
+STORY1_FRAME1_IMAGE = pygame.image.load('./assets/story/Story1Frame1.png').convert_alpha()
+STORY1_FRAME2_IMAGE = pygame.image.load('./assets/story/Story1Frame2.png').convert_alpha()
+STORY1_FRAME3_IMAGE = pygame.image.load('./assets/story/Story1Frame3.png').convert_alpha()
+STORY1_FRAME4_IMAGE = pygame.image.load('./assets/story/Story1Frame4.png').convert_alpha()
+
 # Helping images
 KEY_E_IMAGE = pygame.image.load('./assets/helper_icons/KeyE.png').convert_alpha()
 KEY_W_IMAGE = pygame.image.load('./assets/helper_icons/KeyW.png').convert_alpha()
