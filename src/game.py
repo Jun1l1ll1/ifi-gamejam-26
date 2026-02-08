@@ -100,8 +100,9 @@ def run():
 
     def open_rocket_minigame():
         pygame.display.set_caption("Rocket Minigame")
-        run_rocket_game()
+        completed = run_rocket_game()
         pygame.display.set_caption("Virus game (First draft)")
+        return completed
 
     def open_typing_minigame():
         pygame.display.set_caption("Typing Minigame")
@@ -238,7 +239,7 @@ def run():
 
         # Open minigames
         if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:
-            open_rocket_minigame()
+            if open_rocket_minigame(): p1.collect(STAR_DUST)
         if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_r]:
             if open_typing_minigame(): typing_task_completed = True
         if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_k]:

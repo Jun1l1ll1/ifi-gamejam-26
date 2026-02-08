@@ -113,7 +113,7 @@ def run():
         pygame.display.flip()
         time.sleep(2)
 
-    return
+    return task_completed
 
 
 if __name__ == "__main__":
