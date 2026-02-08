@@ -589,9 +589,12 @@ def run(retry = False):
         if current_room.name == AIRLOCK_ROOM_NAME and LazerControler.instance.can_interact(p1.x, p1.y, p1.size):
             player_can_press = "E"
             if keys[pygame.K_e]:
-                if open_rocket_minigame(): 
-                    LazerControler.instance.done = True
-                    p1.collect(STAR_DUST)
+                if len(enemies) > 0:
+                    p1.add_timed_text_tip("I should eliminate the invasion first", current_time)
+                else:
+                    if open_rocket_minigame(): 
+                        LazerControler.instance.done = True
+                        p1.collect(STAR_DUST)
         if current_room.name == GROWTH_ROOM_NAME and WaterTerminal.instance.can_interact(p1.x, p1.y, p1.size):
             player_can_press = "E"
             if keys[pygame.K_e]:
