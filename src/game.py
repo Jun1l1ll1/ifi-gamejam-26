@@ -229,7 +229,7 @@ def run():
     # Game objects
     p1 = Player()
     room_entered_msg = OverlayMessage("", 250)
-    virus_growing_msg = OverlayMessage("The virus is growing", 250)
+    virus_growing_msg = OverlayMessage("The virus is growing", 250, RED)
     virus_growth_overlay = VirusGrowthOverlay()
     inventory_display = InventoryDisplay()
     projectiles = []

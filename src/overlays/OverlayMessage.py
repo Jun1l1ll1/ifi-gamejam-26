@@ -4,7 +4,7 @@ from ..options import *
 from ..assets import *
 
 class OverlayMessage:
-    def __init__(self, text, w):
+    def __init__(self, text, w, color = FONT_COLOR):
         self.w = w
         self.h = 70
         self.show = False
@@ -12,9 +12,10 @@ class OverlayMessage:
         self.y = (HEIGHT - self.h)/2
         self.text = text
         self.shown_time = 0
+        self.font_color = color
 
     def draw(self, screen):
         background = pygame.Surface((WIDTH, self.h))
         background.set_alpha(175) # Make background transparent
         screen.blit(background, (0, self.y))
-        screen.blit(FONT_TYPE.render(self.text, False, FONT_COLOR), (self.x, self.y+20))
+        screen.blit(FONT_TYPE.render(self.text, False, self.font_color), (self.x, self.y+20))
