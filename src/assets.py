@@ -51,3 +51,8 @@ TOOTH_PASTE_IMAGE = pygame.image.load('./assets/items/ToothPaste.png').convert_a
 
 # Font
 FONT_TYPE = pygame.font.Font('./assets/dpcomic.ttf', FONT_SIZE)
+TITLE_FONT = pygame.font.Font('./assets/dpcomic.ttf', 96)
+START_FONT = pygame.font.Font('./assets/dpcomic.ttf', 36)
+
+# Sound
+TITLE_SOUND = pygame.mixer.music.load("./assets/sounds/Intro_music.mp3")

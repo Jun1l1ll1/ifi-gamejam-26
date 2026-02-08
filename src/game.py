@@ -6,6 +6,7 @@ from .options import *
 
 # Init
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))  # Needed here by assets.py
 
 import sys, random, time, os
@@ -39,13 +40,17 @@ GAME_MAIN = "main"
 game_state = GAME_INTRO
 
 def intro_screen(clock):
-    font_big = pygame.font.Font("./assets/dpcomic.ttf", 96)
-    font_small = pygame.font.Font("./assets/dpcomic.ttf", 36)
+    TITLE_SOUND
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play(-1) #loop
 
-    bg_image = pygame.image.load("./assets/stars.jpg").convert() #Funker ikke... :/
-    bg_image = pygame.transform.scale(bg_image, (WIDTH, HEIGHT))
 
-    title = font_big.render("VIRUS GAME LOL", True, (200, 50, 200))
+    font_big = TITLE_FONT
+    font_small = START_FONT
+
+    bg_image = pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT))
+
+    title = font_big.render("VIRUS GAME LOL", True, (200, 50, 200)) #Farge
     prompt = font_small.render("Press any key to start", True, (255, 255, 255))
 
     alpha = 0
@@ -57,6 +62,7 @@ def intro_screen(clock):
                 sys.exit()
             
             if event.type == pygame.KEYDOWN:
+                pygame.mixer.music.stop() #stop når spillet starter
                 return
             
         if alpha < 255:
@@ -65,7 +71,6 @@ def intro_screen(clock):
 
         screen.blit(bg_image, (0, 0))
         
-        screen.fill((10, 10, 20))
         screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2-60)))
         screen.blit(prompt, prompt.get_rect(center =(WIDTH // 2, HEIGHT // 2+40)))
 
