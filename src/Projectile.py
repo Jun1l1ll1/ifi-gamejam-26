@@ -6,7 +6,7 @@ class Projectile:
         self.y = y
         self.size = (10, 10)
         self.speed = BULLET_SPEED
-        self.color = GREEN
+        self.color = (255, 40, 40) 
         self.dir = direction # Normalized direction-vector
         self.rect = pygame.Rect(self.x, self.y, self.size[0], self.size[1]) #TODO rotate bullet rect
 

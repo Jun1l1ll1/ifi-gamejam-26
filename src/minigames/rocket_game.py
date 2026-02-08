@@ -83,6 +83,13 @@ def run(screen):
             p1.x -= p1.speed * dt
         if keys[pygame.K_d]:
             p1.x += p1.speed * dt
+
+    # Raygun stays inside minigame bounds 
+        if p1.x < 0:
+            p1.x = 0
+        elif p1.x > WIDTH - p1.size[0]:
+            p1.x = WIDTH - p1.size[0]
+
         if keys[pygame.K_SPACE]:
             if current_time - p1.last_shot_time >= BULLET_COOLDOWN_MS:
                 p1.last_shot_time = current_time
@@ -114,7 +121,7 @@ def run(screen):
 
         # Update boulders falling
         for boulder in boulders[:]:
-            boulder.y += boulder.speed * dt
+            boulder.y += boulder.speed * dt * 0.6
             if boulder.y >= HEIGHT + boulder.size[1]:
                 boulders.remove(boulder)
                 p1.lives -= 1
@@ -144,7 +151,7 @@ def run(screen):
     elif failed:
         minigame_surface.blit(BACKGROUND_IMAGE, (0, 0))
         game_over_text = FONT_TYPE.render("GAME OVER", True, (255, 0, 0))
-        sub_text = FONT_TYPE.render("You failed the task", True, FONT_COLOR)
+        sub_text = FONT_TYPE.render("You failed the task.", True, FONT_COLOR)
 
         minigame_surface.blit(game_over_text, (WIDTH//2 - game_over_text.get_width()//2, HEIGHT//2 - 40))
         minigame_surface.blit(sub_text, (WIDTH//2 - sub_text.get_width()//2, HEIGHT//2 + 10))
