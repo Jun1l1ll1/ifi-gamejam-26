@@ -23,7 +23,10 @@ class Room:
         return ""
 
     def get_enter_coords_from(self, last_room):
-        return (0, 0)
+        coords = (WIDTH//2, HEIGHT//2)
+        if last_room in self.entrance_cords_from:
+            coords = self.entrance_cords_from[last_room]
+        return coords
     
     def draw_content(self, screen):
         for content in self.contents:

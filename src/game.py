@@ -145,42 +145,39 @@ def run():
         if keys[pygame.K_s] and p1.y < HEIGHT - p1.size[1]: v[1] += 1
         p1.move(v, dt)
 
-        # Handle doors
-        door = current_room.open_door(p1.x, p1.y, p1.size)
-        if door != "" and keys[pygame.K_e]:
-            enter_cords = current_room.get_enter_coords_from(current_room.name)
-            current_room = ROOMS[door]
-            p1.go_to(enter_cords)
-
         # Pressure plates
+        player_stands_on_plate = False
         player_rect = pygame.Rect(p1.x, p1.y, p1.size[0], p1.size[1])
         for plate in PressurePlate.all_pressure_plates:
             if plate[1] == current_room.name and player_rect.colliderect(plate[0].rect):
+                player_stands_on_plate = True
                 plate[0].activated = True
 
                 if plate[0].text in PLATE_UNLOCK_COMBINATION and not plate[0] in plates_pressed_correctly: plates_pressed_correctly.append(plate[0])
-                
-                if len(plates_pressed_correctly) >= 5:
-                    is_correct = True
-                    for i in range(len(plates_pressed_correctly)):
-                        if plates_pressed_correctly[i].text != PLATE_UNLOCK_COMBINATION[i]:
-                            is_correct = False
-                            break
-                    if not is_correct:
-                        for p in plates_pressed_correctly:
-                            p.activated = False
-                        plates_pressed_correctly = []
-                    else:
-                        pressure_plate_puzzle_complete = True
+        
+        # Handle pressure plate puzzle
+        if len(plates_pressed_correctly) >= 5 and not player_stands_on_plate:
+            is_correct = True
+            for i in range(len(plates_pressed_correctly)):
+                if plates_pressed_correctly[i].text != PLATE_UNLOCK_COMBINATION[i]:
+                    is_correct = False
+                    break
+            if not is_correct:
+                for p in plates_pressed_correctly:
+                    p.activated = False
+                plates_pressed_correctly = []
+            else:
+                pressure_plate_puzzle_complete = True
         
         # Ginger plant
         for plant_tuple in GingerPlant.all:
             if plant_tuple[1] != current_room.name: continue # Skip plants that are not in this room
-
+    
             plant = plant_tuple[0]
             if typing_task_completed and not plant.grown:
                 plant.grow()
-            if keys[pygame.K_e] and plant.can_take(p1.x, p1.y, p1.size):
+            if keys[pygame.K_e] and plant.can_take(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
+                p1.last_interaction = current_time
                 p1.collect(plant.take()) # Add ginger to player inventory
         
         # Tooth-paste safe
@@ -190,9 +187,19 @@ def run():
             safe: Safe = safe_tuple[0]
             if pressure_plate_puzzle_complete and safe.locked:
                 safe.open()
-            if keys[pygame.K_e] and safe.can_take(p1.x, p1.y, p1.size):
+            if keys[pygame.K_e] and safe.can_take(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
+                p1.last_interaction = current_time
                 p1.collect(safe.take_content()) # Add tooth paste to player inventory
         
+        # Handle doors
+        door = current_room.open_door(p1.x, p1.y, p1.size)
+        if door != "" and keys[pygame.K_e] and p1.can_interact(current_time):
+            p1.last_interaction = current_time # Update last interaction so player does not enter doors right after exiting
+            last_room = current_room.name
+            current_room = ROOMS[door]
+            enter_cords = current_room.get_enter_coords_from(last_room)
+            p1.go_to(enter_cords)
+
         # Enemy aliens
         enemies.update(player_rect, dt)
 
