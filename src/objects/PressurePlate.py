@@ -1,8 +1,8 @@
 import pygame
 
-from .options import *
-from .assets import *
-from .Player import Player
+from ..options import *
+from ..assets import *
+from ..Player import Player
 
 class PressurePlate:
     all_pressure_plates = []

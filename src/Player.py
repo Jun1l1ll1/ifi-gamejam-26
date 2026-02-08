@@ -69,28 +69,28 @@ class Player:
         self.y = cords[1]
     
     def move(self, v: list[int], dt):
-        length = self._normalize(v)
+        length = self._length(v)
         if length <= 0: return
 
         self.dir = [(v[0]/length), (v[1]/length)]
 
         self.image = pygame.transform.rotate(self._base_image, self._move_angle(v))
 
-        self.x += self.speed * (v[0]/length) * dt
-        self.y += self.speed * (v[1]/length) * dt
+        self.x += self.speed * self.dir[0] * dt
+        self.y += self.speed * self.dir[1] * dt
 
-    def _normalize(self, v):
+    def _length(self, v):
         return m.sqrt(v[0]**2 + v[1]**2)
 
     def _move_angle(self, v):
         u = [1, 0] # Sprite is rotated right by default
         dot_product = sum(i*j for i, j in zip(u, v))
-        norm_u = self._normalize(u)
-        norm_v = self._normalize(v)
+        norm_u = self._length(u)
+        norm_v = self._length(v)
         cos_theta = dot_product / (norm_u * norm_v)
         angle_rad = m.acos(cos_theta)
 
         dir = 1 # Make angle other way when going down
-        if v[1] == 1: dir = -1
+        if v[1] > 0: dir = -1
 
         return m.degrees(angle_rad) * dir

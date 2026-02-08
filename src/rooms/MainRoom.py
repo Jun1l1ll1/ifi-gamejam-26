@@ -1,7 +1,7 @@
 # from .options import *
 # from .assets import *
 from ..Room import *
-from ..PressurePlate import *
+from ..objects.PressurePlate import *
 
 class MainRoom(Room):
     def __init__(self):

@@ -8,7 +8,7 @@ import sys, random, time, os
 
 from ..assets import *
 from .rocket import Rocket
-from ..Boulder import Boulder
+from .Boulder import Boulder
 from ..Projectile import Projectile
 
 

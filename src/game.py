@@ -14,7 +14,7 @@ from .assets import *
 from .Player import Player
 from .overlays.OverlayMessage import OverlayMessage
 from .overlays.VirusGrowthOverlay import VirusGrowthOverlay
-from .Boulder import Boulder
+from .minigames.Boulder import Boulder
 from .Projectile import Projectile
 from .Room import Room
 from .rooms.MainRoom import MainRoom
@@ -23,10 +23,10 @@ from .rooms.BathRoom import BathRoom
 from .rooms.GrowthRoom import GrowthRoom
 from .rooms.AirlockRoom import AirlockRoom
 from .rooms.LaboratoryRoom import LaboratoryRoom
-from .PressurePlate import PressurePlate
+from .objects.PressurePlate import PressurePlate
 from .entities.CagedAlien import CagedAlien
-from .GingerPlant import GingerPlant
-from .Safe import Safe
+from .objects.GingerPlant import GingerPlant
+from .objects.Safe import Safe
 from .entities.InvadingAlien import InvadingAlien
 
 

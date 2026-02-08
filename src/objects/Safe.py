@@ -1,7 +1,7 @@
 import pygame
 
-from .options import *
-from .assets import *
+from ..options import *
+from ..assets import *
 
 class Safe:
     all = []
