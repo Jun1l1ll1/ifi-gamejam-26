@@ -16,7 +16,16 @@ class BathRoom(Room):
                 MAIN_ROOM_NAME: (WIDTH//2-35, HEIGHT-70 - 20)
             },
             [ # Contents of the room:
+<<<<<<< HEAD
                 PressurePlate(850, 30, BATH_ROOM_NAME, "3"),
                 Safe(20, 600)
+=======
+                PressurePlate(100, 200, BATH_ROOM_NAME, "1"),
+                PressurePlate(500, 100, BATH_ROOM_NAME, "2"),
+                PressurePlate(900, 300, BATH_ROOM_NAME, "3"),
+                PressurePlate(650, 500, BATH_ROOM_NAME, "4"),
+                PressurePlate(800, 400, BATH_ROOM_NAME, "5"),
+                Safe(750, 25)
+>>>>>>> 7cc47e78c0450dd70ff23cdf4aff3f260117f140
             ]
         )

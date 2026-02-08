@@ -36,6 +36,8 @@ LAB_TABLE_IMAGE = pygame.image.load('./assets/lab_equipment/LabDesk.png').conver
 STAR_COMET_IMAGE = pygame.image.load('./assets/rocket_minigame/StarStoneComet.png').convert_alpha()
 STAR_STONE_IMAGE = pygame.image.load('./assets/items/StarStone.png').convert_alpha()
 
+SAFE_LOCKED_IMAGE = pygame.image.load('./assets/safe/SafeLocked.png').convert_alpha()
+SAFE_OPEN_IMAGE = pygame.image.load('./assets/safe/SafeOpen.png').convert_alpha()
 TOOTH_PASTE_IMAGE = pygame.image.load('./assets/items/ToothPaste.png').convert_alpha()
 
 # Font
