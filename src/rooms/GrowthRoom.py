@@ -25,5 +25,8 @@ class GrowthRoom(Room):
                 WaterTerminal(250, 150),
                 PressurePlate(500, 30, GROWTH_ROOM_NAME, "4")
             ],
-            "Growth Room"
+            "Growth Room",
+            [
+                pygame.Rect(270, 160, 170, 50)
+            ]
         )

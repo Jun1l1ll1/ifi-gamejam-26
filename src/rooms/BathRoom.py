@@ -21,6 +21,12 @@ class BathRoom(Room):
             ],
             "Bathroom",
             [
-                pygame.Rect(0, 0, 100, 100)
+                pygame.Rect(200, 0, 5, 230), #vegger
+
+                pygame.Rect(390, 0, 5, 230),
+
+                pygame.Rect(570, 0, 5, 230),
+
+                pygame.Rect(1000, 0, 5, 720)
             ]
         )
