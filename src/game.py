@@ -205,6 +205,19 @@ def run():
         if p1.health <= 0:
             print("Player died")
             running = False
+        
+        # Shoot aliens
+        for projectile in projectiles[:]:
+            projectile.update(dt)
+
+            for alien in enemies:
+                if projectile.rect.colliderect(alien.rect):
+                    alien.take_damage(10)
+                    projectiles.remove(projectile)
+                
+                    if alien.health <= 0:
+                        enemies.remove(alien)
+                    break
 
         # Open minigames
         if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:

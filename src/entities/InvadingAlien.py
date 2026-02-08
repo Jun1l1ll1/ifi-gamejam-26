@@ -15,9 +15,15 @@ class InvadingAlien(pygame.sprite.Sprite):
         self.rect.x = random.randint(0, 800)
         self.rect.y = random.randint(0, 800)
         self.speed = random.uniform(60, 120)
+        self.health = 30
+        
     
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
+
+    def take_damage(self, amount):
+        self.health -= amount
+        
 
     def update(self, player_rect, dt):
         #Finner retning mot spiller
@@ -45,11 +51,11 @@ class InvadingAlien(pygame.sprite.Sprite):
         length = self._normalize(v)
         if length <= 0: return
 
-        self.image = pygame.transform.rotate(self._base_image, self._move_angle(v))
+       # self.image = pygame.transform.rotate(self._base_image, self._move_angle(v))
 
     def _normalize(self, v):
-        return math.sqrt(v[0]**2 + v[1]**2)
-
+       return math.sqrt(v[0]**2 + v[1]**2)
+'''
     def _move_angle(self, v):
         u = [0, -1] # Sprite is rotated right by default
         dot_product = sum(i*j for i, j in zip(u, v))
@@ -62,5 +68,5 @@ class InvadingAlien(pygame.sprite.Sprite):
         if v[1] == -1: dir = -1
 
         return math.degrees(angle_rad) * dir
-
+'''
 
