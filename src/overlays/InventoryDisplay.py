@@ -10,7 +10,7 @@ class InventoryDisplay:
         self.spacing = 10
 
     def draw(self, screen, items: list[str]):
-        if len(items) < 0: return
+        if len(items) <= 0: return
         background = pygame.Surface(((self.slot_size[0] + self.spacing)*len(items) + self.spacing, self.slot_size[1]))
         background.set_alpha(175) # Make background transparent
         screen.blit(background, (self.x, self.y))
