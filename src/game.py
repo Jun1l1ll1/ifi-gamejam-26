@@ -79,7 +79,7 @@ def intro_screen(clock):
 
 def victory_screen(clock):
     
-    pygame.mixer.music.load("./assets/sounds/Victory_music.mp3")
+    pygame.mixer.music.load("./assets/sounds/Intro_music.mp3")
     pygame.mixer.music.set_volume(0.8)
     pygame.mixer.music.play(-1)
 
@@ -507,8 +507,15 @@ def run():
                         cure_created = lab_table.make_cure(p1) # Make cure if you can
                         if not cure_created:
                             p1.add_timed_text_tip("Im missing some ingredients", current_time)
-                    else:
+                    else:     
+                              
+                        p1.last_interaction = current_time
                         p1.add_timed_text_tip("I have the cure :D", current_time)
+                        
+                        # Wait 2 seconds before showing victory screen
+                        pygame.time.delay(2000)
+                        victory_screen(clock)
+                        
 
         # Robot (R6D7)
         for robot_tuple in Robot.all:
