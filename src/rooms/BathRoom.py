@@ -19,5 +19,8 @@ class BathRoom(Room):
                 PressurePlate(850, 30, BATH_ROOM_NAME, "3"),
                 Safe(750, 25)
             ],
-            "Bathroom"
+            "Bathroom",
+            [
+                pygame.Rect(0, 0, 100, 100)
+            ]
         )

@@ -449,7 +449,8 @@ def run(retry = False):
         if keys[pygame.K_d] and p1.x < WIDTH - p1.size[0]: v[0] += 1
         if keys[pygame.K_w] and p1.y > 0: v[1] -= 1
         if keys[pygame.K_s] and p1.y < HEIGHT - p1.size[1]: v[1] += 1
-        p1.move(v, dt)
+        if current_room.can_move(p1.x, p1.y, v, p1.size, dt):
+            p1.move(v, dt)
 
         # Pressure plates
         player_stands_on_plate = False
