@@ -58,4 +58,11 @@ KEY_D_IMAGE = pygame.image.load('./assets/helper_icons/KeyD.png').convert_alpha(
 
 # Font
 FONT_TYPE = pygame.font.Font('./assets/dpcomic.ttf', FONT_SIZE)
+TITLE_FONT = pygame.font.Font('./assets/dpcomic.ttf', 96)
+START_FONT = pygame.font.Font('./assets/dpcomic.ttf', 36)
+
+# Sound
+TITLE_SOUND = pygame.mixer.music.load("./assets/sounds/Intro_music.mp3")
+INGAME_SOUND = pygame.mixer.music.load("./assets/sounds/Ingame_music.mp3")
 PLAYER_TIPS_FONT_TYPE = pygame.font.Font('./assets/dpcomic.ttf', PLAYER_TIPS_FONT_SIZE)
+
