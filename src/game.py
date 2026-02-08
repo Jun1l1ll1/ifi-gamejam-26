@@ -42,7 +42,7 @@ game_state = GAME_INTRO
 
 def intro_screen(clock):
     pygame.mixer.music.load("./assets/sounds/Intro_music.mp3")
-    pygame.mixer.music.set_volume(0.7)
+    pygame.mixer.music.set_volume(0.9)
     pygame.mixer.music.play(-1) #loop
 
 
@@ -65,7 +65,7 @@ def intro_screen(clock):
             if event.type == pygame.KEYDOWN:
                 return
             
-        if alpha < 255:
+        if alpha < 255: #Fade text
             alpha += 3
             title.set_alpha(alpha)
 
@@ -76,6 +76,48 @@ def intro_screen(clock):
 
         pygame.display.flip()
         clock.tick(60)
+
+def victory_screen(clock):
+    
+    pygame.mixer.music.load("./assets/sounds/Victory_music.mp3")
+    pygame.mixer.music.set_volume(0.8)
+    pygame.mixer.music.play(-1)
+
+    font_big = TITLE_FONT
+    font_small = START_FONT
+
+    bg_image = pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT))
+
+    title = font_big.render("YOU SURVIVED", True, (255, 80, 120))  # pink-red victory vibe
+    subtitle = font_small.render("The virus has been defeated.", True, (255, 255, 255))
+    prompt = font_small.render("Press any key to exit", True, (200, 200, 200))
+
+    alpha = 0
+    title.set_alpha(alpha)
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:
+                return  # exit victory screen
+
+        # Fade-in effect
+        if alpha < 255:
+            alpha += 3
+            title.set_alpha(alpha)
+
+        screen.blit(bg_image, (0, 0))
+
+        screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 80)))
+        screen.blit(subtitle, subtitle.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
+        screen.blit(prompt, prompt.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 80)))
+
+        pygame.display.flip()
+        clock.tick(60)
+
 
 def story(clock):
     screen.blit(pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT)), (0, 0))
@@ -194,6 +236,42 @@ def story(clock):
             pygame.mixer.music.stop() #stop når spillet starter
             break
 
+def death_screen(clock):
+    font_big = TITLE_FONT
+    font_small = START_FONT
+
+    title = font_big.render("GAME OVER", True, (200, 50, 50))
+    retry = font_small.render("Press R to retry", True, (255, 255, 255))
+    quit_text = font_small.render("Press Q to quit", True, (255, 255, 255))
+
+    alpha = 0
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    return "retry"
+                if event.key == pygame.K_q:
+                    return "quit"
+        
+        if alpha < 255:
+            alpha += 3
+            title.set_alpha(alpha)
+        
+        screen.fill((10, 10, 20)) #bakgrunn svart
+
+        screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2-80)))
+        screen.blit(retry, retry.get_rect(center =(WIDTH // 2, HEIGHT // 2)))
+        screen.blit(quit_text, quit_text.get_rect(center =(WIDTH // 2, HEIGHT // 2 + 40)))
+
+        pygame.display.flip()
+        clock.tick(60)
+
+
 
 def run():
     pygame.display.set_caption("Virus game (First draft)")
@@ -209,15 +287,15 @@ def run():
     story(clock) # Run the story
 
     pygame.mixer.music.load("./assets/sounds/Ingame_music.mp3")
-    pygame.mixer.music.set_volume(0.7)
+    pygame.mixer.music.set_volume(2)
     pygame.mixer.music.play(-1)
 
     #Sound effects
     shot_sound = pygame.mixer.Sound("./assets/sounds/Raygun_sound.mp3")
-    shot_sound.set_volume(0.5)
+    shot_sound.set_volume(0.3)
 
     alien_sound = pygame.mixer.Sound("./assets/sounds/Alien_death.mp3")
-    alien_sound.set_volume(0.5)
+    alien_sound.set_volume(1)
 
     player_death_sound = pygame.mixer.Sound("./assets/sounds/Death_sound.mp3")
     player_death_sound.set_volume(0.7)
@@ -225,6 +303,8 @@ def run():
     alarm_sound = pygame.mixer.Sound("./assets/sounds/Alarm.mp3")
     alarm_sound.set_volume(0.6)
     
+    r2d2_sound = pygame.mixer.Sound("./assets/sounds/r2d2.mp3")
+    r2d2_sound.set_volume(0.6)
 
     # Game objects
     p1 = Player()
@@ -441,6 +521,7 @@ def run():
                 player_can_press = "E"
                 if keys[pygame.K_e]:
                     robot.talk(current_time)
+                    r2d2_sound.play()
 
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
@@ -469,8 +550,14 @@ def run():
 
         if p1.health <= 0:
             player_death_sound.play()
-            print("Player died")
-            running = False
+            result = death_screen(clock)
+        
+            if result == "retry":
+                run()
+                return
+            else:
+                pygame.quit()
+                sys.exit()
         
         # Shoot aliens
         for projectile in projectiles[:]:
@@ -522,6 +609,15 @@ def run():
         draw_frame()
 
         dt = clock.tick(FRAMERATE) / 1000
+
+
+    # After main loop ends
+    if p1.virus_growth < VIRUS_GROWTH_KILL:  # Example victory condition
+        # Game completed successfully
+        victory_screen(clock)  # Call the victory screen function
+    else:
+        # Player lost
+        print("Game over!")  # Or show your game over overlay
 
     # Clean up
     pygame.quit()
