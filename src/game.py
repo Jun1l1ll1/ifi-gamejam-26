@@ -273,7 +273,7 @@ def death_screen(clock):
 
 
 
-def run():
+def run(retry = False):
     pygame.display.set_caption("Virus game (First draft)")
 
     # Clock and timing
@@ -282,9 +282,10 @@ def run():
     dt = 0
     last_virus_growth = 0
 
-    intro_screen(clock)
+    if not retry:
+        intro_screen(clock)
 
-    story(clock) # Run the story
+        story(clock) # Run the story
 
     pygame.mixer.music.load("./assets/sounds/Ingame_music.mp3")
     pygame.mixer.music.set_volume(2)
@@ -303,6 +304,8 @@ def run():
     alarm_sound = pygame.mixer.Sound("./assets/sounds/Alarm.mp3")
     alarm_sound.set_volume(0.6)
     
+    r2d2_sound = pygame.mixer.Sound("./assets/sounds/r2d2.mp3")
+    r2d2_sound.set_volume(0.4)
 
     # Game objects
     p1 = Player()
@@ -378,15 +381,19 @@ def run():
 
 
     def open_rocket_minigame():
+        current_player_pos = (p1.x, p1.y)
         pygame.display.set_caption("Rocket Minigame")
         completed = run_rocket_game(screen)
         pygame.display.set_caption("Virus game (First draft)")
+        p1.go_to(current_player_pos)
         return completed
 
     def open_typing_minigame():
+        current_player_pos = (p1.x, p1.y)
         pygame.display.set_caption("Typing Minigame")
         completed = run_typing_game(screen)
         pygame.display.set_caption("Virus game (First draft)")
+        p1.go_to(current_player_pos)
         return completed
 
     # Add text to allow player to know the first step
@@ -526,6 +533,7 @@ def run():
                 player_can_press = "E"
                 if keys[pygame.K_e]:
                     robot.talk(current_time)
+                    r2d2_sound.play()
 
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
@@ -557,7 +565,7 @@ def run():
             result = death_screen(clock)
         
             if result == "retry":
-                run()
+                run(True)
                 return
             else:
                 pygame.quit()
@@ -620,12 +628,15 @@ def run():
         # Game completed successfully
         victory_screen(clock)  # Call the victory screen function
     else:
-        # Player lost
-        print("Game over!")  # Or show your game over overlay
-
-    # Clean up
-    pygame.quit()
-    sys.exit()
+        player_death_sound.play()
+        result = death_screen(clock)
+        
+        if result == "retry":
+            run(True)
+            return
+        else:
+            pygame.quit()
+            sys.exit()
 
 
 if __name__ == "__main__":
