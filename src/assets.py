@@ -6,8 +6,8 @@ pygame.init()
 pygame.display.set_mode((WIDTH, HEIGHT))
 
 BACKGROUND_IMAGE = pygame.image.load('./assets/stars.jpg').convert_alpha()
-BOULDER_IMAGE = pygame.image.load('./assets/boulder.png').convert_alpha()
-ROCKET_IMAGE = pygame.image.load('./assets/rocket.png').convert_alpha()
+BOULDER_IMAGE = pygame.image.load('./assets/rocket_minigame/StarStoneComet.png').convert_alpha()
+ROCKET_IMAGE = pygame.image.load('./assets/rocket_minigame/Lazer.png').convert_alpha()
 
 PLAYER1_IMAGE = pygame.image.load('./assets/player/Player1.png').convert_alpha()
 PLAYER2_IMAGE = pygame.image.load('./assets/player/Player2.png').convert_alpha()
