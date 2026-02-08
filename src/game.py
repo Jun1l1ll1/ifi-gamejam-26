@@ -381,15 +381,19 @@ def run(retry = False):
 
 
     def open_rocket_minigame():
+        current_player_pos = (p1.x, p1.y)
         pygame.display.set_caption("Rocket Minigame")
         completed = run_rocket_game(screen)
         pygame.display.set_caption("Virus game (First draft)")
+        p1.go_to(current_player_pos)
         return completed
 
     def open_typing_minigame():
+        current_player_pos = (p1.x, p1.y)
         pygame.display.set_caption("Typing Minigame")
         completed = run_typing_game(screen)
         pygame.display.set_caption("Virus game (First draft)")
+        p1.go_to(current_player_pos)
         return completed
 
     # Add text to allow player to know the first step
