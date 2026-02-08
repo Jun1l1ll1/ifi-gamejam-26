@@ -30,6 +30,7 @@ from .objects.GingerPlant import GingerPlant
 from .objects.Safe import Safe
 from .objects.LabTable import LabTable
 from .entities.InvadingAlien import InvadingAlien
+from .objects.WaterTerminal import WaterTerminal
 
 
 def run():
@@ -247,8 +248,10 @@ def run():
         # Open minigames
         if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:
             if open_rocket_minigame(): p1.collect(STAR_DUST)
-        if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_r]:
-            if open_typing_minigame(): typing_task_completed = True
+        if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_e] and WaterTerminal.instance.can_interact(p1.x, p1.y, p1.size):
+            if open_typing_minigame():
+                WaterTerminal.instance.activate()
+                typing_task_completed = True
         if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_k]:
             for i in range(5):
                 enemies.add(InvadingAlien())

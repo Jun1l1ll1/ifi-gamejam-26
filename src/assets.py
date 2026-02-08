@@ -30,6 +30,8 @@ GINGER_PLANT_EMPTY_IMAGE = pygame.image.load('./assets/ginger/GingerPlantEmpty.p
 GINGER_PLANT_SMAL_IMAGE = pygame.image.load('./assets/ginger/GingerPlantSmal.png').convert_alpha()
 GINGER_PLANT_BIG_IMAGE = pygame.image.load('./assets/ginger/GingerPlantBig.png').convert_alpha()
 GINGER_IMAGE = pygame.image.load('./assets/items/Ginger.png').convert_alpha()
+WATERING_TERMINAL_ACTIVE_IMAGE = pygame.image.load('./assets/typing_minigame/WateringTerminalGreen.png').convert_alpha()
+WATERING_TERMINAL_INACTIVE_IMAGE = pygame.image.load('./assets/typing_minigame/WateringTerminalRed.png').convert_alpha()
 
 LAB_TABLE_IMAGE = pygame.image.load('./assets/lab_equipment/LabDesk.png').convert_alpha()
 
