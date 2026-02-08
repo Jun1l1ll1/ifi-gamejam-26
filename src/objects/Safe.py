@@ -10,7 +10,7 @@ class Safe:
         self.x = x
         self.y = y
         self.size = (70, 70)
-        self.image = pygame.transform.scale(BACKGROUND_IMAGE, self.size)
+        self.image = pygame.transform.scale(SAFE_LOCKED_IMAGE, self.size)
         self.locked = True
         self.empty = False
         self.content = content
@@ -26,6 +26,7 @@ class Safe:
     
     def open(self):
         self.locked = False
+        self.image = pygame.transform.scale(SAFE_OPEN_IMAGE, self.size)
 
     def take_content(self):
         c = self.content
