@@ -38,18 +38,22 @@ class InvadingAlien(pygame.sprite.Sprite):
         dx /= distance
         dy /= distance
 
+        #Beveger seg som en "zombie/alien"
+        dx += random.uniform(-0.1, 0.1)
+        dy += random.uniform(-0.1, 0.1)
+
+        length = math.hypot(dx, dy)
+        if length == 0: return
+
+        dx /= length
+        dy /= length
+
         #Beveg mot player
         self.rect.x += dx * self.speed * dt
         self.rect.y += dy * self.speed * dt
 
         v = [dx, dy]
 
-        #Beveger seg som en "zombie/alien"
-        dx += random.uniform(-0.1, 0.1)
-        dy += random.uniform(-0.1, 0.1)
-
-        length = self._normalize(v)
-        if length <= 0: return
 
         self.image = pygame.transform.rotate(self._base_image, self._move_angle(v))
 
