@@ -51,6 +51,7 @@ def run():
     boulders = []
 
     enemies = pygame.sprite.Group()
+    alien_invasion_happened = False
 
     door_requires_plate = True
     all_required_plates_active = False
@@ -255,7 +256,9 @@ def run():
             if open_typing_minigame():
                 WaterTerminal.instance.activate()
                 typing_task_completed = True
-        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_k]:
+        if not alien_invasion_happened and current_room.name == AIRLOCK_ROOM_NAME and p1.y >= HEIGHT//3: # Trigger invasion when player 1/3 down
+            current_room.invade() # Change background
+            alien_invasion_happened = True
             for i in range(5):
                 enemies.add(InvadingAlien())
                 

@@ -20,3 +20,6 @@ class AirlockRoom(Room):
                 LazerControler(200, 625)
             ]
         )
+    
+    def invade(self):
+        self.background = pygame.transform.scale(ROOM_AIRLOCK_INVADED_IMAGE, (WIDTH, HEIGHT))

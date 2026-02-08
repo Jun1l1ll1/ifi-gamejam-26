@@ -22,6 +22,7 @@ INVADING_ALIEN_IMAGE = pygame.image.load('./assets/alien/InvadingAlien.png').con
 ROOM_CONTROL_IMAGE = pygame.image.load('./assets/rooms/ControlRoom.png').convert_alpha()
 ROOM_BATH_IMAGE = pygame.image.load('./assets/rooms/BathRoom.png').convert_alpha()
 ROOM_AIRLOCK_IMAGE = pygame.image.load('./assets/rooms/AirlockRoom.png').convert_alpha()
+ROOM_AIRLOCK_INVADED_IMAGE = pygame.image.load('./assets/rooms/AirlockRoomInvaded.png').convert_alpha()
 ROOM_LABORATORY_IMAGE = pygame.image.load('./assets/rooms/LaboratoryRoom.png').convert_alpha()
 ROOM_GARDEN_IMAGE = pygame.image.load('./assets/rooms/GardenRoom.png').convert_alpha()
 ROOM_MAIN_IMAGE = pygame.image.load('./assets/rooms/MainRoom.png').convert_alpha()
