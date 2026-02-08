@@ -9,7 +9,7 @@ class AirlockRoom(Room):
         super().__init__(
             AIRLOCK_ROOM_NAME,
             {
-                MAIN_ROOM_NAME: ((400, 0), (800, 200))
+                MAIN_ROOM_NAME: ((WIDTH//2-DOOR_WIDTH_RANGE, 0), (WIDTH//2+DOOR_WIDTH_RANGE, DOOR_OUT_RANGE))
             },
             ROOM_AIRLOCK_IMAGE,
             {

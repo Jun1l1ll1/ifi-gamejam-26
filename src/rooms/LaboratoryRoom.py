@@ -11,7 +11,7 @@ class LaboratoryRoom(Room):
         super().__init__(
             LABORATORY_ROOM_NAME,
             {
-                GROWTH_ROOM_NAME: ((490, 70), (590, 170))
+                GROWTH_ROOM_NAME: ((WIDTH//2-DOOR_WIDTH_RANGE, 0), (WIDTH//2+DOOR_WIDTH_RANGE, DOOR_OUT_RANGE))
             },
             ROOM_LABORATORY_IMAGE,
             {
