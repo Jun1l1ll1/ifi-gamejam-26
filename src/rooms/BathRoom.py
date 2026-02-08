@@ -9,7 +9,7 @@ class BathRoom(Room):
         super().__init__(
             BATH_ROOM_NAME,
             {
-                MAIN_ROOM_NAME: ((400, 690), (800, 720))
+                MAIN_ROOM_NAME: ((WIDTH//2-DOOR_WIDTH_RANGE, HEIGHT-DOOR_OUT_RANGE), (WIDTH//2+DOOR_WIDTH_RANGE, HEIGHT))
             },
             ROOM_BATH_IMAGE,
             {

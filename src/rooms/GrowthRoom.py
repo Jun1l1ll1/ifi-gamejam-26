@@ -10,8 +10,8 @@ class GrowthRoom(Room):
         super().__init__(
             GROWTH_ROOM_NAME,
             {
-                MAIN_ROOM_NAME: ((0, 220), (100, 500)),
-                LABORATORY_ROOM_NAME: ((400, 690), (800, 720)),
+                MAIN_ROOM_NAME: ((0, HEIGHT//2-DOOR_WIDTH_RANGE), (DOOR_OUT_RANGE, HEIGHT//2+DOOR_WIDTH_RANGE)),
+                LABORATORY_ROOM_NAME: ((WIDTH//2-DOOR_WIDTH_RANGE, HEIGHT-DOOR_OUT_RANGE), (WIDTH//2+DOOR_WIDTH_RANGE, HEIGHT)),
             },
             ROOM_GARDEN_IMAGE,
             {

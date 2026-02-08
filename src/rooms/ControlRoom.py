@@ -10,7 +10,7 @@ class ControlRoom(Room):
         super().__init__(
             CONTROL_ROOM_NAME,
             {
-                MAIN_ROOM_NAME: ((980, 220), (1080, 500))
+                MAIN_ROOM_NAME: ((WIDTH-DOOR_OUT_RANGE, HEIGHT//2-DOOR_WIDTH_RANGE), (WIDTH, HEIGHT//2+DOOR_WIDTH_RANGE))
             },
             ROOM_CONTROL_IMAGE,
             {
