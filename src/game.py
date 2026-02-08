@@ -31,6 +31,7 @@ from .objects.Safe import Safe
 from .objects.LabTable import LabTable
 from .entities.InvadingAlien import InvadingAlien
 from .objects.WaterTerminal import WaterTerminal
+from .objects.LazerControler import LazerControler
 
 
 def run():
@@ -246,8 +247,10 @@ def run():
                     break
 
         # Open minigames
-        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:
-            if open_rocket_minigame(): p1.collect(STAR_DUST)
+        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_e] and LazerControler.instance.can_interact(p1.x, p1.y, p1.size):
+            if open_rocket_minigame(): 
+                LazerControler.instance.done = True
+                p1.collect(STAR_DUST)
         if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_e] and WaterTerminal.instance.can_interact(p1.x, p1.y, p1.size):
             if open_typing_minigame():
                 WaterTerminal.instance.activate()

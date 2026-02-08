@@ -38,6 +38,7 @@ WATERING_TERMINAL_INACTIVE_IMAGE = pygame.image.load('./assets/typing_minigame/W
 
 LAB_TABLE_IMAGE = pygame.image.load('./assets/lab_equipment/LabDesk.png').convert_alpha()
 
+LAZER_CONTROLER_IMAGE = pygame.image.load('./assets/rocket_minigame/LazerControler.png').convert_alpha()
 STAR_COMET_IMAGE = pygame.image.load('./assets/rocket_minigame/StarStoneComet.png').convert_alpha()
 STAR_STONE_IMAGE = pygame.image.load('./assets/items/StarStone.png').convert_alpha()
 
