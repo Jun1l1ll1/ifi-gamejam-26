@@ -20,5 +20,10 @@ class ControlRoom(Room):
                 Robot(300, 450, 20),
                 PressurePlate(850, 630, CONTROL_ROOM_NAME, "2")
             ],
-            "Control Room"
+            "Control Room", [
+
+                pygame.Rect(340, 485, 20, 30)
+                
+                
+            ]
         )
