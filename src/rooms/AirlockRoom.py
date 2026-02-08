@@ -18,7 +18,8 @@ class AirlockRoom(Room):
             [
                 PressurePlate(20, 600, AIRLOCK_ROOM_NAME, "5"),
                 LazerControler(200, 625)
-            ]
+            ],
+            "Airlock Room"
         )
     
     def invade(self):

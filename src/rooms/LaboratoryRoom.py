@@ -22,5 +22,6 @@ class LaboratoryRoom(Room):
                 LabTable(50, HEIGHT-200),
                 PressurePlate(300, 600, LABORATORY_ROOM_NAME, "1"),
                 SafeHint(WIDTH-450, HEIGHT-100)
-            ]
+            ],
+            "Laboratory"
         )
