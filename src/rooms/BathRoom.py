@@ -18,5 +18,6 @@ class BathRoom(Room):
             [ # Contents of the room:
                 PressurePlate(850, 30, BATH_ROOM_NAME, "3"),
                 Safe(750, 25)
-            ]
+            ],
+            "Bathroom"
         )

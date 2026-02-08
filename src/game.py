@@ -27,6 +27,7 @@ from .rooms.AirlockRoom import AirlockRoom
 from .rooms.LaboratoryRoom import LaboratoryRoom
 from .objects.PressurePlate import PressurePlate
 from .entities.CagedAlien import CagedAlien
+from .entities.Robot import Robot
 from .objects.GingerPlant import GingerPlant
 from .objects.Safe import Safe
 from .objects.LabTable import LabTable
@@ -41,7 +42,7 @@ game_state = GAME_INTRO
 
 def intro_screen(clock):
     pygame.mixer.music.load("./assets/sounds/Intro_music.mp3")
-    pygame.mixer.music.set_volume(0.7)
+    pygame.mixer.music.set_volume(0.9)
     pygame.mixer.music.play(-1) #loop
 
 
@@ -64,7 +65,7 @@ def intro_screen(clock):
             if event.type == pygame.KEYDOWN:
                 return
             
-        if alpha < 255:
+        if alpha < 255: #Fade text
             alpha += 3
             title.set_alpha(alpha)
 
@@ -235,6 +236,42 @@ def story(clock):
             pygame.mixer.music.stop() #stop når spillet starter
             break
 
+def death_screen(clock):
+    font_big = TITLE_FONT
+    font_small = START_FONT
+
+    title = font_big.render("GAME OVER", True, (200, 50, 50))
+    retry = font_small.render("Press R to retry", True, (255, 255, 255))
+    quit_text = font_small.render("Press Q to quit", True, (255, 255, 255))
+
+    alpha = 0
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    return "retry"
+                if event.key == pygame.K_q:
+                    return "quit"
+        
+        if alpha < 255:
+            alpha += 3
+            title.set_alpha(alpha)
+        
+        screen.fill((10, 10, 20)) #bakgrunn svart
+
+        screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2-80)))
+        screen.blit(retry, retry.get_rect(center =(WIDTH // 2, HEIGHT // 2)))
+        screen.blit(quit_text, quit_text.get_rect(center =(WIDTH // 2, HEIGHT // 2 + 40)))
+
+        pygame.display.flip()
+        clock.tick(60)
+
+
 
 def run():
     pygame.display.set_caption("Virus game (First draft)")
@@ -250,15 +287,15 @@ def run():
     story(clock) # Run the story
 
     pygame.mixer.music.load("./assets/sounds/Ingame_music.mp3")
-    pygame.mixer.music.set_volume(0.7)
+    pygame.mixer.music.set_volume(2)
     pygame.mixer.music.play(-1)
 
     #Sound effects
     shot_sound = pygame.mixer.Sound("./assets/sounds/Raygun_sound.mp3")
-    shot_sound.set_volume(0.5)
+    shot_sound.set_volume(0.3)
 
     alien_sound = pygame.mixer.Sound("./assets/sounds/Alien_death.mp3")
-    alien_sound.set_volume(0.5)
+    alien_sound.set_volume(1)
 
     player_death_sound = pygame.mixer.Sound("./assets/sounds/Death_sound.mp3")
     player_death_sound.set_volume(0.7)
@@ -269,7 +306,8 @@ def run():
 
     # Game objects
     p1 = Player()
-    virus_growing_msg = OverlayMessage("The virus is growing", 250)
+    room_entered_msg = OverlayMessage("", 250)
+    virus_growing_msg = OverlayMessage("The virus is growing", 250, RED)
     virus_growth_overlay = VirusGrowthOverlay()
     inventory_display = InventoryDisplay()
     projectiles = []
@@ -284,6 +322,8 @@ def run():
     
     typing_task_completed = False
     pressure_plate_puzzle_complete = False
+
+    cure_created = False
 
 
     ROOMS = {
@@ -325,6 +365,10 @@ def run():
         # Show inventory
         inventory_display.draw(screen, p1.inventory)
 
+        # Entered room message
+        if room_entered_msg.show:
+            room_entered_msg.draw(screen)
+
         # Purple Virus growth overlay
         virus_growth_overlay.draw(screen)
         if virus_growing_msg.show:
@@ -345,6 +389,8 @@ def run():
         pygame.display.set_caption("Virus game (First draft)")
         return completed
 
+    # Add text to allow player to know the first step
+    p1.add_timed_text_tip("I should talk to R6D7 in the control room", pygame.time.get_ticks())
 
     running = True
     while running:
@@ -355,6 +401,13 @@ def run():
         # Remove player tips
         if p1.tip_text is not None and current_time - p1.tip_displayed_time >= PLAYER_TIP_SHOW_TIME_MS:
             p1.remove_text_tip()
+        
+        # Remove robot (R6D7) dialog
+        for robot_tuple in Robot.all:
+            if robot_tuple[1] == current_room.name:
+                robot: Robot = robot_tuple[0]
+                if robot.dialog is not None and current_time - robot.dialog_time >= ROBOT_DIALOG_SHOW_TIME:
+                    robot.remove_dialog()
 
         # Virus growth
         if current_time - last_virus_growth >= VIRUS_GROWTH_COOLDOWN_MS:
@@ -366,6 +419,10 @@ def run():
             CagedAlien.instance.grow(p1.virus_growth)
         elif virus_growing_msg.show and current_time - last_virus_growth >= VIRUS_GROWTH_DISPLAY_MSG_TIME_MS:
             virus_growing_msg.show = False
+
+        # Room entered message
+        if room_entered_msg.show and current_time - room_entered_msg.shown_time >= ROOM_ENTERED_DISPLAY_MSG_TIME_MS:
+            room_entered_msg.show = False
 
         # Game end condition
         if p1.virus_growth >= VIRUS_GROWTH_KILL:
@@ -445,10 +502,23 @@ def run():
             if lab_table.can_interact(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
                 player_can_press = "E"
                 if keys[pygame.K_e]:
-                    p1.last_interaction = current_time
-                    cure_created = lab_table.make_cure(p1) # Make cure if you can
                     if not cure_created:
-                        p1.add_timed_text_tip("Im missing some ingredients", current_time)
+                        p1.last_interaction = current_time
+                        cure_created = lab_table.make_cure(p1) # Make cure if you can
+                        if not cure_created:
+                            p1.add_timed_text_tip("Im missing some ingredients", current_time)
+                    else:
+                        p1.add_timed_text_tip("I have the cure :D", current_time)
+
+        # Robot (R6D7)
+        for robot_tuple in Robot.all:
+            if robot_tuple[1] != current_room.name: continue # Skip if not in this room
+
+            robot: Robot = robot_tuple[0]
+            if robot.can_interact(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
+                player_can_press = "E"
+                if keys[pygame.K_e]:
+                    robot.talk(current_time)
 
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
@@ -461,6 +531,8 @@ def run():
                     current_room = ROOMS[door]
                     enter_cords = current_room.get_enter_coords_from(last_room)
                     p1.go_to(enter_cords)
+                    room_entered_msg.text, room_entered_msg.shown_time = current_room.title, current_time
+                    room_entered_msg.show = True
                 else:
                     p1.add_timed_text_tip("I cannot let the invasion enter the ship", current_time)
 
@@ -475,8 +547,14 @@ def run():
 
         if p1.health <= 0:
             player_death_sound.play()
-            print("Player died")
-            running = False
+            result = death_screen(clock)
+        
+            if result == "retry":
+                run()
+                return
+            else:
+                pygame.quit()
+                sys.exit()
         
         # Shoot aliens
         for projectile in projectiles[:]:

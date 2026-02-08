@@ -19,7 +19,9 @@ class MainRoom(Room):
                 BATH_ROOM_NAME: (WIDTH//2-35, 20),
                 GROWTH_ROOM_NAME: (WIDTH-70 - 20, HEIGHT//2-35),
                 AIRLOCK_ROOM_NAME: (WIDTH//2-35, HEIGHT-70 - 20)
-            }
+            },
+            [],
+            "Main Room"
          
         )
         
