@@ -21,7 +21,8 @@ class Safe:
         screen.blit(self.image, (self.x, self.y))
 
     def can_take(self, px, py, p_size):
-        is_close = (self.x < px+p_size[0] and self.y < py+p_size[1] and self.x+self.size[0] > px and self.y+self.size[1] > py)
+        range = 25
+        is_close = (self.x < px+p_size[0]+range and self.y < py+p_size[1]+range and self.x+self.size[0] > px-range and self.y+self.size[1] > py-range)
         return is_close and not self.locked
     
     def open(self):

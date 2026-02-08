@@ -87,7 +87,7 @@ def victory_screen(clock):
 
     bg_image = pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT))
 
-    title = font_big.render("YOU ARE CURED", True, (255, 80, 120))  # pink-red victory vibe
+    title = font_big.render("YOU ARE CURED!", True, (0, 255, 0))  
     subtitle = font_small.render("The virus has been defeated.", True, (255, 255, 255))
     retry = font_small.render("Press R to retry", True, (255, 255, 255))
     quit_text = font_small.render("Press Q to quit", True, (255, 255, 255))
@@ -517,14 +517,11 @@ def run(retry = False):
                         cure_created = lab_table.make_cure(p1) # Make cure if you can
                         if not cure_created:
                             p1.add_timed_text_tip("Im missing some ingredients", current_time)
+                        else:
+                           running = False
                     else:     
-                              
-                        p1.last_interaction = current_time
-                        p1.add_timed_text_tip("I have the cure :D", current_time)
-                        
-                        # Wait 2 seconds before showing victory screen
-                        pygame.time.delay(2000)
                         running = False
+                        
                         
 
         # Robot (R6D7)
@@ -592,9 +589,12 @@ def run(retry = False):
         if current_room.name == AIRLOCK_ROOM_NAME and LazerControler.instance.can_interact(p1.x, p1.y, p1.size):
             player_can_press = "E"
             if keys[pygame.K_e]:
-                if open_rocket_minigame(): 
-                    LazerControler.instance.done = True
-                    p1.collect(STAR_DUST)
+                if len(enemies) > 0:
+                    p1.add_timed_text_tip("I should eliminate the invasion first", current_time)
+                else:
+                    if open_rocket_minigame(): 
+                        LazerControler.instance.done = True
+                        p1.collect(STAR_DUST)
         if current_room.name == GROWTH_ROOM_NAME and WaterTerminal.instance.can_interact(p1.x, p1.y, p1.size):
             player_can_press = "E"
             if keys[pygame.K_e]:
