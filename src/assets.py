@@ -26,6 +26,9 @@ ROOM_LABORATORY_IMAGE = pygame.image.load('./assets/rooms/LaboratoryRoom.png').c
 ROOM_GARDEN_IMAGE = pygame.image.load('./assets/rooms/GardenRoom.png').convert_alpha()
 ROOM_MAIN_IMAGE = pygame.image.load('./assets/rooms/MainRoom.png').convert_alpha()
 
+PRESSURE_PLATE_ACTIVE_IMAGE = pygame.image.load('./assets/pressure_plate/PressurePlateActive.png').convert_alpha()
+PRESSURE_PLATE_INACTIVE_IMAGE = pygame.image.load('./assets/pressure_plate/PressurePlateInactive.png').convert_alpha()
+
 GINGER_PLANT_EMPTY_IMAGE = pygame.image.load('./assets/ginger/GingerPlantEmpty.png').convert_alpha()
 GINGER_PLANT_SMAL_IMAGE = pygame.image.load('./assets/ginger/GingerPlantSmal.png').convert_alpha()
 GINGER_PLANT_BIG_IMAGE = pygame.image.load('./assets/ginger/GingerPlantBig.png').convert_alpha()

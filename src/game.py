@@ -161,7 +161,7 @@ def run():
         for plate in PressurePlate.all_pressure_plates:
             if plate[1] == current_room.name and player_rect.colliderect(plate[0].rect):
                 player_stands_on_plate = True
-                plate[0].activated = True
+                plate[0].activate()
 
                 if plate[0].text in PLATE_UNLOCK_COMBINATION and not plate[0] in plates_pressed_correctly: plates_pressed_correctly.append(plate[0])
         
@@ -174,7 +174,7 @@ def run():
                     break
             if not is_correct:
                 for p in plates_pressed_correctly:
-                    p.activated = False
+                    p.deactivate()
                 plates_pressed_correctly = []
             else:
                 pressure_plate_puzzle_complete = True
