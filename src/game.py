@@ -134,6 +134,63 @@ def story(clock):
         pygame.display.flip()
         clock.tick(60)
         if next_frame: break
+    
+    screen.blit(pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+    screen.blit(pygame.transform.scale(STORY2_FRAME1_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+    next_frame = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                next_frame = True
+                break
+        pygame.display.flip()
+        clock.tick(60)
+        if next_frame: break
+    
+    screen.blit(pygame.transform.scale(STORY2_FRAME2_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+    next_frame = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                next_frame = True
+                break
+        pygame.display.flip()
+        clock.tick(60)
+        if next_frame: break
+    
+    screen.blit(pygame.transform.scale(STORY2_FRAME3_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+    next_frame = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                next_frame = True
+                break
+        pygame.display.flip()
+        clock.tick(60)
+        if next_frame: break
+    
+    screen.blit(pygame.transform.scale(STORY2_FRAME4_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+    next_frame = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                next_frame = True
+                break
+        pygame.display.flip()
+        clock.tick(60)
+        if next_frame: break
 
 
 def run():
