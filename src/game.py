@@ -621,7 +621,7 @@ def run(retry = False):
         result = death_screen(clock)
         
         if result == "retry":
-            run()
+            run(True)
             return
         else:
             pygame.quit()
