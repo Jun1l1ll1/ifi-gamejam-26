@@ -81,14 +81,13 @@ def victory_screen(clock):
     
     pygame.mixer.music.load("./assets/sounds/Victory_2.mp3")
     pygame.mixer.music.set_volume(0.8)
-    pygame.mixer.music.play(-1)
 
     font_big = TITLE_FONT
     font_small = START_FONT
 
     bg_image = pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT))
 
-    title = font_big.render("YOU ARE CURED", True, (255, 80, 120))  # pink-red victory vibe
+    title = font_big.render("YOU ARE CURED!", True, (255, 80, 120))  # pink-red victory vibe
     subtitle = font_small.render("The virus has been defeated.", True, (255, 255, 255))
     retry = font_small.render("Press R to retry", True, (255, 255, 255))
     quit_text = font_small.render("Press Q to quit", True, (255, 255, 255))
@@ -522,10 +521,7 @@ def run(retry = False):
                         p1.last_interaction = current_time
                         p1.add_timed_text_tip("I have the cure :D", current_time)
                         
-                        # Wait 2 seconds before showing victory screen
-                        pygame.time.delay(2000)
-                        running = False
-                        
+                        victory_screen(clock)
 
         # Robot (R6D7)
         for robot_tuple in Robot.all:
