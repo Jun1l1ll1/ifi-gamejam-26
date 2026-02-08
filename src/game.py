@@ -518,14 +518,11 @@ def run(retry = False):
                         cure_created = lab_table.make_cure(p1) # Make cure if you can
                         if not cure_created:
                             p1.add_timed_text_tip("Im missing some ingredients", current_time)
+                        else:
+                           running = False
                     else:     
-                              
-                        p1.last_interaction = current_time
-                        p1.add_timed_text_tip("I have the cure :D", current_time)
-                        
-                        # Wait 2 seconds before showing victory screen
-                        pygame.time.delay(2000)
                         running = False
+                        
                         
 
         # Robot (R6D7)

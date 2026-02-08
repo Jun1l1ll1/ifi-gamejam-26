@@ -25,6 +25,7 @@ class LaboratoryRoom(Room):
             ],
             "Laboratory",
             [
-                pygame.Rect(50, HEIGHT-200+20, 250, 150-20)
+                pygame.Rect(50, HEIGHT-200+40, 250, 150-40),
+                pygame.Rect(780, 130, 100, 85)
             ]
         )
