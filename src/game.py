@@ -62,7 +62,6 @@ def intro_screen(clock):
                 sys.exit()
             
             if event.type == pygame.KEYDOWN:
-                pygame.mixer.music.stop() #stop når spillet starter
                 return
             
         if alpha < 255:
@@ -190,7 +189,9 @@ def story(clock):
                 break
         pygame.display.flip()
         clock.tick(60)
-        if next_frame: break
+        if next_frame: 
+            pygame.mixer.music.stop() #stop når spillet starter
+            break
 
 
 def run():
