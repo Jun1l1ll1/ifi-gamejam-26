@@ -305,7 +305,7 @@ def run(retry = False):
     alarm_sound.set_volume(0.6)
     
     r2d2_sound = pygame.mixer.Sound("./assets/sounds/r2d2.mp3")
-    r2d2_sound.set_volume(0.6)
+    r2d2_sound.set_volume(0.4)
 
     # Game objects
     p1 = Player()
@@ -621,12 +621,15 @@ def run(retry = False):
         # Game completed successfully
         victory_screen(clock)  # Call the victory screen function
     else:
-        # Player lost
-        print("Game over!")  # Or show your game over overlay
-
-    # Clean up
-    pygame.quit()
-    sys.exit()
+        player_death_sound.play()
+        result = death_screen(clock)
+        
+        if result == "retry":
+            run(True)
+            return
+        else:
+            pygame.quit()
+            sys.exit()
 
 
 if __name__ == "__main__":
