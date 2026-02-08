@@ -451,7 +451,8 @@ def run(retry = False):
         if keys[pygame.K_d] and p1.x < WIDTH - p1.size[0]: v[0] += 1
         if keys[pygame.K_w] and p1.y > 0: v[1] -= 1
         if keys[pygame.K_s] and p1.y < HEIGHT - p1.size[1]: v[1] += 1
-        p1.move(v, dt)
+        if current_room.can_move(p1.x, p1.y, v, p1.size, dt):
+            p1.move(v, dt)
 
         # Pressure plates
         player_stands_on_plate = False
@@ -623,7 +624,7 @@ def run(retry = False):
 
 
     # After main loop ends
-    if p1.virus_growth < VIRUS_GROWTH_KILL:  # Example victory condition
+    if cure_created:  # Example victory condition
         # Game completed successfully
         result0= victory_screen(clock)  # Call the victory screen function
 
@@ -633,7 +634,7 @@ def run(retry = False):
         else:
             pygame.quit()
             sys.exit()
-    else:
+    elif p1.virus_growth >= VIRUS_GROWTH_KILL:
         player_death_sound.play()
         result = death_screen(clock)
         
@@ -643,6 +644,10 @@ def run(retry = False):
         else:
             pygame.quit()
             sys.exit()
+    else:
+        pygame.quit()
+        sys.exit()
+
 
 
 if __name__ == "__main__":

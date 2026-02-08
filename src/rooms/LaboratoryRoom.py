@@ -23,5 +23,8 @@ class LaboratoryRoom(Room):
                 PressurePlate(300, 600, LABORATORY_ROOM_NAME, "1"),
                 SafeHint(WIDTH-450, HEIGHT-100)
             ],
-            "Laboratory"
+            "Laboratory",
+            [
+                pygame.Rect(50, HEIGHT-200+20, 250, 150-20)
+            ]
         )
