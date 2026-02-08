@@ -51,7 +51,7 @@ def intro_screen(clock):
 
     bg_image = pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT))
 
-    title = font_big.render("VIRUS GAME LOL", True, (200, 50, 200)) #Farge
+    title = font_big.render("Virus Outbreak", True, (200, 50, 200)) #Farge
     prompt = font_small.render("Press any key to start", True, (255, 255, 255))
 
     alpha = 0
