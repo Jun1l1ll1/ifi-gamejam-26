@@ -79,7 +79,7 @@ def intro_screen(clock):
 
 def victory_screen(clock):
     
-    pygame.mixer.music.load("./assets/sounds/Victory_music.mp3")
+    pygame.mixer.music.load("./assets/sounds/Victory_2.mp3")
     pygame.mixer.music.set_volume(0.8)
     pygame.mixer.music.play(-1)
 
@@ -88,32 +88,35 @@ def victory_screen(clock):
 
     bg_image = pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT))
 
-    title = font_big.render("YOU SURVIVED", True, (255, 80, 120))  # pink-red victory vibe
+    title = font_big.render("YOU ARE CURED", True, (255, 80, 120))  # pink-red victory vibe
     subtitle = font_small.render("The virus has been defeated.", True, (255, 255, 255))
-    prompt = font_small.render("Press any key to exit", True, (200, 200, 200))
+    retry = font_small.render("Press R to retry", True, (255, 255, 255))
+    quit_text = font_small.render("Press Q to quit", True, (255, 255, 255))
 
     alpha = 0
-    title.set_alpha(alpha)
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
+            
             if event.type == pygame.KEYDOWN:
-                return  # exit victory screen
-
-        # Fade-in effect
+                if event.key == pygame.K_r:
+                    return "retry"
+                if event.key == pygame.K_q:
+                    return "quit"
+        
         if alpha < 255:
             alpha += 3
             title.set_alpha(alpha)
+        
+        screen.fill((10, 10, 20)) #bakgrunn svart
 
-        screen.blit(bg_image, (0, 0))
-
-        screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 80)))
-        screen.blit(subtitle, subtitle.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
-        screen.blit(prompt, prompt.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 80)))
+        screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2-80)))
+        screen.blit(subtitle, subtitle.get_rect(center=(WIDTH // 2, HEIGHT // 2 )))
+        screen.blit(retry, retry.get_rect(center =(WIDTH // 2, HEIGHT // 2 + 40)))
+        screen.blit(quit_text, quit_text.get_rect(center =(WIDTH // 2, HEIGHT // 2 + 80)))
 
         pygame.display.flip()
         clock.tick(60)
@@ -515,8 +518,15 @@ def run(retry = False):
                         cure_created = lab_table.make_cure(p1) # Make cure if you can
                         if not cure_created:
                             p1.add_timed_text_tip("Im missing some ingredients", current_time)
-                    else:
+                    else:     
+                              
+                        p1.last_interaction = current_time
                         p1.add_timed_text_tip("I have the cure :D", current_time)
+                        
+                        # Wait 2 seconds before showing victory screen
+                        pygame.time.delay(2000)
+                        running = False
+                        
 
         # Robot (R6D7)
         for robot_tuple in Robot.all:
@@ -620,7 +630,14 @@ def run(retry = False):
     # After main loop ends
     if p1.virus_growth < VIRUS_GROWTH_KILL:  # Example victory condition
         # Game completed successfully
-        victory_screen(clock)  # Call the victory screen function
+        result0= victory_screen(clock)  # Call the victory screen function
+
+        if result0 == "retry":
+            run(True)
+            return
+        else:
+            pygame.quit()
+            sys.exit()
     else:
         player_death_sound.play()
         result = death_screen(clock)
