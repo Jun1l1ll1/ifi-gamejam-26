@@ -76,7 +76,65 @@ def intro_screen(clock):
 
         pygame.display.flip()
         clock.tick(60)
-                        
+
+def story(clock):
+    screen.blit(pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+    screen.blit(pygame.transform.scale(STORY1_FRAME1_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+    next_frame = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                next_frame = True
+                break
+        pygame.display.flip()
+        clock.tick(60)
+        if next_frame: break
+    
+    screen.blit(pygame.transform.scale(STORY1_FRAME2_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+    next_frame = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                next_frame = True
+                break
+        pygame.display.flip()
+        clock.tick(60)
+        if next_frame: break
+    
+    screen.blit(pygame.transform.scale(STORY1_FRAME3_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+    next_frame = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                next_frame = True
+                break
+        pygame.display.flip()
+        clock.tick(60)
+        if next_frame: break
+    
+    screen.blit(pygame.transform.scale(STORY1_FRAME4_IMAGE, (WIDTH, HEIGHT)), (0, 0))
+    next_frame = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                next_frame = True
+                break
+        pygame.display.flip()
+        clock.tick(60)
+        if next_frame: break
+
 
 def run():
     pygame.display.set_caption("Virus game (First draft)")
@@ -88,6 +146,8 @@ def run():
     last_virus_growth = 0
 
     intro_screen(clock)
+
+    story(clock) # Run the story
 
     pygame.mixer.music.load("./assets/sounds/Ingame_music.mp3")
     pygame.mixer.music.set_volume(0.3)
