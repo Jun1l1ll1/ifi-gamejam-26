@@ -628,7 +628,7 @@ def run(retry = False):
 
 
     # After main loop ends
-    if p1.virus_growth < VIRUS_GROWTH_KILL:  # Example victory condition
+    if cure_created:  # Example victory condition
         # Game completed successfully
         result0= victory_screen(clock)  # Call the victory screen function
 
@@ -638,7 +638,7 @@ def run(retry = False):
         else:
             pygame.quit()
             sys.exit()
-    else:
+    elif p1.virus_growth >= VIRUS_GROWTH_KILL:
         player_death_sound.play()
         result = death_screen(clock)
         
@@ -648,6 +648,10 @@ def run(retry = False):
         else:
             pygame.quit()
             sys.exit()
+    else:
+        pygame.quit()
+        sys.exit()
+
 
 
 if __name__ == "__main__":
