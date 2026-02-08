@@ -6,14 +6,14 @@ from ..assets import *
 RED = (255, 0, 0)
 
 class InvadingAlien(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, x, y, range):
         super().__init__()
         self.size = (100, 100)
         self._base_image = pygame.transform.scale(INVADING_ALIEN_IMAGE, self.size)
         self.image = self._base_image
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(0, 800)
-        self.rect.y = random.randint(0, 800)
+        self.rect.x = x + random.randint(-(range//2), range//2)
+        self.rect.y = y + random.randint(-(range//2), range//2)
         self.speed = random.uniform(60, 120)
         self.max_health = 30
         self.health = self.max_health

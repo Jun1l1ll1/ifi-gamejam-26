@@ -2,6 +2,7 @@
 # from .assets import *
 from ..Room import *
 from ..objects.PressurePlate import *
+from ..objects.LazerControler import *
 
 class AirlockRoom(Room):
     def __init__(self):
@@ -15,6 +16,10 @@ class AirlockRoom(Room):
                 MAIN_ROOM_NAME: (WIDTH//2-35, 20)
             },
             [
-                PressurePlate(20, 600, AIRLOCK_ROOM_NAME, "5")
+                PressurePlate(20, 600, AIRLOCK_ROOM_NAME, "5"),
+                LazerControler(200, 625)
             ]
         )
+    
+    def invade(self):
+        self.background = pygame.transform.scale(ROOM_AIRLOCK_INVADED_IMAGE, (WIDTH, HEIGHT))

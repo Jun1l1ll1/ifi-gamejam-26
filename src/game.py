@@ -31,6 +31,7 @@ from .objects.Safe import Safe
 from .objects.LabTable import LabTable
 from .entities.InvadingAlien import InvadingAlien
 from .objects.WaterTerminal import WaterTerminal
+from .objects.LazerControler import LazerControler
 
 GAME_INTRO = "intro"
 GAME_MAIN = "main"
@@ -92,6 +93,7 @@ def run():
     boulders = []
 
     enemies = pygame.sprite.Group()
+    alien_invasion_happened = False
 
     door_requires_plate = True
     all_required_plates_active = False
@@ -150,7 +152,7 @@ def run():
 
     def open_rocket_minigame():
         pygame.display.set_caption("Rocket Minigame")
-        completed = run_rocket_game()
+        completed = run_rocket_game(screen)
         pygame.display.set_caption("Virus game (First draft)")
         return completed
 
@@ -254,7 +256,7 @@ def run():
 
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
-        if door != "" and keys[pygame.K_e] and p1.can_interact(current_time):
+        if len(enemies) <= 0 and door != "" and keys[pygame.K_e] and p1.can_interact(current_time):
             p1.last_interaction = current_time # Update last interaction so player does not enter doors right after exiting
             last_room = current_room.name
             current_room = ROOMS[door]
@@ -288,15 +290,19 @@ def run():
                     break
 
         # Open minigames
-        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:
-            if open_rocket_minigame(): p1.collect(STAR_DUST)
+        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_e] and LazerControler.instance.can_interact(p1.x, p1.y, p1.size):
+            if open_rocket_minigame(): 
+                LazerControler.instance.done = True
+                p1.collect(STAR_DUST)
         if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_e] and WaterTerminal.instance.can_interact(p1.x, p1.y, p1.size):
             if open_typing_minigame():
                 WaterTerminal.instance.activate()
                 typing_task_completed = True
-        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_k]:
+        if not alien_invasion_happened and current_room.name == AIRLOCK_ROOM_NAME and p1.y >= HEIGHT//3: # Trigger invasion when player 1/3 down
+            current_room.invade() # Change background
+            alien_invasion_happened = True
             for i in range(5):
-                enemies.add(InvadingAlien())
+                enemies.add(InvadingAlien(WIDTH-250, HEIGHT-200, 300))
                 
 
         # Shooting (if needed)
