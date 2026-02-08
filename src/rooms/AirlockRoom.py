@@ -19,7 +19,10 @@ class AirlockRoom(Room):
                 PressurePlate(20, 600, AIRLOCK_ROOM_NAME, "5"),
                 LazerControler(200, 625)
             ],
-            "Airlock Room"
+            "Airlock Room", 
+            [
+                pygame.Rect(210, 630, 65, 15)
+            ]
         )
     
     def invade(self):

@@ -27,6 +27,8 @@ class BathRoom(Room):
 
                 pygame.Rect(570, 0, 5, 230),
 
-                pygame.Rect(1000, 0, 5, 720)
+                pygame.Rect(1000, 0, 5, 720),
+
+                pygame.Rect(770, 0, 30, 60)
             ]
         )
