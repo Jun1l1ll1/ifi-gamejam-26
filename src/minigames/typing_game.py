@@ -10,9 +10,20 @@ SENTENCES = [
     "ploop dribble twang"
 ]
 
-def run():
+def run(screen):
     pygame.display.set_caption("'Typing' - minigame")
-    screen = pygame.display.set_mode((WIDTH, HEIGHT)) # needed here by assets.py
+    screen = pygame.display.set_mode((WIDTH, HEIGHT)) 
+
+    # Hovering scale
+    HOVER_SCALE = 0.85
+    MINIGAME_WIDTH = int(WIDTH * HOVER_SCALE)
+    MINIGAME_HEIGHT = int(HEIGHT * HOVER_SCALE)
+    hover_x = (WIDTH - MINIGAME_WIDTH) // 2
+    hover_y = (HEIGHT - MINIGAME_HEIGHT) // 2
+
+    # Surface for minigame logic
+    minigame_surface = pygame.Surface((WIDTH, HEIGHT))
+
 
 
     # Init
@@ -29,27 +40,31 @@ def run():
 
 
     def draw_frame():
-        # Clear screen
-        screen.fill((40, 40, 50))
+        
+        minigame_surface.fill((40, 40, 50))
+
 
         # Draw target sentence
         target_label = font.render("Type this:", True, (255, 255, 255))
-        screen.blit(target_label, (20, 20))
+        minigame_surface.blit(target_label, (20, 20))
 
         sentence_surf = font.render(target_sentence, True, (200, 200, 255))
-        screen.blit(sentence_surf, (20, 60))
+        minigame_surface.blit(sentence_surf, (20, 60))
 
         # Draw typed text
         typed_surf = font.render(typed_text, True, (255, 255, 100))
-        screen.blit(typed_surf, (20, 120))
+        minigame_surface.blit(typed_surf, (20, 120))
 
         # Draw feedback if any
         if feedback:
             feedback_surf = font.render(feedback, True, (100, 255, 100))
-            screen.blit(feedback_surf, (20, 180))
+            minigame_surface.blit(feedback_surf, (20, 180))
 
-        # Update display
-        pygame.display.flip()
+        # Scale and draw hover
+        scaled_surface = pygame.transform.smoothscale(minigame_surface, (MINIGAME_WIDTH, MINIGAME_HEIGHT))
+        screen.blit(scaled_surface, (hover_x, hover_y))
+        pygame.display.update()
+
 
    
     while running:

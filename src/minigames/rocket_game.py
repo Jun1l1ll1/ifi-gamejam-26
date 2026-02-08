@@ -114,6 +114,7 @@ def run(screen):
                 boulders.remove(boulder)
                 p1.lives -= 1
                 if p1.lives <= 0:
+                    failed = True
                     running = False
 
         draw_frame()
@@ -124,6 +125,7 @@ def run(screen):
         minigame_surface.blit(BACKGROUND_IMAGE, (0, 0))
         success_text = FONT_TYPE.render("TASK COMPLETED!", True, GREEN)
         sub_text = FONT_TYPE.render("All star-stones collected", True, FONT_COLOR)
+        sub_text = FONT_TYPE.render("Proceed.", True, FONT_COLOR)
 
         minigame_surface.blit(success_text, (WIDTH // 2 - success_text.get_width() // 2, HEIGHT // 2 - 40))
         minigame_surface.blit(sub_text, (WIDTH // 2 - sub_text.get_width() // 2, HEIGHT // 2 + 10))
@@ -133,7 +135,26 @@ def run(screen):
         pygame.display.update()
         time.sleep(2)
 
+
+    elif failed:
+        minigame_surface.blit(BACKGROUND_IMAGE, (0, 0))
+        game_over_text = FONT_TYPE.render("GAME OVER", True, (255, 0, 0))
+        sub_text = FONT_TYPE.render("You failed the task", True, FONT_COLOR)
+
+        minigame_surface.blit(game_over_text, (WIDTH//2 - game_over_text.get_width()//2, HEIGHT//2 - 40))
+        minigame_surface.blit(sub_text, (WIDTH//2 - sub_text.get_width()//2, HEIGHT//2 + 10))
+
+        # Scale and hover
+        scaled_surface = pygame.transform.smoothscale(minigame_surface, (MINIGAME_WIDTH, MINIGAME_HEIGHT))
+        screen.blit(scaled_surface, (hover_x, hover_y))
+        pygame.display.update()
+        time.sleep(2)
+
+
     return task_completed
+
+
+
 
 
 if __name__ == "__main__":
