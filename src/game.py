@@ -273,7 +273,7 @@ def death_screen(clock):
 
 
 
-def run():
+def run(retry = False):
     pygame.display.set_caption("Virus game (First draft)")
 
     # Clock and timing
@@ -282,9 +282,10 @@ def run():
     dt = 0
     last_virus_growth = 0
 
-    intro_screen(clock)
+    if not retry:
+        intro_screen(clock)
 
-    story(clock) # Run the story
+        story(clock) # Run the story
 
     pygame.mixer.music.load("./assets/sounds/Ingame_music.mp3")
     pygame.mixer.music.set_volume(2)
@@ -553,7 +554,7 @@ def run():
             result = death_screen(clock)
         
             if result == "retry":
-                run()
+                run(True)
                 return
             else:
                 pygame.quit()
