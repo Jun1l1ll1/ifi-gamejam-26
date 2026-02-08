@@ -15,10 +15,10 @@ class MainRoom(Room):
             },
             ROOM_MAIN_IMAGE,
             {
-                CONTROL_ROOM_NAME: (50, 360),
-                BATH_ROOM_NAME: (600, 100),
-                GROWTH_ROOM_NAME: (1030, 360),
-                AIRLOCK_ROOM_NAME: (600, 705)
+                CONTROL_ROOM_NAME: (20, HEIGHT//2-35),
+                BATH_ROOM_NAME: (WIDTH//2-35, 20),
+                GROWTH_ROOM_NAME: (WIDTH-70 - 20, HEIGHT//2-35),
+                AIRLOCK_ROOM_NAME: (WIDTH//2-35, HEIGHT-70 - 20)
             },
             [PressurePlate(500, 500, MAIN_ROOM_NAME)]
         )

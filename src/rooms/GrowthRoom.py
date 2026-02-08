@@ -12,7 +12,10 @@ class GrowthRoom(Room):
                 LABORATORY_ROOM_NAME: ((400, 690), (800, 720)),
             },
             ROOM_GARDEN_IMAGE,
-            {},
+            {
+                MAIN_ROOM_NAME: (20, HEIGHT//2-35),
+                LABORATORY_ROOM_NAME: (WIDTH//2-35, HEIGHT-70 - 20)
+            },
             [
                 GingerPlant(700, 100),
                 GingerPlant(700, 250),

@@ -12,7 +12,9 @@ class ControlRoom(Room):
                 MAIN_ROOM_NAME: ((980, 220), (1080, 500))
             },
             ROOM_CONTROL_IMAGE,
-            {},
+            {
+                MAIN_ROOM_NAME: (WIDTH-70 - 20, HEIGHT//2-35)
+            },
             [
                 Robot(300, 450, 20)
             ]

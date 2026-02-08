@@ -11,7 +11,9 @@ class LaboratoryRoom(Room):
                 GROWTH_ROOM_NAME: ((400, 0), (800, 200))
             },
             ROOM_LABORATORY_IMAGE,
-            {},
+            {
+                GROWTH_ROOM_NAME: (WIDTH//2-35, 20)
+            },
             [
                 CagedAlien(700, 50)
             ]

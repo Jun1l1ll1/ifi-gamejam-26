@@ -7,9 +7,9 @@ import math as m
 
 class Player:
     def __init__(self):
-        self.x = 540
-        self.y = 640
         self.size = (70, 70)
+        self.x = (WIDTH - self.size[0])//2
+        self.y = (HEIGHT - self.size[1])//2
         self.color = BLUE
         self._base_image = pygame.transform.scale(PLAYER2_IMAGE, self.size)
         self.image = self._base_image

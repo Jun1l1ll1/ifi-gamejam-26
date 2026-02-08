@@ -9,5 +9,8 @@ class AirlockRoom(Room):
             {
                 MAIN_ROOM_NAME: ((400, 0), (800, 200))
             },
-            ROOM_AIRLOCK_IMAGE
+            ROOM_AIRLOCK_IMAGE,
+            {
+                MAIN_ROOM_NAME: (WIDTH//2-35, 20)
+            }
         )
