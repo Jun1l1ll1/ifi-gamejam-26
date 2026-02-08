@@ -97,6 +97,14 @@ def run():
     shot_sound = pygame.mixer.Sound("./assets/sounds/Raygun_sound.mp3")
     shot_sound.set_volume(0.5)
 
+    alien_sound = pygame.mixer.Sound("./assets/sounds/Alien_death.mp3")
+    alien_sound.set_volume(0.5)
+
+    player_death_sound = pygame.mixer.Sound("./assets/sounds/Death_sound.mp3")
+    player_death_sound.set_volume(0.7)
+
+    alarm_sound = pygame.mixer.Sound("./assets/sounds/Alarm.mp3")
+    alarm_sound.set_volume(0.6)
     
 
     # Game objects
@@ -306,6 +314,7 @@ def run():
                     p1.last_hit_time = current_time
 
         if p1.health <= 0:
+            player_death_sound.play()
             print("Player died")
             running = False
         
@@ -316,6 +325,7 @@ def run():
             for alien in enemies:
                 if projectile.rect.colliderect(alien.rect):
                     alien.take_damage(10)
+                    alien_sound.play() #Lager lyd hver gang de blir skutt
                     projectiles.remove(projectile)
                 
                     if alien.health <= 0:
@@ -338,6 +348,7 @@ def run():
         if not alien_invasion_happened and current_room.name == AIRLOCK_ROOM_NAME and p1.y >= HEIGHT//3: # Trigger invasion when player 1/3 down
             current_room.invade() # Change background
             alien_invasion_happened = True
+            alarm_sound.play() #alarm
             for i in range(5):
                 enemies.add(InvadingAlien(WIDTH-250, HEIGHT-200, 300))
                 

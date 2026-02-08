@@ -34,6 +34,10 @@ def run(screen):
     projectiles = []
     boulders = []
 
+    # Sound
+    shot_sound = pygame.mixer.Sound("./assets/sounds/Raygun_sound.mp3")
+    shot_sound.set_volume(0.5)
+
     STAR_STONES_REQUIRED = 5
     star_stones_collected = 0
     task_completed = False
@@ -83,6 +87,7 @@ def run(screen):
             if current_time - p1.last_shot_time >= BULLET_COOLDOWN_MS:
                 p1.last_shot_time = current_time
                 projectiles.append(p1.shoot())
+                shot_sound.play()
 
         # Spawn boulders
         if current_time - last_boulder_spawn_time >= BOULDER_SPAWN_INTERVAL_MS:
