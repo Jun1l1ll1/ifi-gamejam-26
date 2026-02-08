@@ -12,7 +12,7 @@ class PressurePlate:
         self.x = x
         self.y = y
         self.color = RED
-        self.image = pygame.transform.scale(BOULDER_IMAGE, self.size)
+        self.image = pygame.transform.scale(PRESSURE_PLATE_INACTIVE_IMAGE, self.size)
         self.rect = pygame.Rect(x, y, self.size[0], self.size[1])
         self.text = text
         self.font = FONT_TYPE.render(text, False, FONT_COLOR)
@@ -22,14 +22,14 @@ class PressurePlate:
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
-
-        if self.activated:
-            pygame.draw.rect(screen, GREEN, self.rect)
-        else: 
-            pygame.draw.rect(screen, RED, self.rect)
-
         screen.blit(self.font, (self.x + self.size[0]/2 - 7, self.y + self.size[1]/2 - 12))
 
+    def activate(self):
+        self.activated = True
+        self.image = pygame.transform.scale(PRESSURE_PLATE_ACTIVE_IMAGE, self.size)
     
+    def deactivate(self):
+        self.activated = False
+        self.image = pygame.transform.scale(PRESSURE_PLATE_INACTIVE_IMAGE, self.size)
         
     

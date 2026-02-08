@@ -24,14 +24,30 @@ INVADING_ALIEN_IMAGE = pygame.image.load('./assets/alien/InvadingAlien.png').con
 ROOM_CONTROL_IMAGE = pygame.image.load('./assets/rooms/ControlRoom.png').convert_alpha()
 ROOM_BATH_IMAGE = pygame.image.load('./assets/rooms/BathRoom.png').convert_alpha()
 ROOM_AIRLOCK_IMAGE = pygame.image.load('./assets/rooms/AirlockRoom.png').convert_alpha()
+ROOM_AIRLOCK_INVADED_IMAGE = pygame.image.load('./assets/rooms/AirlockRoomInvaded.png').convert_alpha()
 ROOM_LABORATORY_IMAGE = pygame.image.load('./assets/rooms/LaboratoryRoom.png').convert_alpha()
 ROOM_GARDEN_IMAGE = pygame.image.load('./assets/rooms/GardenRoom.png').convert_alpha()
 ROOM_MAIN_IMAGE = pygame.image.load('./assets/rooms/MainRoom.png').convert_alpha()
+
+PRESSURE_PLATE_ACTIVE_IMAGE = pygame.image.load('./assets/pressure_plate/PressurePlateActive.png').convert_alpha()
+PRESSURE_PLATE_INACTIVE_IMAGE = pygame.image.load('./assets/pressure_plate/PressurePlateInactive.png').convert_alpha()
 
 GINGER_PLANT_EMPTY_IMAGE = pygame.image.load('./assets/ginger/GingerPlantEmpty.png').convert_alpha()
 GINGER_PLANT_SMAL_IMAGE = pygame.image.load('./assets/ginger/GingerPlantSmal.png').convert_alpha()
 GINGER_PLANT_BIG_IMAGE = pygame.image.load('./assets/ginger/GingerPlantBig.png').convert_alpha()
 GINGER_IMAGE = pygame.image.load('./assets/items/Ginger.png').convert_alpha()
+WATERING_TERMINAL_ACTIVE_IMAGE = pygame.image.load('./assets/typing_minigame/WateringTerminalGreen.png').convert_alpha()
+WATERING_TERMINAL_INACTIVE_IMAGE = pygame.image.load('./assets/typing_minigame/WateringTerminalRed.png').convert_alpha()
+
+LAB_TABLE_IMAGE = pygame.image.load('./assets/lab_equipment/LabDesk.png').convert_alpha()
+
+LAZER_CONTROLER_IMAGE = pygame.image.load('./assets/rocket_minigame/LazerControler.png').convert_alpha()
+STAR_COMET_IMAGE = pygame.image.load('./assets/rocket_minigame/StarStoneComet.png').convert_alpha()
+STAR_STONE_IMAGE = pygame.image.load('./assets/items/StarStone.png').convert_alpha()
+
+SAFE_LOCKED_IMAGE = pygame.image.load('./assets/safe/SafeLocked.png').convert_alpha()
+SAFE_OPEN_IMAGE = pygame.image.load('./assets/safe/SafeOpen.png').convert_alpha()
+TOOTH_PASTE_IMAGE = pygame.image.load('./assets/items/ToothPaste.png').convert_alpha()
 
 # Font
 FONT_TYPE = pygame.font.Font('./assets/dpcomic.ttf', FONT_SIZE)

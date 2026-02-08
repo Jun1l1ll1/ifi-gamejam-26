@@ -133,4 +133,8 @@ def run(screen):
         pygame.display.update()
         time.sleep(2)
 
-    return
+    return task_completed
+
+
+if __name__ == "__main__":
+    run()

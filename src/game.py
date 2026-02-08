@@ -14,6 +14,7 @@ from .assets import *
 from .Player import Player
 from .overlays.OverlayMessage import OverlayMessage
 from .overlays.VirusGrowthOverlay import VirusGrowthOverlay
+from .overlays.InventoryDisplay import InventoryDisplay
 from .minigames.Boulder import Boulder
 from .Projectile import Projectile
 from .Room import Room
@@ -27,7 +28,10 @@ from .objects.PressurePlate import PressurePlate
 from .entities.CagedAlien import CagedAlien
 from .objects.GingerPlant import GingerPlant
 from .objects.Safe import Safe
+from .objects.LabTable import LabTable
 from .entities.InvadingAlien import InvadingAlien
+from .objects.WaterTerminal import WaterTerminal
+from .objects.LazerControler import LazerControler
 
 
 def run():
@@ -42,10 +46,12 @@ def run():
     p1 = Player()
     virus_growing_msg = OverlayMessage("The virus is growing", 250)
     virus_growth_overlay = VirusGrowthOverlay()
+    inventory_display = InventoryDisplay()
     projectiles = []
     boulders = []
 
     enemies = pygame.sprite.Group()
+    alien_invasion_happened = False
 
     door_requires_plate = True
     all_required_plates_active = False
@@ -83,11 +89,16 @@ def run():
             projectile.draw(screen)
 
         # Enemy
-        enemies.draw(screen)
+        for alien in enemies:
+            alien.draw(screen)
+            alien.draw_healthbar(screen)
 
         # Player og healthbar
         p1.draw(screen)
         p1.draw_healthbar(screen)
+
+        # Show inventory
+        inventory_display.draw(screen, p1.inventory)
 
         # Purple Virus growth overlay
         virus_growth_overlay.draw(screen)
@@ -99,8 +110,9 @@ def run():
 
     def open_rocket_minigame():
         pygame.display.set_caption("Rocket Minigame")
-        run_rocket_game(screen)
+        completed = run_rocket_game(screen)
         pygame.display.set_caption("Virus game (First draft)")
+        return completed
 
     def open_typing_minigame():
         pygame.display.set_caption("Typing Minigame")
@@ -151,7 +163,7 @@ def run():
         for plate in PressurePlate.all_pressure_plates:
             if plate[1] == current_room.name and player_rect.colliderect(plate[0].rect):
                 player_stands_on_plate = True
-                plate[0].activated = True
+                plate[0].activate()
 
                 if plate[0].text in PLATE_UNLOCK_COMBINATION and not plate[0] in plates_pressed_correctly: plates_pressed_correctly.append(plate[0])
         
@@ -164,7 +176,7 @@ def run():
                     break
             if not is_correct:
                 for p in plates_pressed_correctly:
-                    p.activated = False
+                    p.deactivate()
                 plates_pressed_correctly = []
             else:
                 pressure_plate_puzzle_complete = True
@@ -191,9 +203,18 @@ def run():
                 p1.last_interaction = current_time
                 p1.collect(safe.take_content()) # Add tooth paste to player inventory
         
+        # Lab table
+        for lab_table_tuple in LabTable.all:
+            if lab_table_tuple[1] != current_room.name: continue # Skip safes that are not in this room
+
+            lab_table: LabTable = lab_table_tuple[0]
+            if keys[pygame.K_e] and lab_table.can_interact(p1.x, p1.y, p1.size) and p1.can_interact(current_time):
+                p1.last_interaction = current_time
+                lab_table.make_cure(p1) # Make cure if you can
+
         # Handle doors
         door = current_room.open_door(p1.x, p1.y, p1.size)
-        if door != "" and keys[pygame.K_e] and p1.can_interact(current_time):
+        if len(enemies) <= 0 and door != "" and keys[pygame.K_e] and p1.can_interact(current_time):
             p1.last_interaction = current_time # Update last interaction so player does not enter doors right after exiting
             last_room = current_room.name
             current_room = ROOMS[door]
@@ -227,13 +248,20 @@ def run():
                     break
 
         # Open minigames
-        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_r]:
-            open_rocket_minigame()
-        if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_r]:
-            if open_typing_minigame(): typing_task_completed = True
-        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_k]:
+        if current_room.name == AIRLOCK_ROOM_NAME and keys[pygame.K_e] and LazerControler.instance.can_interact(p1.x, p1.y, p1.size):
+            if open_rocket_minigame(): 
+                LazerControler.instance.done = True
+                p1.collect(STAR_DUST)
+        if current_room.name == GROWTH_ROOM_NAME and keys[pygame.K_e] and WaterTerminal.instance.can_interact(p1.x, p1.y, p1.size):
+            if open_typing_minigame():
+                WaterTerminal.instance.activate()
+                typing_task_completed = True
+        if not alien_invasion_happened and current_room.name == AIRLOCK_ROOM_NAME and p1.y >= HEIGHT//3: # Trigger invasion when player 1/3 down
+            current_room.invade() # Change background
+            alien_invasion_happened = True
             for i in range(5):
-                enemies.add(InvadingAlien())
+                enemies.add(InvadingAlien(WIDTH-250, HEIGHT-200, 300))
+                
 
         # Shooting (if needed)
         if keys[pygame.K_SPACE]:

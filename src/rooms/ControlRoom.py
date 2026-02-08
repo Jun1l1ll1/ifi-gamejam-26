@@ -3,6 +3,7 @@
 from ..Room import *
 from ..entities.Robot import *
 from ..objects.GingerPlant import *
+from ..objects.PressurePlate import *
 
 class ControlRoom(Room):
     def __init__(self):
@@ -16,6 +17,7 @@ class ControlRoom(Room):
                 MAIN_ROOM_NAME: (WIDTH-70 - 20, HEIGHT//2-35)
             },
             [
-                Robot(300, 450, 20)
+                Robot(300, 450, 20),
+                PressurePlate(850, 650, CONTROL_ROOM_NAME, "2")
             ]
         )

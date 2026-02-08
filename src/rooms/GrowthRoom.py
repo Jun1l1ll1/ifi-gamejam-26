@@ -2,6 +2,8 @@
 # from .assets import *
 from ..Room import *
 from ..objects.GingerPlant import *
+from ..objects.WaterTerminal import *
+from ..objects.PressurePlate import *
 
 class GrowthRoom(Room):
     def __init__(self):
@@ -19,6 +21,8 @@ class GrowthRoom(Room):
             [
                 GingerPlant(700, 100),
                 GingerPlant(700, 250),
-                GingerPlant(700, 400)
+                GingerPlant(700, 400),
+                WaterTerminal(250, 150),
+                PressurePlate(500, 30, GROWTH_ROOM_NAME, "4")
             ]
         )
