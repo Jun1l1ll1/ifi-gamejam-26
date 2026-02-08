@@ -33,12 +33,54 @@ from .entities.InvadingAlien import InvadingAlien
 from .objects.WaterTerminal import WaterTerminal
 from .objects.LazerControler import LazerControler
 
+GAME_INTRO = "intro"
+GAME_MAIN = "main"
+
+game_state = GAME_INTRO
+
+def intro_screen(clock):
+    font_big = pygame.font.Font("./assets/dpcomic.ttf", 96)
+    font_small = pygame.font.Font("./assets/dpcomic.ttf", 36)
+
+    bg_image = pygame.image.load("./assets/stars.jpg").convert() #Funker ikke... :/
+    bg_image = pygame.transform.scale(bg_image, (WIDTH, HEIGHT))
+
+    title = font_big.render("VIRUS GAME LOL", True, (200, 50, 200))
+    prompt = font_small.render("Press any key to start", True, (255, 255, 255))
+
+    alpha = 0
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            
+            if event.type == pygame.KEYDOWN:
+                return
+            
+        if alpha < 255:
+            alpha += 3
+            title.set_alpha(alpha)
+
+        screen.blit(bg_image, (0, 0))
+        
+        screen.fill((10, 10, 20))
+        screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2-60)))
+        screen.blit(prompt, prompt.get_rect(center =(WIDTH // 2, HEIGHT // 2+40)))
+
+        pygame.display.flip()
+        clock.tick(60)
+                        
 
 def run():
     pygame.display.set_caption("Virus game (First draft)")
 
     # Clock and timing
     clock = pygame.time.Clock()
+
+    intro_screen(clock)
+
     dt = 0
     last_virus_growth = 0
 
@@ -76,7 +118,7 @@ def run():
     GAME_TYPING = "typing_minigame"
     game_state = GAME_MAIN
 
- 
+
     def draw_frame():
         screen.blit(current_room.background, (0, 0))
 

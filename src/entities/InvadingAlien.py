@@ -28,7 +28,9 @@ class InvadingAlien(pygame.sprite.Sprite):
 
         health_ratio = self.health / self.max_health
         
+        #Rød background
         bg = pygame.Rect(self.rect.x, self.rect.y - bar_height - 4, bar_width, bar_height)
+        #Grønn forground
         fg = pygame.Rect(self.rect.x, self.rect.y - bar_height - 4, bar_width * health_ratio, bar_height)
 
         #background
@@ -54,8 +56,8 @@ class InvadingAlien(pygame.sprite.Sprite):
         dy /= distance
 
         #Beveger seg som en "zombie/alien"
-        dx += random.uniform(-0.01, 0.01)
-        dy += random.uniform(-0.01, 0.01)
+        dx += random.uniform(-0.02, 0.02)
+        dy += random.uniform(-0.02, 0.02)
 
         length = math.hypot(dx, dy)
         if length == 0: return
